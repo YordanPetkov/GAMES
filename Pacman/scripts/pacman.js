@@ -149,11 +149,16 @@ function createGame(heroSelector, mazeSelector) {
 	function gameLoop() {
 		const offset = 5;
 		ctxPacman.clearRect(pacman.x - offset, pacman.y - offset, pacman.size + offset*2, pacman.size + offset*2);
+		for(var ghost in ghosts){
+			ctxPacman.clearRect(ghosts[ghost].x - offset, ghosts[ghost].y - offset, ghosts[ghost].size + offset*2, ghosts[ghost].size + offset*2);
+
+		}
+		/*
 		ctxPacman.clearRect(ghosts.blue.x - offset, ghosts.blue.y - offset, ghosts.blue.size + offset*2, ghosts.blue.size + offset*2);
 		ctxPacman.clearRect(ghosts.purple.x - offset, ghosts.purple.y - offset, ghosts.purple.size + offset*2, ghosts.purple.size + offset*2);
 		ctxPacman.clearRect(ghosts.orange.x - offset, ghosts.orange.y - offset, ghosts.orange.size + offset*2, ghosts.orange.size + offset*2);
 		ctxPacman.clearRect(ghosts.red.x - offset, ghosts.red.y - offset, ghosts.red.size + offset*2, ghosts.red.size + offset*2);
-
+		*/
 
 		drawPacman();
 		drawGhosts();
@@ -210,6 +215,12 @@ function createGame(heroSelector, mazeSelector) {
 	}
 
 	function isPacmanCollidingWithGhost(obj){
+		for(var ghost in ghosts){
+			if(areCollinding(obj,ghosts[ghost]) || areCollinding(ghosts[ghost],obj)){
+				return true;
+			}
+		}
+		/*
 		if(areCollinding(obj,ghosts.blue) || areCollinding(ghosts.blue,obj)){
 			return "blue";
 		}
@@ -221,7 +232,7 @@ function createGame(heroSelector, mazeSelector) {
 		}
 		if(areCollinding(obj,ghosts.red) || areCollinding(ghosts.red,obj)){
 			return "red";
-		}
+		}*/
 		return false;
 	}
 
@@ -251,29 +262,20 @@ function createGame(heroSelector, mazeSelector) {
 	}
 
 	function checkGhostCollidings(){
+			
 
-		if(!isObjectCollidingWithWall(ghosts.blue)){
-			if(updateGhostPosition(ghosts.blue)) {
-				ctxGhost.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+		for(var ghost in ghosts){
+			var futurePosition = {
+				"x": ghosts[ghost].x + dirDeltas[dir].x * ghosts[ghost].speed,
+				"y": ghosts[ghost].y + dirDeltas[dir].y * ghosts[ghost].speed,
+				"size": ghosts[ghost].size
+			};
+			if(!isObjectCollidingWithWall(futurePosition)){
+				if(updateGhostPosition(ghosts[ghost])) {
+					ctxGhost.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+				}
 			}
-		}
-
-		if(!isObjectCollidingWithWall(ghosts.purple)){
-			if(updateGhostPosition(ghosts.purple)) {
-				ctxGhost.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
-			}
-		}
-
-		if(!isObjectCollidingWithWall(ghosts.orange)){
-			if(updateGhostPosition(ghosts.orange)) {
-				ctxGhost.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
-			}
-		}
-
-		if(!isObjectCollidingWithWall(ghosts.red)){
-			if(updateGhostPosition(ghosts.red)) {
-				ctxGhost.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
-			}
+			else console.log(ghost == "red");
 		}
 	}
 
@@ -308,14 +310,18 @@ function createGame(heroSelector, mazeSelector) {
 	}
 
 	function drawGhosts(){
-		var redFile = document.getElementById("redGhostImage"),
+		/*var redFile = document.getElementById("redGhostImage"),
 			blueFile = document.getElementById("blueGhostImage"),
 			purpleFile = document.getElementById("purpleGhostImage"),
-			orangeFile = document.getElementById("orangeGhostImage");
-		ctxGhost.drawImage(blueFile, ghosts.blue.x , ghosts.blue.y, ghosts.blue.size, ghosts.blue.size);
+			orangeFile = document.getElementById("orangeGhostImage");*/
+			for(var ghost in ghosts){
+				ctxGhost.drawImage(ghosts[ghost].file, ghosts[ghost].x , ghosts[ghost].y, ghosts[ghost].size, ghosts[ghost].size);
+			}
+
+		/*ctxGhost.drawImage(blueFile, ghosts.blue.x , ghosts.blue.y, ghosts.blue.size, ghosts.blue.size);
 		ctxGhost.drawImage(purpleFile, ghosts.purple.x , ghosts.purple.y, ghosts.purple.size, ghosts.purple.size);
 		ctxGhost.drawImage(orangeFile, ghosts.orange.x , ghosts.orange.y, ghosts.orange.size, ghosts.orange.size);
-		ctxGhost.drawImage(redFile, ghosts.red.x , ghosts.red.y, ghosts.red.size, ghosts.red.size);
+		ctxGhost.drawImage(redFile, ghosts.red.x , ghosts.red.y, ghosts.red.size, ghosts.red.size);*/
 		//ctxPacman.drawImage()
 	
 		
@@ -348,6 +354,19 @@ function createGame(heroSelector, mazeSelector) {
 	}
 
 	function updateGhostDir(){
+		/*
+		if(!isObjectCollidingWithWall(ghosts.blue)){
+			if(updateGhostPosition(ghosts.blue)) {
+				ctxGhost.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+			}
+		}
+		*/
+
+		for(var ghost in ghosts){
+
+		}
+
+
 
 	}
 
