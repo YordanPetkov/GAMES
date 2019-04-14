@@ -28,3 +28,11 @@ canvas {
 .images {
 	display: none;
 }
+
+#restart {
+	font-size: 20px;
+	border-radius: 2px;
+	background-color: brown;
+	color: yellow;
+	display : none;
+}

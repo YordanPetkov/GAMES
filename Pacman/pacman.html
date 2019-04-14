@@ -9,6 +9,7 @@
     <body>
     <!-- your content will go there..  -->
     <h3>The Pacman Game</h3>
+    <button id="restart" onclick="restartGame()">Restart</button>
     <div id="game-container">
       <canvas id="game-canvas" class="pacman-canvas" ></canvas>
       <canvas id="maze-canvas" class="pacman-canvas" ></canvas>
@@ -20,12 +21,24 @@
         <img id="purpleGhostImage" src="img/purpleG.jpg" />   
         <img id="redGhostImage" src="img/redG.jpg" />    
     </div>
+
+
+
     
     <script>
       window.onload = function() {
-        var game = createGame("#game-canvas", "#maze-canvas");
-        game.start();
+        var lives = 3;
+        while(lives >= 0){
+           var game = createGame("#game-canvas", "#maze-canvas");
+           game.start(); 
+           lives--;
+        }        
       }
+
+      function restartGame(){
+          gameover = "inProgress";
+          if(gameover == "Lose")document.getElementById("restart").style.display = "none";
+        }
     </script>
     
     </body>
