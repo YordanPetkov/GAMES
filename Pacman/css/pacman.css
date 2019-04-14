@@ -4,14 +4,12 @@ canvas {
 
 #game-container {
 	position: relative;
-
 }
 
 #game-container .pacman-canvas{
 	position: absolute;
 	left: 0;
 	top: 0;
-	width : 100%;
 }
 
 #game-canvas {
@@ -20,4 +18,8 @@ canvas {
 
 #maze-canvas {
 	background-color: black;
+}
+
+body {
+	text-align: center;
 }

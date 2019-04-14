@@ -1,38 +1,61 @@
 
 "use strict";
 
-const maze = [
-	"**** *********** ********",
-	"****    *****    ********",
-	"**** *********** ********",
-	"     ** *** ****         ",
-	"**** ** ******** ********",
-	"****             ********",
-	"**** **  ******* ********",
-	"**** *********** ********",
-	"****             ********",
-	"**** **  ******* ********",
-	"**** *********** ********",
-],
-ballChar = " ",
+var currentLevel = 0;
+		
+const cellsize = 20,
+	  stepsToChangeMouth = 10;
+
+
+const 
+levels = [{
+	"maze" : [
+		"*********************",
+		"*.........*.........*",
+		"*.***.***.*.***.***.*",
+		"*.* *.* *.*.* *.* *.*",
+		"*.***.***.*.***.***.*",
+		"*...................*",
+		"*.***.*.*****.*.***.*",
+		"*.***.*.*****.*.***.*",
+		"*.....*...*...*.....*",
+		"*****.*** * ***.*****",
+		"    *.*       *.*    ",
+		"    *.* ** ** *.*    ",
+		"*****.* *   * *.*****",
+		"......  *   *  ......",
+		"*****.* ***** *.*****",
+		"    *.*       *.*    ",
+		"    *.* ***** *.*    ",
+		"*****.* ***** *.*****",
+		"*.........*.........*",
+		"*.***.***.*.***.***.*",
+		"*...*...........*...*",
+		"***.*.*.*****.*.*.***",
+		"*...*.*...*...*.*...*",
+		"*.***.***.*.***.***.*",	
+		"*...................*",
+		"*********************"
+	],
+	"startX" : 0,
+	"startY" : 13*cellsize + 2
+}],
+ballChar = ".",
 wallChar = "*"; 
 
 
 function createGame(pacmanSelector, mazeSelector) {
-	
-	const stepsToChangeMouth = 10;
 	var steps = 0;
 	var pacmanCanvas = document.querySelector(pacmanSelector),
 		ctxPacman = pacmanCanvas.getContext("2d"),
 		mazeCanvas = document.querySelector(mazeSelector),
 		ctxMaze = mazeCanvas.getContext("2d"),
 		isMouthOpen = false,
-		cellsize = 30,
 		pacman = {
-			"x" : 0,
-			"y" : 92,
-			"size" : cellsize - 4,
-			"speed": 2
+			"x" : levels[currentLevel].startX,
+			"y" : levels[currentLevel].startY,
+			"size" : cellsize/4*3,
+			"speed": 1
 		},
 		balls = [],
 		walls = [],
@@ -61,8 +84,8 @@ function createGame(pacmanSelector, mazeSelector) {
 				"y": -1
 			}
 		],
-		columns = maze[0].length,
-		rows = maze.length;
+		columns = levels[currentLevel].maze[0].length,
+		rows = levels[currentLevel].maze.length;
 		mazeCanvas.width = columns  * cellsize;
 		mazeCanvas.height = rows  * cellsize;
 
@@ -101,9 +124,9 @@ function createGame(pacmanSelector, mazeSelector) {
 
 		var isPacmanCollidingWithWall = false;
 		var futurePosition = {
-			"x": pacman.x + dirDeltas[dir].x + 1,
-			"y": pacman.y + dirDeltas[dir].y + 1,
-			"size": pacman.size - 2
+			"x": pacman.x + dirDeltas[dir].x * pacman.speed,
+			"y": pacman.y + dirDeltas[dir].y * pacman.speed,
+			"size": pacman.size
 		};
 
 		walls.forEach(function(wall, index){
@@ -241,7 +264,7 @@ function createGame(pacmanSelector, mazeSelector) {
 	
 	return {
 		"start" : function(){
-			[balls, walls] = drawMazeAndGetBallsAndWalls(ctxMaze, maze, cellsize);
+			[balls, walls] = drawMazeAndGetBallsAndWalls(ctxMaze, levels[currentLevel].maze, cellsize);
 			
 			gameLoop();
 		}
