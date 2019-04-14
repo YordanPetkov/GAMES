@@ -5,6 +5,7 @@ var currentLevel = 0;
 		
 const cellsize = 20,
 	  stepsToChangeMouth = 10;
+var herosize = cellsize/4*3;
 
 
 const 
@@ -37,25 +38,66 @@ levels = [{
 		"*...................*",
 		"*********************"
 	],
-	"startX" : 0,
-	"startY" : 13*cellsize + 2
+	"startPacmanX" : 0,
+	"startPacmanY" : 13*cellsize + 2,
+
+	"startBlueX" : 9*cellsize +2,
+	"startBlueY" : 13*cellsize + 2,
+	"startOrangeX" : 10*cellsize +2,
+	"startOrangeY" : 13*cellsize + 2,
+	"startPurpleX" : 11*cellsize +2,
+	"startPurpleY" : 13*cellsize + 2,
+	"startRedX" : 10*cellsize,
+	"startRedY" : 12*cellsize + 2
 }],
 ballChar = ".",
 wallChar = "*"; 
 
 
-function createGame(pacmanSelector, mazeSelector) {
+function createGame(heroSelector, mazeSelector) {
 	var steps = 0;
-	var pacmanCanvas = document.querySelector(pacmanSelector),
-		ctxPacman = pacmanCanvas.getContext("2d"),
+	var heroCanvas = document.querySelector(heroSelector),
+		ctxPacman = heroCanvas.getContext("2d"),
+		ctxGhost = heroCanvas.getContext("2d"),
 		mazeCanvas = document.querySelector(mazeSelector),
 		ctxMaze = mazeCanvas.getContext("2d"),
 		isMouthOpen = false,
 		pacman = {
-			"x" : levels[currentLevel].startX,
-			"y" : levels[currentLevel].startY,
-			"size" : cellsize/4*3,
+			"x" : levels[currentLevel].startPacmanX,
+			"y" : levels[currentLevel].startPacmanY,
+			"size" : herosize,
 			"speed": 1
+		},
+		ghosts = {
+			"blue" : {
+					"x" : levels[currentLevel].startBlueX,
+					"y" : levels[currentLevel].startBlueY,
+					"size" : herosize,
+					"speed": 1,
+					"file": document.getElementById("blueGhostImage")
+				},
+			"orange" : {
+				"x" : levels[currentLevel].startOrangeX,
+				"y" : levels[currentLevel].startOrangeY,
+				"size" : herosize,
+				"speed": 1,
+				"file": document.getElementById("orangeGhostImage")
+			},
+			"purple" : {
+				"x" : levels[currentLevel].startPurpleX,
+				"y" : levels[currentLevel].startPurpleY,
+				"size" : herosize,
+				"speed": 1,
+				"file": document.getElementById("purpleGhostImage")
+			},
+			"red" : {
+				"x" : levels[currentLevel].startRedX,
+				"y" : levels[currentLevel].startRedY,
+				"size" : herosize,
+				"speed": 1,
+				"file": document.getElementById("redGhostImage")
+			},
+			
 		},
 		balls = [],
 		walls = [],
@@ -89,8 +131,8 @@ function createGame(pacmanSelector, mazeSelector) {
 		mazeCanvas.width = columns  * cellsize;
 		mazeCanvas.height = rows  * cellsize;
 
-		pacmanCanvas.width = columns  * cellsize;
-		pacmanCanvas.height = rows  * cellsize;
+		heroCanvas.width = columns  * cellsize;
+		heroCanvas.height = rows  * cellsize;
 		/*
 		0 -> right
 		1 -> down
@@ -102,9 +144,14 @@ function createGame(pacmanSelector, mazeSelector) {
 	function gameLoop() {
 		const offset = 5;
 		ctxPacman.clearRect(pacman.x - offset, pacman.y - offset, pacman.size + offset*2, pacman.size + offset*2);
-		
+		for(var ghost in ghosts){
+			ctxPacman.clearRect(ghost.x - offset, ghost.y - offset, ghost.size + offset*2, ghost.size + offset*2);
+		}
+
+
 		drawPacman();
-		
+		drawGhosts();
+
 		steps += 1;
 		if(0 === (steps % stepsToChangeMouth)){
 			isMouthOpen = !isMouthOpen;
@@ -122,7 +169,8 @@ function createGame(pacmanSelector, mazeSelector) {
 			}
 		});
 
-		var isPacmanCollidingWithWall = false;
+		var isPacmanCollidingWithWall = false,
+			isPacmanCollidingWithGhost = false;
 		var futurePosition = {
 			"x": pacman.x + dirDeltas[dir].x * pacman.speed,
 			"y": pacman.y + dirDeltas[dir].y * pacman.speed,
@@ -135,10 +183,23 @@ function createGame(pacmanSelector, mazeSelector) {
 			}
 		});
 
-		if(!isPacmanCollidingWithWall){
+			if(areCollinding(futurePosition,ghosts.blue) || areCollinding(ghosts.blue,futurePosition)){
+				isPacmanCollidingWithGhost = true;
+			}
+			if(areCollinding(futurePosition,ghosts.purple) || areCollinding(ghosts.purple,futurePosition)){
+				isPacmanCollidingWithGhost = true;
+			}
+			if(areCollinding(futurePosition,ghosts.orange) || areCollinding(ghosts.orange,futurePosition)){
+				isPacmanCollidingWithGhost = true;
+			}
+			if(areCollinding(futurePosition,ghosts.red) || areCollinding(ghosts.red,futurePosition)){
+				isPacmanCollidingWithGhost = true;
+			}
+
+		if(!isPacmanCollidingWithWall && !isPacmanCollidingWithGhost){
 			if(updatePacmanPosition())
 			{
-				ctxPacman.clearRect(0, 0, pacmanCanvas.width, pacmanCanvas.height);
+				ctxPacman.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
 			}
 		}
 		
@@ -199,14 +260,28 @@ function createGame(pacmanSelector, mazeSelector) {
 		
 	}
 
+	function drawGhosts(){
+		var redFile = document.getElementById("redGhostImage"),
+			blueFile = document.getElementById("blueGhostImage"),
+			purpleFile = document.getElementById("purpleGhostImage"),
+			orangeFile = document.getElementById("orangeGhostImage");
+		ctxGhost.drawImage(blueFile, ghosts.blue.x , ghosts.blue.y, ghosts.blue.size, ghosts.blue.size);
+		ctxGhost.drawImage(purpleFile, ghosts.purple.x , ghosts.purple.y, ghosts.purple.size, ghosts.purple.size);
+		ctxGhost.drawImage(orangeFile, ghosts.orange.x , ghosts.orange.y, ghosts.orange.size, ghosts.orange.size);
+		ctxGhost.drawImage(redFile, ghosts.red.x , ghosts.red.y, ghosts.red.size, ghosts.red.size);
+		//ctxPacman.drawImage()
+	
+		
+	}
+
 	function updatePacmanPosition(){
 		pacman.x += dirDeltas[dir].x * pacman.speed;
 		pacman.y += dirDeltas[dir].y * pacman.speed;
 
-		if(pacman.x < 0 || pacman.x > pacmanCanvas.width ||
-			pacman.y < 0 || pacman.y > pacmanCanvas.height){
-			pacman.x = (pacman.x + pacmanCanvas.width) % pacmanCanvas.width;
-			pacman.y = (pacman.y + pacmanCanvas.height) % pacmanCanvas.height;
+		if(pacman.x < 0 || pacman.x > heroCanvas.width ||
+			pacman.y < 0 || pacman.y > heroCanvas.height){
+			pacman.x = (pacman.x + heroCanvas.width) % heroCanvas.width;
+			pacman.y = (pacman.y + heroCanvas.height) % heroCanvas.height;
 			return true;
 		}
 		return false
