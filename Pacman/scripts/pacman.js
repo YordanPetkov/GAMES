@@ -144,9 +144,10 @@ function createGame(heroSelector, mazeSelector) {
 	function gameLoop() {
 		const offset = 5;
 		ctxPacman.clearRect(pacman.x - offset, pacman.y - offset, pacman.size + offset*2, pacman.size + offset*2);
-		for(var ghost in ghosts){
-			ctxPacman.clearRect(ghost.x - offset, ghost.y - offset, ghost.size + offset*2, ghost.size + offset*2);
-		}
+		ctxPacman.clearRect(ghosts.blue.x - offset, ghosts.blue.y - offset, ghosts.blue.size + offset*2, ghosts.blue.size + offset*2);
+		ctxPacman.clearRect(ghosts.purple.x - offset, ghosts.purple.y - offset, ghosts.purple.size + offset*2, ghosts.purple.size + offset*2);
+		ctxPacman.clearRect(ghosts.orange.x - offset, ghosts.orange.y - offset, ghosts.orange.size + offset*2, ghosts.orange.size + offset*2);
+		ctxPacman.clearRect(ghosts.red.x - offset, ghosts.red.y - offset, ghosts.red.size + offset*2, ghosts.red.size + offset*2);
 
 
 		drawPacman();
@@ -168,42 +169,53 @@ function createGame(heroSelector, mazeSelector) {
 				balls.splice(index, 1);
 			}
 		});
-
-		var isPacmanCollidingWithWall = false,
-			isPacmanCollidingWithGhost = false;
 		var futurePosition = {
 			"x": pacman.x + dirDeltas[dir].x * pacman.speed,
 			"y": pacman.y + dirDeltas[dir].y * pacman.speed,
 			"size": pacman.size
-		};
+		};		
 
-		walls.forEach(function(wall, index){
-			if(areCollinding(futurePosition,wall) || areCollinding(wall,futurePosition)){
-				isPacmanCollidingWithWall = true;
-			}
-		});
+		
 
-			if(areCollinding(futurePosition,ghosts.blue) || areCollinding(ghosts.blue,futurePosition)){
-				isPacmanCollidingWithGhost = true;
-			}
-			if(areCollinding(futurePosition,ghosts.purple) || areCollinding(ghosts.purple,futurePosition)){
-				isPacmanCollidingWithGhost = true;
-			}
-			if(areCollinding(futurePosition,ghosts.orange) || areCollinding(ghosts.orange,futurePosition)){
-				isPacmanCollidingWithGhost = true;
-			}
-			if(areCollinding(futurePosition,ghosts.red) || areCollinding(ghosts.red,futurePosition)){
-				isPacmanCollidingWithGhost = true;
-			}
-
-		if(!isPacmanCollidingWithWall && !isPacmanCollidingWithGhost){
-			if(updatePacmanPosition())
-			{
+		if(!isObjectCollidingWithWall(futurePosition) && !isPacmanCollidingWithGhost(futurePosition)){
+			
+			if(updatePacmanPosition()) {
+				
 				ctxPacman.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
 			}
 		}
+
+		//checkGhostCollidings();
+
+		
 		
 		window.requestAnimationFrame(gameLoop);
+	}
+
+	function isObjectCollidingWithWall(obj){
+		var isObjCollidingWithWall = false;
+		walls.forEach(function(wall, index){
+			if(areCollinding(obj,wall) || areCollinding(wall,obj)){
+				isObjCollidingWithWall = true;
+			}
+		});
+		return isObjCollidingWithWall;
+	}
+
+	function isPacmanCollidingWithGhost(obj){
+		if(areCollinding(obj,ghosts.blue) || areCollinding(ghosts.blue,obj)){
+			return "blue";
+		}
+		if(areCollinding(obj,ghosts.purple) || areCollinding(ghosts.purple,obj)){
+			return "purple";
+		}
+		if(areCollinding(obj,ghosts.orange) || areCollinding(ghosts.orange,obj)){
+			return "orange";
+		}
+		if(areCollinding(obj,ghosts.red) || areCollinding(ghosts.red,obj)){
+			return "red";
+		}
+		return false;
 	}
 
 	function positionToBounds(obj){
@@ -230,6 +242,15 @@ function createGame(heroSelector, mazeSelector) {
 		 && ((sizes1.top <= sizes2.top && sizes2.top <= sizes1.bottom)||
 		 (sizes1.top <= sizes2.bottom && sizes2.bottom <= sizes1.bottom));*/
 	}
+
+	/*function checkGhostCollidings(){
+		if(!isBlueCollidingWithWall){
+			if(updateBluePosition()) {
+				ctxGhost.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+			}
+		}
+	}*/
+
 	function drawBall(ctx,ballToDraw){
 		
 		ctx.fillStyle = "yellow";
@@ -287,16 +308,6 @@ function createGame(heroSelector, mazeSelector) {
 		return false
 	}
 
-	document.body.addEventListener("keydown", function(){
-		//ev.keyCode - code of pressed key
-		event.preventDefault();
-		if(!keyCodeToDirs.hasOwnProperty(event.keyCode)){
-			return;
-		}
-		dir = keyCodeToDirs[event.keyCode];
-		
-	});
-
 	function drawMazeAndGetBallsAndWalls(ctx, maze, cellSize){
 		var row,
 			col,
@@ -335,6 +346,19 @@ function createGame(heroSelector, mazeSelector) {
 			walls
 		];
 	}
+
+	document.body.addEventListener("keydown", function(){
+		//ev.keyCode - code of pressed key
+		event.preventDefault();
+		if(!keyCodeToDirs.hasOwnProperty(event.keyCode)){
+			if(keyCodeToDirs[event.keyCode]);
+			if(event.keyCode == 27){
+			}
+			return;
+		}
+		dir = keyCodeToDirs[event.keyCode];
+		
+	});
 
 	
 	return {
