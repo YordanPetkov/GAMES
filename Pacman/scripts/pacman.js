@@ -41,14 +41,18 @@ levels = [{
 	"startPacmanX" : 0,
 	"startPacmanY" : 13*cellsize + 2,
 
-	"startBlueX" : 9*cellsize +2,
+	"startBlueX" : 10*cellsize + 2,
 	"startBlueY" : 13*cellsize + 2,
 	"startOrangeX" : 10*cellsize + 2,
 	"startOrangeY" : 13*cellsize + 2,
-	"startPurpleX" : 11*cellsize + 2,
+	"startPurpleX" : 10*cellsize + 2,
 	"startPurpleY" : 13*cellsize + 2,
 	"startRedX" : 10*cellsize + 2,
-	"startRedY" : 12*cellsize + 2
+	"startRedY" : 12*cellsize + 2,
+	"bluePath": [3,2,1,2,1,0,1,2,1,0],
+	"purplePath": [3,2,1,2,1,0,1,2,1,0],
+	"orangePath": [3,2,1,2,1,0,1,2,1,0],
+	"redPath": [3,2,1,2,1,0,1,2,1,0]
 }],
 ballChar = ".",
 wallChar = "*"; 
@@ -75,7 +79,8 @@ function createGame(heroSelector, mazeSelector) {
 					"size" : herosize,
 					"speed": 1,
 					"file": document.getElementById("blueGhostImage"),
-					"dir": 0
+					"curDir": 0,
+					"path": levels[currentLevel].bluePath
 
 				},
 			"orange" : {
@@ -84,7 +89,8 @@ function createGame(heroSelector, mazeSelector) {
 				"size" : herosize,
 				"speed": 1,
 				"file": document.getElementById("orangeGhostImage"),
-				"dir": 3
+				"curDir": 0,
+				"path": levels[currentLevel].orangePath
 			},
 			"purple" : {
 				"x" : levels[currentLevel].startPurpleX,
@@ -92,7 +98,8 @@ function createGame(heroSelector, mazeSelector) {
 				"size" : herosize,
 				"speed": 1,
 				"file": document.getElementById("purpleGhostImage"),
-				"dir": 2
+				"curDir": 0,
+				"path": levels[currentLevel].purplePath
 			},
 			"red" : {
 				"x" : levels[currentLevel].startRedX,
@@ -100,7 +107,8 @@ function createGame(heroSelector, mazeSelector) {
 				"size" : herosize,
 				"speed": 1,
 				"file": document.getElementById("redGhostImage"),
-				"dir": 3
+				"curDir": 0,
+				"path": levels[currentLevel].redPath
 			},
 			
 		},
@@ -273,8 +281,8 @@ function createGame(heroSelector, mazeSelector) {
 
 		for(var ghost in ghosts){
 			var futurePosition = {
-				"x": ghosts[ghost].x + dirDeltas[ghosts[ghost].dir].x * ghosts[ghost].speed,
-				"y": ghosts[ghost].y + dirDeltas[ghosts[ghost].dir].y * ghosts[ghost].speed,
+				"x": ghosts[ghost].x + dirDeltas[ghosts[ghost].path[ghosts[ghost].curDir]].x * ghosts[ghost].speed,
+				"y": ghosts[ghost].y + dirDeltas[ghosts[ghost].path[ghosts[ghost].curDir]].y * ghosts[ghost].speed,
 				"size": ghosts[ghost].size
 			};
 
@@ -353,8 +361,8 @@ function createGame(heroSelector, mazeSelector) {
 	}
 
 	function updateGhostPosition(ghost){
-		ghost.x += dirDeltas[ghost.dir].x * ghost.speed;
-		ghost.y += dirDeltas[ghost.dir].y * ghost.speed;
+		ghost.x += dirDeltas[ghost.path[ghost.curDir]].x * ghost.speed;
+		ghost.y += dirDeltas[ghost.path[ghost.curDir]].y * ghost.speed;
 
 		if(ghost.x < 0 || ghost.x > heroCanvas.width ||
 			ghost.y < 0 || ghost.y > heroCanvas.height){
@@ -377,8 +385,10 @@ function createGame(heroSelector, mazeSelector) {
 		for(var ghost in ghosts){
 			if(collidingGhosts[ghost])ghosts[ghost].dir = (ghosts[ghost].dir + 1) % 4;
 		}*/
-		ghosts[ghost].dir = (ghosts[ghost].dir + 1) % 4;
 
+		
+		ghosts[ghost].curDir = (ghosts[ghost].curDir + 1) % (ghosts[ghost].path.length);
+		
 
 	}
 
