@@ -1,0 +1,25 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Page title</title>
+        <link rel="stylesheet" href="css/pacman.css">
+		<script type="text/javascript" src="scripts/pacman.js"></script>
+    </head>
+    <body>
+    <!-- your content will go there..  -->
+    <h1>The Pacman Game</h1>
+    <div id="game-container">
+      <canvas id="game-canvas" class="pacman-canvas" ></canvas>
+      <canvas id="maze-canvas" class="pacman-canvas" ></canvas>
+    </div>
+    <img id="wallImage" src="img/wall.jpg" style="display: none" />
+    <script>
+      window.onload = function() {
+        var game = createGame("#game-canvas", "#maze-canvas");
+        game.start();
+      }
+    </script>
+    
+    </body>
+    </html>
