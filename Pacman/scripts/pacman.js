@@ -43,11 +43,11 @@ levels = [{
 
 	"startBlueX" : 9*cellsize +2,
 	"startBlueY" : 13*cellsize + 2,
-	"startOrangeX" : 10*cellsize +2,
+	"startOrangeX" : 10*cellsize + 2,
 	"startOrangeY" : 13*cellsize + 2,
-	"startPurpleX" : 11*cellsize +2,
+	"startPurpleX" : 11*cellsize + 2,
 	"startPurpleY" : 13*cellsize + 2,
-	"startRedX" : 10*cellsize,
+	"startRedX" : 10*cellsize + 2,
 	"startRedY" : 12*cellsize + 2
 }],
 ballChar = ".",
@@ -74,28 +74,33 @@ function createGame(heroSelector, mazeSelector) {
 					"y" : levels[currentLevel].startBlueY,
 					"size" : herosize,
 					"speed": 1,
-					"file": document.getElementById("blueGhostImage")
+					"file": document.getElementById("blueGhostImage"),
+					"dir": 0
+
 				},
 			"orange" : {
 				"x" : levels[currentLevel].startOrangeX,
 				"y" : levels[currentLevel].startOrangeY,
 				"size" : herosize,
 				"speed": 1,
-				"file": document.getElementById("orangeGhostImage")
+				"file": document.getElementById("orangeGhostImage"),
+				"dir": 3
 			},
 			"purple" : {
 				"x" : levels[currentLevel].startPurpleX,
 				"y" : levels[currentLevel].startPurpleY,
 				"size" : herosize,
 				"speed": 1,
-				"file": document.getElementById("purpleGhostImage")
+				"file": document.getElementById("purpleGhostImage"),
+				"dir": 2
 			},
 			"red" : {
 				"x" : levels[currentLevel].startRedX,
 				"y" : levels[currentLevel].startRedY,
 				"size" : herosize,
 				"speed": 1,
-				"file": document.getElementById("redGhostImage")
+				"file": document.getElementById("redGhostImage"),
+				"dir": 3
 			},
 			
 		},
@@ -152,6 +157,8 @@ function createGame(heroSelector, mazeSelector) {
 
 		drawPacman();
 		drawGhosts();
+		updateGhostDir();
+
 
 		steps += 1;
 		if(0 === (steps % stepsToChangeMouth)){
@@ -185,7 +192,7 @@ function createGame(heroSelector, mazeSelector) {
 			}
 		}
 
-		//checkGhostCollidings();
+		checkGhostCollidings();
 
 		
 		
@@ -243,13 +250,32 @@ function createGame(heroSelector, mazeSelector) {
 		 (sizes1.top <= sizes2.bottom && sizes2.bottom <= sizes1.bottom));*/
 	}
 
-	/*function checkGhostCollidings(){
-		if(!isBlueCollidingWithWall){
-			if(updateBluePosition()) {
+	function checkGhostCollidings(){
+
+		if(!isObjectCollidingWithWall(ghosts.blue)){
+			if(updateGhostPosition(ghosts.blue)) {
 				ctxGhost.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
 			}
 		}
-	}*/
+
+		if(!isObjectCollidingWithWall(ghosts.purple)){
+			if(updateGhostPosition(ghosts.purple)) {
+				ctxGhost.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+			}
+		}
+
+		if(!isObjectCollidingWithWall(ghosts.orange)){
+			if(updateGhostPosition(ghosts.orange)) {
+				ctxGhost.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+			}
+		}
+
+		if(!isObjectCollidingWithWall(ghosts.red)){
+			if(updateGhostPosition(ghosts.red)) {
+				ctxGhost.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
+			}
+		}
+	}
 
 	function drawBall(ctx,ballToDraw){
 		
@@ -305,7 +331,24 @@ function createGame(heroSelector, mazeSelector) {
 			pacman.y = (pacman.y + heroCanvas.height) % heroCanvas.height;
 			return true;
 		}
-		return false
+		return false;
+	}
+
+	function updateGhostPosition(ghost){
+		ghost.x += dirDeltas[ghost.dir].x * ghost.speed;
+		ghost.y += dirDeltas[ghost.dir].y * ghost.speed;
+
+		if(ghost.x < 0 || ghost.x > heroCanvas.width ||
+			ghost.y < 0 || ghost.y > heroCanvas.height){
+			ghost.x = (ghost.x + heroCanvas.width) % heroCanvas.width;
+			ghost.y = (ghost.y + heroCanvas.height) % heroCanvas.height;
+			return true;
+		}
+		return false;
+	}
+
+	function updateGhostDir(){
+
 	}
 
 	function drawMazeAndGetBallsAndWalls(ctx, maze, cellSize){
