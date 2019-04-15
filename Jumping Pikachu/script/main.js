@@ -110,13 +110,15 @@ window.onload = function(){
                 .render(pikachuBody.coordinates, lastPikachuCoordinates)
                 .update();
 
-        
-        
          var lastPokeballCoordinates = pokeballBody.move();
 
          pokeballSprite
          .render(pokeballBody.coordinates, lastPokeballCoordinates)
          .update();
+        
+        if(pikachuBody.collidesWith(pokeballBody)) {
+            //alert("GAME OVER");
+        }
 
         window.requestAnimationFrame(gameLoop);
     }
