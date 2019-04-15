@@ -118,6 +118,12 @@ window.onload = function(){
         
         if(pikachuBody.collidesWith(pokeballBody)) {
             //alert("GAME OVER");
+            playerContex.drawImage(
+                document.getElementById("dead-player"),
+                0,
+                0
+            );
+            return;
         }
 
         window.requestAnimationFrame(gameLoop);
