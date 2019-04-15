@@ -10,7 +10,7 @@ const cellsize = 20,
 	  l = 2,
 	  u = 3;
 var herosize = cellsize/4*3;
-
+var speed = 1;
 
 const 
 levels = [{
@@ -116,7 +116,7 @@ function createGame(heroSelector, mazeSelector) {
 			"x" : levels[currentLevel].startPacmanX,
 			"y" : levels[currentLevel].startPacmanY,
 			"size" : herosize,
-			"speed": 1,
+			"speed": 0,
 			"dir": 0
 		},
 		ghosts = {
@@ -126,7 +126,7 @@ function createGame(heroSelector, mazeSelector) {
 				"lastX": levels[currentLevel].startBlueX,
 				"lastY": levels[currentLevel].startBlueY,
 				"size" : herosize,
-				"speed": 1,
+				"speed": speed,
 				"file": document.getElementById("blueGhostImage"),
 				"dir": 3,
 				"dirPathIndex": 0,
@@ -139,7 +139,7 @@ function createGame(heroSelector, mazeSelector) {
 				"lastX": levels[currentLevel].startOrangeX,
 				"lastY": levels[currentLevel].startOrangeY,
 				"size" : herosize,
-				"speed": 1,
+				"speed": speed,
 				"file": document.getElementById("orangeGhostImage"),
 				"dir": 3,
 				"dirPathIndex": 0,
@@ -151,7 +151,7 @@ function createGame(heroSelector, mazeSelector) {
 				"lastX": levels[currentLevel].startPurpleX,
 				"lastY": levels[currentLevel].startPurpleY,
 				"size" : herosize,
-				"speed": 1,
+				"speed": speed,
 				"file": document.getElementById("purpleGhostImage"),
 				"dir": 2,
 				"dirPathIndex": 0,
@@ -163,7 +163,7 @@ function createGame(heroSelector, mazeSelector) {
 				"lastX": levels[currentLevel].startRedX,
 				"lastY": levels[currentLevel].startRedY,
 				"size" : herosize,
-				"speed": 1,
+				"speed": speed,
 				"file": document.getElementById("redGhostImage"),
 				"dir": 2,
 				"dirPathIndex": 0,
@@ -242,7 +242,7 @@ function createGame(heroSelector, mazeSelector) {
 			"x" : levels[currentLevel].startPacmanX,
 			"y" : levels[currentLevel].startPacmanY,
 			"size" : herosize,
-			"speed": 1,
+			"speed": 0,
 			"dir": 0
 		};
 
@@ -760,6 +760,18 @@ function createGame(heroSelector, mazeSelector) {
 			return;
 		}
 		pacman.dir = keyCodeToDirs[event.keyCode];
+		pacman.speed = speed;
+		
+	});
+
+	document.body.addEventListener("keyup", function(){
+		//ev.keyCode - code of pressed key
+		event.preventDefault();
+		if(!keyCodeToDirs.hasOwnProperty(event.keyCode)){
+			return;
+		}
+		pacman.speed = 0;
+		
 		
 	});
 
