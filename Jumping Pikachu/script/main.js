@@ -6,12 +6,10 @@ window.onload = function(){
      var playerCanvas = document.getElementById("player-canvas"),
           playerContex = playerCanvas.getContext("2d"),
           playerImg = document.getElementById("pikachu-sprite");
-  
+
       playerCanvas.width = WIDTH;
       playerCanvas.height = HEIGHT;
-  
-      var pokeballImg = document.getElementById("pokeball-sprite");
-      var speed = 2;
+        var speed = 3;
     
     document.addEventListener('keydown', function(event){
 
@@ -75,15 +73,22 @@ window.onload = function(){
     });
 
     var pikachuBody = createPhysicalBody({
-        coordinates: { x: 0, y: 0 },
+        coordinates: { x: 10, y: HEIGHT - pikachuSprite.height },
         speed: { x: 0, y: 0 },
         height: pikachuSprite.height,
         width: pikachuSprite.width
     });
 
+    var pokeballCanvas = document.getElementById("pokeball-canvas"),
+        pokeballContex = pokeballCanvas.getContext("2d"),
+        pokeballImg = document.getElementById("pokeball-sprite");
+    
+    pokeballCanvas.width = WIDTH;
+    pokeballCanvas.height = HEIGHT;
+
     var pokeballSprite = createSprite({
         spritesheet: pokeballImg,
-        context: playerContex,
+        context: pokeballContex,
         width: pokeballImg.width / 18,
         height: pokeballImg.height,
         numberOfFrames: 18,
@@ -98,7 +103,7 @@ window.onload = function(){
     });
 
     function gameLoop() {
-        applyGravityVertical(pikachuBody, 0.05);
+        applyGravityVertical(pikachuBody, 0.1);
         var lastPikachuCoordinates = pikachuBody.move();
 
         pikachuSprite

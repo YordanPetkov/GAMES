@@ -1,5 +1,14 @@
-body {
-    overflow: hidden;
+canvas {
+    position: absolute;
+    
+}
+
+#player-canvas {
+    z-index : 10;
+}
+
+#pokeball-canvas {
+    z-index : 5;
 }
 
 img {
