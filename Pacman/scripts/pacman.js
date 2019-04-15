@@ -1,10 +1,14 @@
 
 "use strict";
 
-var currentLevel = 0;
+var currentLevel = 1;
 		
 const cellsize = 20,
-	  stepsToChangeMouth = 10;
+	  stepsToChangeMouth = 10,
+	  r = 0,
+	  d = 1,
+	  l = 2,
+	  u = 3;
 var herosize = cellsize/4*3;
 
 
@@ -49,10 +53,55 @@ levels = [{
 	"startPurpleY" : 13*cellsize + 2,
 	"startRedX" : 10*cellsize + 2,
 	"startRedY" : 12*cellsize + 2,
-	"bluePath": [0,1,2,3,3,2,1,2,1,2,1,0,3,2,1,2,0,2,1,0,3,0,1,2,0],
-	"purplePath": [0,1,2,3,3,2,1,2,1,0,1,2,1,0,1,3,0,2,1,3,0,2,1,3],
-	"orangePath": [0,1,2,3,3,2,1,0,1,0,1,2,1,0,1,0,2,3,1],
-	"redPath": [0,1,2,3,3,0,3,1,2,0,1,2,1,0,2,1,2,0,1]
+	"bluePath": [3,0,],
+	"purplePath": [3,0,2,3,3,2,1,2,1,0,1,2,1,0,1,3,0,2,1,3,0,2,1,3],
+	"orangePath": [3,0,2,3,3,2,1,0,1,0,1,2,1,0,1,0,2,3,1],
+	"redPath": [3,0,2,3,3,0,3,1,2,0,1,2,1,0,2,1,2,0,1]
+},
+{
+	"maze" : [
+		"*********************",
+		"*.........*.........*",
+		"*.***.***.*.***.***.*",
+		"*.* *.* *.*.* *.* *.*",
+		"*.***.***.*.***.***.*",
+		"*...................*",
+		"*.***.*.*****.*.***.*",
+		"*.***.*.*****.*.***.*",
+		"*..... ...*... .....*",
+		"*****.* * * * *.*****",
+		"    *.*   *   *.*    ",
+		"    *.* *   * *.*    ",
+		"*****.* *   * *.*****",
+		"......      *  ......",
+		"*****.* ***** *.*****",
+		"    *.*       *.*    ",
+		"    *.* ***** *.*    ",
+		"*****.* ***** *.*****",
+		"*.........*.........*",
+		"*.***.***.*.***.***.*",
+		"*...*...........*...*",
+		"***.*.*.*****.*.*.***",
+		"*...*.*...*...*.*...*",
+		"*.***.***.*.***.***.*",	
+		"*...................*",
+		"*********************"
+	],
+	"startPacmanX" : 10*cellsize + 2,
+	"startPacmanY" : 15*cellsize + 2,
+
+	"startBlueX" : 11*cellsize + 2,
+	"startBlueY" : 13*cellsize + 2,
+	"startOrangeX" : 9*cellsize + 2,
+	"startOrangeY" : 12*cellsize + 2,
+	"startPurpleX" : 11*cellsize + 2,
+	"startPurpleY" : 13*cellsize + 2,
+	"startRedX" : 10*cellsize + 2,
+	"startRedY" : 13*cellsize + 2,
+	"bluePath": [u,r,u,l,d,l,d,r,d,l,d,r,d,l,d,r,d,l,u,r,u,l,u,r,d,l,u,r,d,l,d],
+	"purplePath": [l,d,r,u,l,u,r,d,l,d,r,d,l,u,r,u,l,u,r,d,l,u,l,d,l,d,l,u,l,u,r,d],
+	"orangePath": [u,l,u,r,d,l,d,r,d,r,u,r,d,l,d,l,u,l,u,r,d,r,d,l,d,l,d,l,d,r,d],
+	"redPath": [l,d,l,d,l,d,l,u,r,u,l,u,r,d,l,u,l,d,r,d,l,u,r,u,l,d,r,d,r,d]
 }],
 ballChar = ".",
 wallChar = "*"; 
@@ -69,51 +118,64 @@ function createGame(heroSelector, mazeSelector) {
 			"x" : levels[currentLevel].startPacmanX,
 			"y" : levels[currentLevel].startPacmanY,
 			"size" : herosize,
-			"speed": 1
+			"speed": 1,
+			"dir": 0
 		},
 		ghosts = {
 			"blue" : {
-					"x" : levels[currentLevel].startBlueX,
-					"y" : levels[currentLevel].startBlueY,
-					"size" : herosize,
-					"speed": 1,
-					"file": document.getElementById("blueGhostImage"),
-					"curDir": 4,
-					"path": levels[currentLevel].bluePath
+				"x" : levels[currentLevel].startBlueX,
+				"y" : levels[currentLevel].startBlueY,
+				"lastX": levels[currentLevel].startBlueX,
+				"lastY": levels[currentLevel].startBlueY,
+				"size" : herosize,
+				"speed": 1,
+				"file": document.getElementById("blueGhostImage"),
+				"dir": 3,
+				"dirPathIndex": 0,
+				"path": levels[currentLevel].bluePath
 
-				},
+			},
 			"orange" : {
 				"x" : levels[currentLevel].startOrangeX,
 				"y" : levels[currentLevel].startOrangeY,
+				"lastX": levels[currentLevel].startOrangeX,
+				"lastY": levels[currentLevel].startOrangeY,
 				"size" : herosize,
 				"speed": 1,
 				"file": document.getElementById("orangeGhostImage"),
-				"curDir": 4,
+				"dir": 3,
+				"dirPathIndex": 0,
 				"path": levels[currentLevel].orangePath
 			},
 			"purple" : {
 				"x" : levels[currentLevel].startPurpleX,
 				"y" : levels[currentLevel].startPurpleY,
+				"lastX": levels[currentLevel].startPurpleX,
+				"lastY": levels[currentLevel].startPurpleY,
 				"size" : herosize,
 				"speed": 1,
 				"file": document.getElementById("purpleGhostImage"),
-				"curDir": 4,
+				"dir": 2,
+				"dirPathIndex": 0,
 				"path": levels[currentLevel].purplePath
 			},
 			"red" : {
 				"x" : levels[currentLevel].startRedX,
 				"y" : levels[currentLevel].startRedY,
+				"lastX": levels[currentLevel].startRedX,
+				"lastY": levels[currentLevel].startRedY,
 				"size" : herosize,
 				"speed": 1,
 				"file": document.getElementById("redGhostImage"),
-				"curDir": 4,
+				"dir": 2,
+				"dirPathIndex": 0,
 				"path": levels[currentLevel].redPath
 			},
 			
 		},
 		balls = [],
 		walls = [],
-		dir = 0,
+		/*dir = 0,*/
 		keyCodeToDirs = {
 			"37": 2,
 			"38": 3,
@@ -191,8 +253,8 @@ function createGame(heroSelector, mazeSelector) {
 			}
 		});
 		var futurePosition = {
-			"x": pacman.x + dirDeltas[dir].x * pacman.speed,
-			"y": pacman.y + dirDeltas[dir].y * pacman.speed,
+			"x": pacman.x + dirDeltas[pacman.dir].x * pacman.speed,
+			"y": pacman.y + dirDeltas[pacman.dir].y * pacman.speed,
 			"size": pacman.size
 		};		
 
@@ -285,16 +347,17 @@ function createGame(heroSelector, mazeSelector) {
 
 		for(var ghost in ghosts){
 			var futurePosition = {
-				"x": ghosts[ghost].x + dirDeltas[ghosts[ghost].path[ghosts[ghost].curDir]].x * ghosts[ghost].speed,
-				"y": ghosts[ghost].y + dirDeltas[ghosts[ghost].path[ghosts[ghost].curDir]].y * ghosts[ghost].speed,
+				"x": ghosts[ghost].x + dirDeltas[ghosts[ghost].dir].x * ghosts[ghost].speed,
+				"y": ghosts[ghost].y + dirDeltas[ghosts[ghost].dir].y * ghosts[ghost].speed,
 				"size": ghosts[ghost].size
 			};
 			
 			
 
 			if(!isObjectCollidingWithWall(futurePosition)){
+				
 				if(updateGhostPosition(ghosts[ghost])) {
-					updateGhostDir(ghost);
+					//updateGhostDir(ghost);
 					ctxGhost.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
 				}
 			}
@@ -320,7 +383,7 @@ function createGame(heroSelector, mazeSelector) {
 		ctxPacman.beginPath();
 		ctxPacman.fillStyle = "yellow";
 		if(isMouthOpen){
-			var deltaRadians = dir * Math.PI / 2;
+			var deltaRadians = pacman.dir * Math.PI / 2;
 			var x = pacman.x + pacman.size / 2;
 			var y = pacman.y + pacman.size / 2;
 			var size = pacman.size / 2;
@@ -355,8 +418,8 @@ function createGame(heroSelector, mazeSelector) {
 	}
 
 	function updatePacmanPosition(){
-		pacman.x += dirDeltas[dir].x * pacman.speed;
-		pacman.y += dirDeltas[dir].y * pacman.speed;
+		pacman.x += dirDeltas[pacman.dir].x * pacman.speed;
+		pacman.y += dirDeltas[pacman.dir].y * pacman.speed;
 
 		if(pacman.x < 0 || pacman.x > heroCanvas.width ||
 			pacman.y < 0 || pacman.y > heroCanvas.height){
@@ -368,8 +431,8 @@ function createGame(heroSelector, mazeSelector) {
 	}
 
 	function updateGhostPosition(ghost){
-		ghost.x += dirDeltas[ghost.path[ghost.curDir]].x * ghost.speed;
-		ghost.y += dirDeltas[ghost.path[ghost.curDir]].y * ghost.speed;
+		ghost.x += dirDeltas[ghost.dir].x * ghost.speed;
+		ghost.y += dirDeltas[ghost.dir].y * ghost.speed;
 
 		if(ghost.x < 0 || ghost.x > heroCanvas.width ||
 			ghost.y < 0 || ghost.y > heroCanvas.height){
@@ -394,20 +457,14 @@ function createGame(heroSelector, mazeSelector) {
 		}*/
 		
 		
-		//ghosts[ghost].curDir = (ghosts[ghost].curDir + 1) % (ghosts[ghost].path.length);
+		//ghosts[ghost].dirPathIndex = (ghosts[ghost].dirPathIndex + 1) % (ghosts[ghost].path.length);
 		
-		var futureDirection,
-			availableDirs = [
-				true,
-				true,
-				true,
-				true
-			];
-		if(ghosts[ghost].curDir == ghosts[ghost].path.length - 1){
+		/*
+		if(ghosts[ghost].dirPathIndex == ghosts[ghost].path.length - 1){
 			futureDirection = 4;
 		}
 		else {
-			futureDirection = (ghosts[ghost].curDir + 1) % ghosts[ghost].path.length;
+			futureDirection = (ghosts[ghost].dirPathIndex + 1) % ghosts[ghost].path.length;
 		}
 
 		var futurePosition = {
@@ -417,29 +474,29 @@ function createGame(heroSelector, mazeSelector) {
 			"size": ghosts[ghost].size
 		};
 		availableDirs[ghosts[ghost].path[futureDirection]] = false;
-		if(!isObjectCollidingWithWall(futurePosition)){ghosts[ghost].curDir = futureDirection;return;}
+		if(!isObjectCollidingWithWall(futurePosition)){ghosts[ghost].dirPathIndex = futureDirection;return;}
 
 
 
 		futurePosition = {
-			"x": ghosts[ghost].x + dirDeltas[ghosts[ghost].path[ghosts[ghost].curDir]].x * ghosts[ghost].speed,
-			"y": ghosts[ghost].y + dirDeltas[ghosts[ghost].path[ghosts[ghost].curDir]].y * ghosts[ghost].speed,
+			"x": ghosts[ghost].x + dirDeltas[ghosts[ghost].path[ghosts[ghost].dirPathIndex]].x * ghosts[ghost].speed,
+			"y": ghosts[ghost].y + dirDeltas[ghosts[ghost].path[ghosts[ghost].dirPathIndex]].y * ghosts[ghost].speed,
 			"size": ghosts[ghost].size
 		};
-		availableDirs[ghosts[ghost].path[ghosts[ghost].curDir]] = false;
-		if(!isObjectCollidingWithWall(futurePosition)){ghosts[ghost].curDir = ghosts[ghost].curDir;return;}
+		availableDirs[ghosts[ghost].path[ghosts[ghost].dirPathIndex]] = false;
+		if(!isObjectCollidingWithWall(futurePosition)){ghosts[ghost].dirPathIndex = ghosts[ghost].dirPathIndex;return;}
 
 
-		var myCurDir = ghosts[ghost].path[ghosts[ghost].curDir];
-		if(availableDirs[(myCurDir + 1) % 4 ])futureDirection = (myCurDir + 1) % 4;
-		else if(availableDirs[(myCurDir + 3) % 4 ])futureDirection = (myCurDir + 3) % 4;
+		var mydirPathIndex = ghosts[ghost].path[ghosts[ghost].dirPathIndex];
+		if(availableDirs[(mydirPathIndex + 1) % 4 ])futureDirection = (mydirPathIndex + 1) % 4;
+		else if(availableDirs[(mydirPathIndex + 3) % 4 ])futureDirection = (mydirPathIndex + 3) % 4;
 		futurePosition = {
 			"x": ghosts[ghost].x + dirDeltas[futureDirection].x * ghosts[ghost].speed,
 			"y": ghosts[ghost].y + dirDeltas[futureDirection].y * ghosts[ghost].speed,
 			"size": ghosts[ghost].size
 		};
 		availableDirs[futureDirection] = false;
-		if(!isObjectCollidingWithWall(futurePosition))ghosts[ghost].curDir = futureDirection;
+		if(!isObjectCollidingWithWall(futurePosition))ghosts[ghost].dirPathIndex = futureDirection;
 
 		for(var dir in availableDirs){
 			if(dir){
@@ -448,13 +505,59 @@ function createGame(heroSelector, mazeSelector) {
 					"y": ghosts[ghost].y + dirDeltas[dir].y * ghosts[ghost].speed,
 					"size": ghosts[ghost].size
 				};
-				if(!isObjectCollidingWithWall(futurePosition))ghosts[ghost].curDir = dir;
+				if(!isObjectCollidingWithWall(futurePosition))ghosts[ghost].dirPathIndex = dir;
 				
 			}
-		}
+		}*/ 
+
+		/*if(Math.abs(ghosts[ghost].lastX + ghosts[ghost].lastY) - Math.abs(ghosts[ghost].x + ghosts[ghost].y) < herosize){
+				
+				return;
+			}*/
+		
+			ghosts[ghost].lastX = ghosts[ghost].x;
+			ghosts[ghost].lastY = ghosts[ghost].y;
+
+			var futureDirection,
+				availableDirs = [
+					true,
+					true,
+					true,
+					true
+				],
+				futurePathIndex = (ghosts[ghost].dirPathIndex + 1) % ghosts[ghost].path.length,
+				futureDirection = ghosts[ghost].path[futurePathIndex],
+				futurePosition = {
+				
+					"x": ghosts[ghost].x + dirDeltas[futureDirection].x * ghosts[ghost].speed,
+					"y": ghosts[ghost].y + dirDeltas[futureDirection].y * ghosts[ghost].speed,
+					"size": ghosts[ghost].size
+				};
+			
+			if(!isObjectCollidingWithWall(futurePosition)){
+				ghosts[ghost].dir = futureDirection;
+				ghosts[ghost].dirPathIndex = futurePathIndex;
+				availableDirs[ghosts[ghost].dir] = false;
+				return;
+			}
+			ghosts[ghost].dir = ghosts[ghost].path[futurePathIndex];
+			ghosts[ghost].dirPathIndex = futurePathIndex;
+			
+
+
+			//ghosts[ghost].dir = Math.floor(Math.random() * 4);
+			
+		
 
 
 
+
+
+
+
+
+
+		
 
 
 	}
@@ -508,7 +611,7 @@ function createGame(heroSelector, mazeSelector) {
 			}
 			return;
 		}
-		dir = keyCodeToDirs[event.keyCode];
+		pacman.dir = keyCodeToDirs[event.keyCode];
 		
 	});
 
@@ -519,7 +622,7 @@ function createGame(heroSelector, mazeSelector) {
 		"start" : function(){
 			[balls, walls] = drawMazeAndGetBallsAndWalls(ctxMaze, levels[currentLevel].maze, cellsize);
 			
-			console.log(gameLoop());
+			gameLoop();
 			
 		}
 	};
