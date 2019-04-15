@@ -2,16 +2,68 @@
 window.onload = function(){
     const WIDTH = 768,
           HEIGHT = WIDTH / 2;
+          
+     var playerCanvas = document.getElementById("player-canvas"),
+          playerContex = playerCanvas.getContext("2d"),
+          playerImg = document.getElementById("pikachu-sprite");
+  
+      playerCanvas.width = WIDTH;
+      playerCanvas.height = HEIGHT;
+  
+      var pokeballImg = document.getElementById("pokeball-sprite");
+      var speed = 2;
+    
+    document.addEventListener('keydown', function(event){
+
+        switch(event.keyCode){
+            case 37:
+                pikachuBody.speed.x = -speed;
+                break;
+            case 38:
+                if(pikachuBody.coordinates.y < (HEIGHT - pikachuBody.height)){
+                    return;
+                }
+                pikachuBody.speed.y = -speed;
+                break;
+            case 39:
+                pikachuBody.speed.x = speed;
+                break;
+            case 40:
+                pikachuBody.speed.y = speed;
+                break;
+            default:
+                break;
+        }
+
+    });     
+    
+    document.addEventListener('keyup', function(event){
+            if((event.keyCode == 37) || (event.keyCode == 39)){
+                pikachuBody.speed.x = 0;
+            }
+            
+    
+    });
         
-    var playerCanvas = document.getElementById("player-canvas"),
-        playerContex = playerCanvas.getContext("2d"),
-        playerImg = document.getElementById("pikachu-sprite");
-
-    playerCanvas.width = WIDTH;
-    playerCanvas.height = HEIGHT;
-
-    var pokeballImg = document.getElementById("pokeball-sprite");
-
+    
+    
+     function applyGravityVertical(physicalBody, gravity) {
+    
+            if(physicalBody.coordinates.y === (HEIGHT - physicalBody.height)){
+                return;
+            }
+    
+    
+            if(physicalBody.coordinates.y >= (HEIGHT - physicalBody.height)){
+                physicalBody.coordinates.y = (HEIGHT - physicalBody.height);
+                physicalBody.speed.y = 0;
+                return;
+            }
+    
+            physicalBody.speed.y += gravity;
+     }
+    
+    
 
     var pikachuSprite = createSprite({
         spritesheet: playerImg,
@@ -38,90 +90,28 @@ window.onload = function(){
         loopTicksPerFrame: 5
     });
 
-    var speed = 3;
-
-
-    document.addEventListener('keydown', function(event){
-
-        switch(event.keyCode){
-            case 37:
-                pikachuBody.speed.x = -speed;
-                break;
-            case 38:
-                pikachuBody.speed.y = -speed;
-                break;
-            case 39:
-                pikachuBody.speed.x = speed;
-                break;
-            case 40:
-                pikachuBody.speed.y = speed;
-                break;
-            default:
-                break;
-        }
-
+    var pokeballBody = createPhysicalBody({
+        coordinates: { x: WIDTH, y: HEIGHT - pokeballSprite.height},
+        speed: { x: -5, y: 0},
+        height: pokeballSprite.height,
+        width: pokeballSprite.width
     });
-
-    document.addEventListener('keyup', function(event){
-        switch(event.keyCode){
-            case 37:
-                pikachuBody.speed.x = 0;
-                break;
-            case 38:
-                pikachuBody.speed.y = 0;
-                break;
-            case 39:
-                pikachuBody.speed.x = 0;
-                break;
-            case 40:
-                pikachuBody.speed.y = 0;
-                break;
-            default:
-                break;
-        }
-
-    });
-    
-    function removeAccelerationHorizontal(physicalBody, gravity){
-        if(physicalBody.speed.x > 0){
-            physicalBody.speed.x -= gravity;
-            
-            if(physicalBody.speed.x < 0){
-                physicalBody.speed.x = 0;
-            }
-        }
-
-    }
-
-    function applyGravityVertical(physicalBody, gravity) {
-
-        if(physicalBody.coordinates.y === (HEIGHT - physicalBody.height)){
-            return;
-        }
-
-
-        if(physicalBody.coordinates.y >= (HEIGHT - physicalBody.height)){
-            physicalBody.coordinates.y = (HEIGHT - physicalBody.height);
-            physicalBody.speed.y = 0;
-            return;
-        }
-
-        physicalBody.speed.y += gravity;
-    }
-
 
     function gameLoop() {
         applyGravityVertical(pikachuBody, 0.05);
-        removeAccelerationHorizontal(pikachuBody, 0.1);
         var lastPikachuCoordinates = pikachuBody.move();
 
         pikachuSprite
                 .render(pikachuBody.coordinates, lastPikachuCoordinates)
                 .update();
 
-        pokeballSprite
-                .render({x: 50, y: 60 }, {x: 50, y: 60 })
-                .update();
+        
+        
+         var lastPokeballCoordinates = pokeballBody.move();
+
+         pokeballSprite
+         .render(pokeballBody.coordinates, lastPokeballCoordinates)
+         .update();
 
         window.requestAnimationFrame(gameLoop);
     }
