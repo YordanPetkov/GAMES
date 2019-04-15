@@ -38,7 +38,7 @@ window.onload = function(){
         loopTicksPerFrame: 5
     });
 
-    var speed = 2;
+    var speed = 3;
 
 
     document.addEventListener('keydown', function(event){
@@ -61,9 +61,58 @@ window.onload = function(){
         }
 
     });
+
+    document.addEventListener('keyup', function(event){
+        switch(event.keyCode){
+            case 37:
+                pikachuBody.speed.x = 0;
+                break;
+            case 38:
+                pikachuBody.speed.y = 0;
+                break;
+            case 39:
+                pikachuBody.speed.x = 0;
+                break;
+            case 40:
+                pikachuBody.speed.y = 0;
+                break;
+            default:
+                break;
+        }
+
+    });
     
+    function removeAccelerationHorizontal(physicalBody, gravity){
+        if(physicalBody.speed.x > 0){
+            physicalBody.speed.x -= gravity;
+            
+            if(physicalBody.speed.x < 0){
+                physicalBody.speed.x = 0;
+            }
+        }
+
+    }
+
+    function applyGravityVertical(physicalBody, gravity) {
+
+        if(physicalBody.coordinates.y === (HEIGHT - physicalBody.height)){
+            return;
+        }
+
+
+        if(physicalBody.coordinates.y >= (HEIGHT - physicalBody.height)){
+            physicalBody.coordinates.y = (HEIGHT - physicalBody.height);
+            physicalBody.speed.y = 0;
+            return;
+        }
+
+        physicalBody.speed.y += gravity;
+    }
+
+
     function gameLoop() {
-        
+        applyGravityVertical(pikachuBody, 0.05);
+        removeAccelerationHorizontal(pikachuBody, 0.1);
         var lastPikachuCoordinates = pikachuBody.move();
 
         pikachuSprite

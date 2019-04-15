@@ -5,11 +5,12 @@ function createSprite(options){
     function render(drawCoordinates, clearCoordinates) {
         //{x: num, y: num}
         var self = this;
+        var clearOffset = 5;
         self.context.clearRect(
-            clearCoordinates.x,
-            clearCoordinates.y,
-            self.width,
-            self.height
+            clearCoordinates.x - clearOffset,
+            clearCoordinates.y - clearOffset,
+            self.width + clearOffset * 2,
+            self.height + clearOffset * 2
         );
 
         self.context.drawImage(

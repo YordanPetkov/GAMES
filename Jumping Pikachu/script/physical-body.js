@@ -4,8 +4,8 @@ function createPhysicalBody(options){
     function move() {
         var self = this;
 
-        var lastCoordinates = JSON.parse(JSON.stringify(self.coordinates));
-        //var lastCoordinates = { x: self.coordinates.x, y: self.coordinates.y};
+        //var lastCoordinates = JSON.parse(JSON.stringify(self.coordinates));
+        var lastCoordinates = { x: self.coordinates.x, y: self.coordinates.y};
         self.coordinates.x += self.speed.x;
         self.coordinates.y += self.speed.y;
 
