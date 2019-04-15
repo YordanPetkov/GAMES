@@ -1,7 +1,7 @@
 
 "use strict";
 
-var currentLevel = 1;
+var currentLevel = 1,game;
 		
 const cellsize = 20,
 	  stepsToChangeMouth = 10,
@@ -33,7 +33,7 @@ levels = [{
 		"    *.*       *.*    ",
 		"    *.* ***** *.*    ",
 		"*****.* ***** *.*****",
-		"*......@..*.........*",
+		"*.........*.........*",
 		"*.***.***.*.***.***.*",
 		"*...*...........*...*",
 		"***.*.*.*****.*.*.***",
@@ -75,7 +75,7 @@ levels = [{
 		"*****.* *   * *.*****",
 		"......      *  ......",
 		"*****.* ***** *.*****",
-		"    *.*@      *.*    ",
+		"    *.*       *.*    ",
 		"    *.* ***** *.*    ",
 		"*****.* ***** *.*****",
 		"*.........*.........*",
@@ -103,7 +103,7 @@ levels = [{
 	"orangePath": [u,l,u,r,d,l,d,r,d,r,u,r,d,l,d,l,u,l,u,r,d,r,d,l,d,l,d,l,d,r,d],
 	"redPath": [l,d,l,d,l,d,l,u,r,u,l,u,r,d,l,u,l,d,r,d,l,u,r,u,l,d,r,d,r,d]
 }],
-ballChar = "@",
+ballChar = ".",
 wallChar = "*"; 
 
 function createGame(heroSelector, mazeSelector) {
@@ -235,9 +235,9 @@ function createGame(heroSelector, mazeSelector) {
 		steps = 0;
 		isMouthOpen = false;
 
-		pacman = {};
-		ghosts = {};
-
+		//pacman = {};
+		//ghosts = {};
+		//console.log(pacman);
 		pacman = {
 			"x" : levels[currentLevel].startPacmanX,
 			"y" : levels[currentLevel].startPacmanY,
@@ -298,6 +298,7 @@ function createGame(heroSelector, mazeSelector) {
 			}
 			
 		};
+
 		/*
 
 		pacman["x"] = levels[currentLevel].startPacmanX;
@@ -358,12 +359,16 @@ function createGame(heroSelector, mazeSelector) {
 		
 
 	function gameLoop() {
-		if(balls.length == 0){
+		/*if(balls.length == 0){
 			currentLevel = (currentLevel + 1) % levels.length;
 			RestartGame();
+			game = null;
+			game = createGame("#game-canvas", "#maze-canvas");
+			game.start();
+			//RestartGame();
 			//gameLoop();
 			//return;
-		}
+		}*/
 		const offset = 5;
 		ctxPacman.clearRect(pacman.x - offset, pacman.y - offset, pacman.size + offset*2, pacman.size + offset*2);
 		for(var ghost in ghosts){
@@ -763,7 +768,7 @@ function createGame(heroSelector, mazeSelector) {
 	
 	return {
 		"start" : function(){
-			RestartGame();
+			//RestartGame();
 			[balls, walls] = drawMazeAndGetBallsAndWalls(ctxMaze, levels[currentLevel].maze, cellsize);
 			gameLoop();
 			
