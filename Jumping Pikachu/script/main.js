@@ -1,9 +1,14 @@
 
 window.onload = function(){
-
+    const WIDTH = 768,
+          HEIGHT = WIDTH / 2;
+        
     var playerCanvas = document.getElementById("player-canvas"),
-    playerContex = playerCanvas.getContext("2d"),
-    playerImg = document.getElementById("pikachu-sprite");
+        playerContex = playerCanvas.getContext("2d"),
+        playerImg = document.getElementById("pikachu-sprite");
+
+    playerCanvas.width = WIDTH;
+    playerCanvas.height = HEIGHT;
 
     var pokeballImg = document.getElementById("pokeball-sprite");
 
@@ -33,8 +38,27 @@ window.onload = function(){
         loopTicksPerFrame: 5
     });
 
+    var speed = 2;
+
 
     document.addEventListener('keydown', function(event){
+
+        switch(event.keyCode){
+            case 37:
+                pikachuBody.speed.x = -speed;
+                break;
+            case 38:
+                pikachuBody.speed.y = -speed;
+                break;
+            case 39:
+                pikachuBody.speed.x = speed;
+                break;
+            case 40:
+                pikachuBody.speed.y = speed;
+                break;
+            default:
+                break;
+        }
 
     });
     
