@@ -749,6 +749,13 @@ function createGame(heroSelector, mazeSelector) {
 		];
 	}
 
+	var keyPressed = [
+		false,
+		false,
+		false,
+		false
+	];
+
 	document.body.addEventListener("keydown", function(){
 		//ev.keyCode - code of pressed key
 		event.preventDefault();
@@ -761,7 +768,7 @@ function createGame(heroSelector, mazeSelector) {
 		}
 		pacman.dir = keyCodeToDirs[event.keyCode];
 		pacman.speed = speed;
-		
+		keyPressed[keyCodeToDirs[event.keyCode]] = true;	
 	});
 
 	document.body.addEventListener("keyup", function(){
@@ -770,7 +777,14 @@ function createGame(heroSelector, mazeSelector) {
 		if(!keyCodeToDirs.hasOwnProperty(event.keyCode)){
 			return;
 		}
-		pacman.speed = 0;
+		else {
+			keyPressed[keyCodeToDirs[event.keyCode]] = false;
+			if(keyPressed[0] || keyPressed[1] || keyPressed[2] || keyPressed[3]) {
+				return;
+			}
+			pacman.speed = 0;
+		}
+		
 		
 		
 	});
