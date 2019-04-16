@@ -1,6 +1,6 @@
 
 window.onload = function(){
-    const WIDTH = 768,
+    const WIDTH = 512,
           HEIGHT = WIDTH / 2;
           
      var playerCanvas = document.getElementById("player-canvas"),
@@ -33,7 +33,7 @@ window.onload = function(){
     
     
 
-    var pikachuSprite = createSprite({
+    var pikachuRunningSprite = createSprite({
         spritesheet: playerImg,
         context: playerContex,
         width: playerImg.width / 4,
@@ -42,12 +42,22 @@ window.onload = function(){
         loopTicksPerFrame: 5
     });
 
+    var pikachuJumpingImg = document.getElementById("pikachu-jumping");
+    var pikachuJumpingSprite = createSprite({
+        spritesheet: pikachuJumpingImg,
+        context: playerContex,
+        width: pikachuJumpingImg.width / 2,
+        height: pikachuJumpingImg.height,
+        numberOfFrames: 2,
+        loopTicksPerFrame: 2
+    });
+
     var pikachuBody = createPhysicalBody({
-        defaultAcceleration: { x: 5, y: 5},
-        coordinates: { x: 10, y: HEIGHT - pikachuSprite.height },
+        defaultAcceleration: { x: 5, y: 15},
+        coordinates: { x: 10, y: HEIGHT - pikachuRunningSprite.height },
         speed: { x: 0, y: 0 },
-        height: pikachuSprite.height,
-        width: pikachuSprite.width
+        height: pikachuRunningSprite.height,
+        width: pikachuRunningSprite.width
     });
 
     document.addEventListener('keydown', function(event){
@@ -92,7 +102,7 @@ window.onload = function(){
     pokeballCanvas.width = WIDTH;
     pokeballCanvas.height = HEIGHT;
 
-    function createPokeBall(){
+    function createPokeBall(offsetX){
         var pokeballSprite = createSprite({
             spritesheet: pokeballImg,
             context: pokeballContex,
@@ -103,8 +113,8 @@ window.onload = function(){
         });
     
         var pokeballBody = createPhysicalBody({
-            coordinates: { x: WIDTH, y: HEIGHT - pokeballSprite.height},
-            speed: { x: -5, y: 0},
+            coordinates: { x: offsetX, y: HEIGHT - pokeballSprite.height},
+            speed: { x: -4, y: 0},
             height: pokeballSprite.height,
             width: pokeballSprite.width
         });
@@ -117,14 +127,46 @@ window.onload = function(){
 
     var pokeballs = [];
 
+    function spawnPokeball() {
+        var spawnChance = 0.02,
+            spawnOffset = 150;
+        if(Math.random() < spawnChance){
+            if(pokeballs.length){
+                var lastPokeball = pokeballs[pokeballs.length - 1];
+                var starting = Math.max(lastPokeball.body.coordinates.x + lastPokeball.body.width + spawnOffset, WIDTH);
+                var newPokeball = createPokeBall(starting);
+                pokeballs.push(newPokeball);
+                
+            }
+            else {
+                pokeballs.push(createPokeBall(WIDTH));
+            }
+            
+        }
+    }
+
+    var background = createBackground({
+        height: HEIGHT,
+        width: WIDTH,
+        speedX: 10
+    });
+
+    var currentPikachuSprite = pikachuRunningSprite;
     function gameLoop() {
         var lastPikachuCoordinates;
 
 
-        applyGravityVertical(pikachuBody, 0.1);
+        applyGravityVertical(pikachuBody, 1);
         lastPikachuCoordinates = pikachuBody.move();
 
-        pikachuSprite
+        if((pikachuBody.coordinates.y + pikachuBody.height) < HEIGHT){
+            currentPikachuSprite = pikachuJumpingSprite;
+        }
+        else {
+            currentPikachuSprite = pikachuRunningSprite;
+        }
+
+        currentPikachuSprite
                 .render(pikachuBody.coordinates, lastPikachuCoordinates)
                 .update();
 
@@ -150,13 +192,15 @@ window.onload = function(){
                    0,
                    0
                );
+               document.getElementById("game-over-song").play();
                return;
            }
         }
 
-        if(Math.random() < 0.01){
-            pokeballs.push(createPokeBall());
-        }
+        spawnPokeball();
+
+        background.render();
+        background.update();
 
         window.requestAnimationFrame(gameLoop);
     }
