@@ -1,7 +1,7 @@
 
 "use strict";
 
-var currentLevel = 1,game;
+var currentLevel = 0,game;
 		
 const cellsize = 20,
 	  stepsToChangeMouth = 10,
@@ -23,8 +23,8 @@ levels = [{
 		"*...................*",
 		"*.***.*.*****.*.***.*",
 		"*.***.*.*****.*.***.*",
-		"*.....*...*...*.....*",
-		"*****.*** * ***.*****",
+		"*.....*... ...*.....*",
+		"*****.***   ***.*****",
 		"    *.*       *.*    ",
 		"    *.* ** ** *.*    ",
 		"*****.* *   * *.*****",
@@ -53,9 +53,13 @@ levels = [{
 	"startPurpleY" : 13*cellsize + 2,
 	"startRedX" : 10*cellsize + 2,
 	"startRedY" : 12*cellsize + 2,
-	"bluePath": [3,0,],
+	"blueStartDir" : u,
+	"orangeStartDir" : u,
+	"purpleStartDir" : u,
+	"redStartDir" : u,
+	"bluePath": [u,l,d,r,l,r,d,u,l,r,d,l,r,l,d,u,l,u,r,d,l,d,r,d,u,l,r,u,d],
 	"purplePath": [3,0,2,3,3,2,1,2,1,0,1,2,1,0,1,3,0,2,1,3,0,2,1,3],
-	"orangePath": [3,0,2,3,3,2,1,0,1,0,1,2,1,0,1,0,2,3,1],
+	"orangePath": [u,r,u,r,d,l,d,l,u,l,u,r,u,l,d,l,u],
 	"redPath": [3,0,2,3,3,0,3,1,2,0,1,2,1,0,2,1,2,0,1]
 },
 {
@@ -98,6 +102,10 @@ levels = [{
 	"startPurpleY" : 13*cellsize + 2,
 	"startRedX" : 10*cellsize + 2,
 	"startRedY" : 13*cellsize + 2,
+	"blueStartDir" : u,
+	"orangeStartDir" : u,
+	"purpleStartDir" : l,
+	"redStartDir" : l,
 	"bluePath": [u,r,u,l,d,l,d,r,d,l,d,r,d,l,d,r,d,l,u,r,u,l,u,r,d,l,u,r,d,l,d],
 	"purplePath": [l,d,r,u,l,u,r,d,l,d,r,d,l,u,r,u,l,u,r,d,l,u,l,d,l,d,l,u,l,u,r,d],
 	"orangePath": [u,l,u,r,d,l,d,r,d,r,u,r,d,l,d,l,u,l,u,r,d,r,d,l,d,l,d,l,d,r,d],
@@ -128,7 +136,7 @@ function createGame(heroSelector, mazeSelector) {
 				"size" : herosize,
 				"speed": speed,
 				"file": document.getElementById("blueGhostImage"),
-				"dir": 3,
+				"dir": levels[currentLevel].blueStartDir,
 				"dirPathIndex": 0,
 				"path": levels[currentLevel].bluePath
 
@@ -141,7 +149,7 @@ function createGame(heroSelector, mazeSelector) {
 				"size" : herosize,
 				"speed": speed,
 				"file": document.getElementById("orangeGhostImage"),
-				"dir": 3,
+				"dir": levels[currentLevel].orangeStartDir,
 				"dirPathIndex": 0,
 				"path": levels[currentLevel].orangePath
 			},
@@ -153,7 +161,7 @@ function createGame(heroSelector, mazeSelector) {
 				"size" : herosize,
 				"speed": speed,
 				"file": document.getElementById("purpleGhostImage"),
-				"dir": 2,
+				"dir": levels[currentLevel].purpleStartDir,
 				"dirPathIndex": 0,
 				"path": levels[currentLevel].purplePath
 			},
@@ -165,7 +173,7 @@ function createGame(heroSelector, mazeSelector) {
 				"size" : herosize,
 				"speed": speed,
 				"file": document.getElementById("redGhostImage"),
-				"dir": 2,
+				"dir": levels[currentLevel].redStartDir,
 				"dirPathIndex": 0,
 				"path": levels[currentLevel].redPath
 			}
@@ -220,9 +228,9 @@ function createGame(heroSelector, mazeSelector) {
 		ctxMaze.clearRect(0, 0, mazeCanvas.width, mazeCanvas.height);
 		ctxPacman.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
 		ctxGhost.clearRect(0, 0, heroCanvas.width, heroCanvas.height);
-		ctxMaze.beginPath();
-		ctxPacman.beginPath();
-		ctxGhost.beginPath();
+		//ctxMaze.beginPath();
+		//ctxPacman.beginPath();
+		//ctxGhost.beginPath();
 
 		columns = levels[currentLevel].maze[0].length;
 		rows = levels[currentLevel].maze.length;
@@ -235,77 +243,11 @@ function createGame(heroSelector, mazeSelector) {
 		steps = 0;
 		isMouthOpen = false;
 
-		//pacman = {};
-		//ghosts = {};
-		//console.log(pacman);
-		pacman = {
-			"x" : levels[currentLevel].startPacmanX,
-			"y" : levels[currentLevel].startPacmanY,
-			"size" : herosize,
-			"speed": 0,
-			"dir": 0
-		};
-
-		ghosts = {
-			"blue" : {
-				"x" : levels[currentLevel].startBlueX,
-				"y" : levels[currentLevel].startBlueY,
-				"lastX": levels[currentLevel].startBlueX,
-				"lastY": levels[currentLevel].startBlueY,
-				"size" : herosize,
-				"speed": 1,
-				"file": document.getElementById("blueGhostImage"),
-				"dir": 3,
-				"dirPathIndex": 0,
-				"path": levels[currentLevel].bluePath
-
-			},
-			"orange" : {
-				"x" : levels[currentLevel].startOrangeX,
-				"y" : levels[currentLevel].startOrangeY,
-				"lastX": levels[currentLevel].startOrangeX,
-				"lastY": levels[currentLevel].startOrangeY,
-				"size" : herosize,
-				"speed": 1,
-				"file": document.getElementById("orangeGhostImage"),
-				"dir": 3,
-				"dirPathIndex": 0,
-				"path": levels[currentLevel].orangePath
-			},
-			"purple" : {
-				"x" : levels[currentLevel].startPurpleX,
-				"y" : levels[currentLevel].startPurpleY,
-				"lastX": levels[currentLevel].startPurpleX,
-				"lastY": levels[currentLevel].startPurpleY,
-				"size" : herosize,
-				"speed": 1,
-				"file": document.getElementById("purpleGhostImage"),
-				"dir": 2,
-				"dirPathIndex": 0,
-				"path": levels[currentLevel].purplePath
-			},
-			"red" : {
-				"x" : levels[currentLevel].startRedX,
-				"y" : levels[currentLevel].startRedY,
-				"lastX": levels[currentLevel].startRedX,
-				"lastY": levels[currentLevel].startRedY,
-				"size" : herosize,
-				"speed": 1,
-				"file": document.getElementById("redGhostImage"),
-				"dir": 2,
-				"dirPathIndex": 0,
-				"path": levels[currentLevel].redPath
-			}
-			
-		};
-
-		/*
-
-		pacman["x"] = levels[currentLevel].startPacmanX;
-		pacman["y"] = levels[currentLevel].startPacmanY;
-		pacman["size"] = herosize;
-		pacman["speed"] = 1;
-		pacman["dir"] = 0;
+		pacman.x = levels[currentLevel].startPacmanX;
+		pacman.y = levels[currentLevel].startPacmanY;
+		pacman.size = herosize;
+		pacman.speed = 0;
+		pacman.dir = 0;
 
 
 		ghosts["blue"].x = levels[currentLevel].startBlueX;
@@ -351,24 +293,18 @@ function createGame(heroSelector, mazeSelector) {
 		ghosts["red"].dir = 2;
 		ghosts["red"].dirPathIndex = 0;
 		ghosts["red"].path = levels[currentLevel].redPath;
-
-		*/
+		
 		
 	}
 
 		
 
 	function gameLoop() {
-		/*if(balls.length == 0){
+		if(balls.length == 0){
 			currentLevel = (currentLevel + 1) % levels.length;
 			RestartGame();
-			game = null;
-			game = createGame("#game-canvas", "#maze-canvas");
-			game.start();
-			//RestartGame();
-			//gameLoop();
-			//return;
-		}*/
+			
+		}
 		const offset = 5;
 		ctxPacman.clearRect(pacman.x - offset, pacman.y - offset, pacman.size + offset*2, pacman.size + offset*2);
 		for(var ghost in ghosts){
