@@ -26,11 +26,23 @@ function createPhysicalBody(options){
 
     var physicalBody = {
         coordinates: options.coordinates,
-        speed: options.speed,
+        defaultAcceleration: options.defaultAcceleration,
+        speed: options.speed || { x: 0, y: 0},
         height: options.height,
         width: options.width,
         radius: (options.width + options.height) / 4,
         move: move,
+        accelerate: function(axis, direction) {
+            var dir;
+            if(direction === "up" || direction === "left"){
+                dir = -1;
+            }
+            else {
+                dir = 1;
+            }
+
+            this.speed[axis] += this.defaultAcceleration[axis] * dir;
+        },
         collidesWith: collidesWith
     };
 
