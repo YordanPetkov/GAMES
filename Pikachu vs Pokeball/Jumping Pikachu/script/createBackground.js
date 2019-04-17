@@ -1,19 +1,42 @@
 function createBackground(options){
 
     function render() {
-        
+        let walls = [],
+            quests = [],
+            obj,
+            ctx = this.context,
+            imgWall = this.backgroundSheets["wall"],
+            imgQuest = this.backgroundSheets["quest"],
+            size = this.size;
+
         for(let i = 0; i < this.matrix[0].length; i++){
             for(let j = 0; j < this.matrix[0][i].length; j++){ 
-                if(this.matrix[this.indexOfFrame][i][j] == wallChar){
-                    this.context.drawImage(this.backgroundSheets["wall"], j * this.size, i * this.size, this.size, this.size);
-                }else if(this.matrix[this.indexOfFrame][i][j] == questChar){
-                    this.context.drawImage(this.backgroundSheets["quest"], j * this.size, i * this.size, this.size, this.size);
+                let cell = this.matrix[this.indexOfFrame][i][j];
+                if(cell === wallChar){
+                    obj = {
+                        x: j * this.size,
+                        y: i * this.size,
+                        size: size
+                    };
+                    walls.push(obj);
+                    ctx.drawImage(imgWall, obj.x, obj.y, size, size);
+
+                }else if(cell === questChar){
+                    obj = {
+                        x: j * this.size,
+                        y: i * this.size,
+                        size: size
+                    };
+                    quests.push(obj);
+                    ctx.drawImage(imgQuest, obj.x, obj.y, size, size);
+
                 }else {
+
                     continue;
                 }
             }
         }
-        return this;
+        return [walls, quests];
     }
 
     var background = {
