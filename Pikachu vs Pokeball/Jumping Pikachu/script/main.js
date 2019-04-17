@@ -1,15 +1,82 @@
-const WIDTH = 650,
-          HEIGHT = 550
+const WIDTH = 640,
+          HEIGHT = 520
           playerWidth = 40,
           playerHeight = 40;
 
+const wallChar = "#",
+      questChar = "?";
 
+const map = [
+    [
+        "                ",
+        "## ?#### ?##?? #",
+        "                ",
+        "## ?#### ?##?? #",
+        "                ",
+        "## ?#### ?##?? #",
+        "                ",
+        "## ?#### ?##?? #",
+        "                ",
+        "## ?#### ?##?? #",
+        "                ",
+        "## ?#### ?##?? #",
+        "                ",
+    ],
+    [
+        "                ",
+        "## ?#### ?##?? #",
+        "                ",
+        "                ",
+        "## ?#### ?##?? #",
+        "                ",
+        "                ",
+        "## ?#### ?##?? #",
+        "                ",
+        "                ",
+        "## ?#### ?##?? #",
+        "                ",
+        "                ",
+    ]
+];
+console.log(map.length);
+console.log(map[0].length);
+console.log(map[0][1].length);
 window.onload = function(){
     
      var pikachuBackgroundCanvas = document.getElementById("pikachu-game-background"),
          pikachuBackgroundContex = pikachuBackgroundCanvas.getContext("2d");
          pikachuBackgroundCanvas.width = WIDTH;
          pikachuBackgroundCanvas.height = HEIGHT;
+     var pokeballBackgroundCanvas = document.getElementById("pokeball-game-background"),
+         pokeballBackgroundContex = pokeballBackgroundCanvas.getContext("2d");
+         pokeballBackgroundCanvas.width = WIDTH;
+         pokeballBackgroundCanvas.height = HEIGHT;
+
+    var pokeWall = document.getElementById("pokewall"),
+        pikaWall = document.getElementById("pikawall"),
+        questWall = document.getElementById("questwall");
+
+     var pokeballBackground = createBackground({
+        matrix: map,
+        context: pokeballBackgroundContex,
+        backgroundSheets: {
+            "wall": pokeWall,
+            "quest": questWall
+        },
+        size: playerHeight,
+        indexOfFrame: map.length - 1
+    });
+
+    var pikachuBackground = createBackground({
+        matrix: map,
+        context: pikachuBackgroundContex,
+        backgroundSheets: {
+            "wall": pikaWall,
+            "quest": questWall
+        },
+        size: playerHeight,
+        indexOfFrame: map.length - 1
+    }); 
 
      var playerCanvas = document.getElementById("pikachu-canvas"),
           playerContex = playerCanvas.getContext("2d"),
@@ -48,17 +115,12 @@ window.onload = function(){
     });
 
     var pikachuBody = createPhysicalBody({
-        defaultAcceleration: { x: 5, y: 15},
+        defaultAcceleration: { x: 5, y: 17},
         coordinates: { x: 10, y: HEIGHT - pikachuRunningSprite.height },
         speed: { x: 0, y: 0 },
         height: playerHeight,
         width: playerHeight
     });
-
-    var pokeballBackgroundCanvas = document.getElementById("pokeball-game-background"),
-        pokeballBackgroundContex = pokeballBackgroundCanvas.getContext("2d");
-        pokeballBackgroundCanvas.width = WIDTH;
-        pokeballBackgroundCanvas.height = HEIGHT;
 
     var pokeballCanvas = document.getElementById("pokeball-canvas"),
         pokeballContex = pokeballCanvas.getContext("2d"),
@@ -86,7 +148,7 @@ window.onload = function(){
         });
     
         var pokeballBody = createPhysicalBody({
-            defaultAcceleration: { x: 5, y: 15},
+            defaultAcceleration: { x: 5, y: 17},
             coordinates: { x: 10, y: HEIGHT - pokeballSprite.height },
             speed: { x: 0, y: 0 },
             height: playerHeight,
@@ -199,7 +261,7 @@ window.onload = function(){
         }
 
 
-
+        
         //drawBackground();
         updatePlayer(pikachuBody,currentPikachuSprite);
         updatePlayer(pokeballBody,currentPokeballSprite);
@@ -237,7 +299,8 @@ window.onload = function(){
         window.requestAnimationFrame(gameLoop);
     }
 
-
+    pikachuBackground.render();
+        pokeballBackground.render();
     gameLoop();
 
 }
