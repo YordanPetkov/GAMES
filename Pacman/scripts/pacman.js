@@ -4,6 +4,7 @@
 var currentLevel = 1,game;
 var heroCanvas,
 	mazeCanvas,
+	scoreCanvas,
 	ctxPacman,
 	ctxGhost,
 	ctxMaze;
@@ -16,7 +17,10 @@ const cellsize = 20,
 var herosize = cellsize/4*3;
 var speed = 1,
 steps = 0,
-isMouthOpen = false;
+isMouthOpen = false,
+gameScore = 0,
+deadCouns = 0,
+pointsPerBall = 10;
 
 const 
 levels = [{
@@ -36,7 +40,7 @@ levels = [{
 		"*****.* *   * *.*****",
 		"......  *   *  ......",
 		"*****.* ***** *.*****",
-		"    *.*@      *.*    ",
+		"    *.*       *.*    ",
 		"    *.* ***** *.*    ",
 		"*****.* ***** *.*****",
 		"*.........*.........*",
@@ -81,7 +85,7 @@ levels = [{
 		"*****.* *   * *.*****",
 		"......      *  ......",
 		"*****.* ***** *.*****",
-		"    *.* @     *.*    ",
+		"    *.*       *.*    ",
 		"    *.* ***** *.*    ",
 		"*****.* ***** *.*****",
 		"*.........*.........*",
@@ -109,7 +113,7 @@ levels = [{
 	"orangePath": [u,l,u,r,d,l,d,r,d,r,u,r,d,l,d,l,u,l,u,r,d,r,d,l,d,l,d,l,d,r,d],
 	"redPath": [l,d,l,d,l,d,l,u,r,u,l,u,r,d,l,u,l,d,r,d,l,u,r,u,l,d,r,d,r,d]
 }],
-ballChar = "@",
+ballChar = ".",
 wallChar = "*",
 dirDeltas = [
 	{
@@ -229,6 +233,7 @@ function createGame(heroSelector, mazeSelector) {
 	function gameLoop() {
 		if(balls.length == 0){
 			currentLevel = (currentLevel + 1) % levels.length;
+			deadCouns = 0;
 			RestartGame();
 			//console.log(3);
 			return;
@@ -247,9 +252,7 @@ function createGame(heroSelector, mazeSelector) {
 		ctxPacman.clearRect(ghosts.red.x - offset, ghosts.red.y - offset, ghosts.red.size + offset*2, ghosts.red.size + offset*2);
 		*/
 
-		drawPacman();
-		checkGhostCollidings();
-		drawGhosts();
+		draw();
 		
 
 
@@ -266,6 +269,7 @@ function createGame(heroSelector, mazeSelector) {
 			const offset = 2;
 			if(areCollinding(pacman,ball)){
 				ctxMaze.clearRect(ball.x - offset, ball.y - offset,ball.size + offset*2,ball.size + offset*2);
+				gameScore += pointsPerBall;
 				balls.splice(index, 1);
 				
 			}
@@ -276,7 +280,7 @@ function createGame(heroSelector, mazeSelector) {
 			"size": pacman.size
 		};		
 
-		if(isPacmanCollidingWithGhost(pacman)){RestartGame();return;}
+		if(isPacmanCollidingWithGhost(pacman)){deadCouns += 1;RestartGame();return;}
 
 		if(!isObjectCollidingWithWall(futurePosition)){// && !isPacmanCollidingWithGhost(futurePosition)
 			

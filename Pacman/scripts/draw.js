@@ -47,6 +47,32 @@ function drawGhosts(){
     
 }
 
+function drawScore(){
+    scoreCanvas = document.getElementById("score-canvas");
+    var ctxScore = scoreCanvas.getContext("2d");
+    scoreCanvas.width = columns  * cellsize;
+    scoreCanvas.height = 300;
+    ctxScore.font = "30px Arial";
+    ctxScore.fillText(`
+    Score : ${gameScore}`,
+    10,
+    50);
+
+    ctxScore.fillText(`
+    Deaths : ${deadCouns}`,
+    10,
+    100);
+        
+    
+}
+
+function draw(){
+        drawPacman();
+		checkGhostCollidings();
+        drawGhosts();
+        drawScore();
+}
+
 
 
 function drawMazeAndGetBallsAndWalls(ctx, maze, cellSize){

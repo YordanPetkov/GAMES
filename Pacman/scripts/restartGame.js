@@ -88,7 +88,7 @@ function RestartGame(){
     ghosts["red"].dir = 2;
     ghosts["red"].dirPathIndex = 0;
     ghosts["red"].path = levels[currentLevel].redPath;
-
+    gameScore = 0;
     console.log(ghosts["red"]);
     game.start();
     

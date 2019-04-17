@@ -11,11 +11,13 @@ canvas {
 	position: relative;
 }
 
+
 #game-container .pacman-canvas{
 	position: absolute;
 	left: 0;
 	top: 0;
 }
+
 
 #game-canvas {
 	z-index: 100;
