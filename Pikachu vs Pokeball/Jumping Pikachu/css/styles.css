@@ -1,17 +1,33 @@
 canvas {
     border: 2px solid black;
+    width: 48%;
 }
 
-#player-canvas {
-    z-index : 10;
-    
+.game-container1{
+    position: relative;
 }
 
-#pokeball-canvas {
-    z-index : 5;
-    float: left;
+.game-container2{
+    position: relative;
 }
 
+.game-canvas{
+    position: absolute;
+    left: 0;
+}
+
+.game2-canvas{
+    position: absolute;
+    right: 0;
+}
+
+#pokeball-canvas , #pikachu-canvas {
+    z-index: 5;
+}
+
+.background {
+    z-index: 1;
+}
 
 .sprite-image {
     display: none;

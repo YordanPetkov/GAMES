@@ -9,8 +9,8 @@ function createSprite(options){
         self.context.clearRect(
             clearCoordinates.x - clearOffset,
             clearCoordinates.y - clearOffset,
-            self.width + clearOffset * 2,
-            self.height + clearOffset * 2
+            playerWidth + clearOffset * 2,
+            playerHeight + clearOffset * 2
         );
 
         self.context.drawImage(
@@ -21,8 +21,8 @@ function createSprite(options){
             self.height,
             drawCoordinates.x,
             drawCoordinates.y,
-            self.width,
-            self.height
+            playerWidth,
+            playerHeight
         );
         return self;
     }

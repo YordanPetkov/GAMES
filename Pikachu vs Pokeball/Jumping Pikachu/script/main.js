@@ -1,11 +1,17 @@
-const WIDTH = 612,
-          HEIGHT = 512;
+const WIDTH = 650,
+          HEIGHT = 550
+          playerWidth = 40,
+          playerHeight = 40;
 
 
 window.onload = function(){
     
-          
-     var playerCanvas = document.getElementById("player-canvas"),
+     var pikachuBackgroundCanvas = document.getElementById("pikachu-game-background"),
+         pikachuBackgroundContex = pikachuBackgroundCanvas.getContext("2d");
+         pikachuBackgroundCanvas.width = WIDTH;
+         pikachuBackgroundCanvas.height = HEIGHT;
+
+     var playerCanvas = document.getElementById("pikachu-canvas"),
           playerContex = playerCanvas.getContext("2d"),
           playerImg = document.getElementById("pikachu-sprite");
 
@@ -45,11 +51,14 @@ window.onload = function(){
         defaultAcceleration: { x: 5, y: 15},
         coordinates: { x: 10, y: HEIGHT - pikachuRunningSprite.height },
         speed: { x: 0, y: 0 },
-        height: pikachuRunningSprite.height,
-        width: pikachuRunningSprite.width
+        height: playerHeight,
+        width: playerHeight
     });
 
-    
+    var pokeballBackgroundCanvas = document.getElementById("pokeball-game-background"),
+        pokeballBackgroundContex = pokeballBackgroundCanvas.getContext("2d");
+        pokeballBackgroundCanvas.width = WIDTH;
+        pokeballBackgroundCanvas.height = HEIGHT;
 
     var pokeballCanvas = document.getElementById("pokeball-canvas"),
         pokeballContex = pokeballCanvas.getContext("2d"),
@@ -80,8 +89,8 @@ window.onload = function(){
             defaultAcceleration: { x: 5, y: 15},
             coordinates: { x: 10, y: HEIGHT - pokeballSprite.height },
             speed: { x: 0, y: 0 },
-            height: pokeballSprite.height,
-            width: pokeballSprite.width
+            height: playerHeight,
+            width: playerWidth
         });
 
 
@@ -188,7 +197,10 @@ window.onload = function(){
 
             lastPokeballSprite = pokeballSprite;
         }
-        
+
+
+
+        //drawBackground();
         updatePlayer(pikachuBody,currentPikachuSprite);
         updatePlayer(pokeballBody,currentPokeballSprite);
         
