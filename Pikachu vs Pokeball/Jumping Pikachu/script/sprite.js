@@ -12,7 +12,7 @@ function createSprite(options){
             self.width + clearOffset * 2,
             self.height + clearOffset * 2
         );
-        
+
         self.context.drawImage(
             self.spritesheet,
             self.frameIndex * self.width,
@@ -51,7 +51,7 @@ function createSprite(options){
         height: options.height, // height of single sprite
         numberOfFrames: options.numberOfFrames,
         loopTicksPerFrame: options.loopTicksPerFrame,
-        frameIndex: 0,
+        frameIndex: options.frameIndex || 0,
         loopTicksCount: 0,
         render: render,
         update: update

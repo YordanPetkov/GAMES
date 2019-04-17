@@ -1,5 +1,5 @@
-const WIDTH = 512,
-          HEIGHT = WIDTH / 2;
+const WIDTH = 612,
+          HEIGHT = 512;
 
 
 window.onload = function(){
@@ -29,7 +29,7 @@ window.onload = function(){
         width: pikachuJumpingImg.width / 2,
         height: pikachuJumpingImg.height,
         numberOfFrames: 2,
-        loopTicksPerFrame: 2
+        loopTicksPerFrame: 1
     });
 
     var pikachuStayingSprite = createSprite({
@@ -65,6 +65,15 @@ window.onload = function(){
             height: pokeballImg.height,
             numberOfFrames: 18,
             loopTicksPerFrame: 5
+        });
+
+        var pokeballStayingSprite = createSprite({
+            spritesheet: pokeballImg,
+            context: pokeballContex,
+            width: pokeballImg.width / 18,
+            height: pokeballImg.height,
+            numberOfFrames: 1,
+            loopTicksPerFrame: 1
         });
     
         var pokeballBody = createPhysicalBody({
@@ -140,20 +149,48 @@ window.onload = function(){
     });
 
     var currentPikachuSprite = pikachuRunningSprite;
+    var currentPokeballSprite = pokeballSprite;
+    var lastPokeballSprite = pokeballSprite;
+    var lastPokeballFrameIndex = 0;
 
     function gameLoop() {
         var lastPikachuCoordinates;
         var lastPokeballCoordinates;
-
+        
+       if(currentPokeballSprite == pokeballSprite) lastPokeballFrameIndex = currentPokeballSprite.frameIndex;
+        
         if((pikachuBody.coordinates.y + pikachuBody.height) < HEIGHT){
             currentPikachuSprite = pikachuJumpingSprite;
+        }
+        else if(pikachuBody.speed.x === 0){
+            currentPikachuSprite = pikachuStayingSprite;
         }
         else {
             currentPikachuSprite = pikachuRunningSprite;
         }
 
+        if(pokeballBody.speed.x === 0){
+            pokeballStayingSprite.frameIndex = lastPokeballFrameIndex;
+            currentPokeballSprite = pokeballStayingSprite;
+            lastPokeballSprite = pokeballStayingSprite;
+
+        }else {
+            if(lastPokeballSprite == pokeballStayingSprite){
+                if(lastPokeballFrameIndex >= pokeballSprite.numberOfFrames){
+                    lastPokeballFrameIndex = 0;
+                }else {
+                    lastPokeballFrameIndex += 1;
+                }
+            }
+            
+            pokeballSprite.frameIndex = lastPokeballFrameIndex;
+            currentPokeballSprite = pokeballSprite;
+
+            lastPokeballSprite = pokeballSprite;
+        }
+        
         updatePlayer(pikachuBody,currentPikachuSprite);
-        updatePlayer(pokeballBody,pokeballSprite);
+        updatePlayer(pokeballBody,currentPokeballSprite);
         
 
         /* for (var i = 0; i < pokeballs.length; i += 1){
