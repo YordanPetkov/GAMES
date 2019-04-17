@@ -11,6 +11,9 @@ function applyGravityVertical(physicalBody, gravity) {
         return;
     }
 
+    
+    
+
     physicalBody.speed.y += gravity;
 }
 
@@ -24,6 +27,7 @@ function updatePlayer(objectBody, currentSprite){
 
         if(objectBody.coordinates.y < 0)objectBody.coordinates.x = 0;
         if(objectBody.coordinates.y > (WIDTH - objectBody.width))objectBody.coordinates.x = WIDTH - objectBody.width;
+
 
         currentSprite
                 .render(objectBody.coordinates, lastObjectCoordinates)

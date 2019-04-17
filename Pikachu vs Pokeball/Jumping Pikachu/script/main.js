@@ -38,9 +38,7 @@ const map = [
         "                ",
     ]
 ];
-console.log(map.length);
-console.log(map[0].length);
-console.log(map[0][1].length);
+
 window.onload = function(){
     
      var pikachuBackgroundCanvas = document.getElementById("pikachu-game-background"),
@@ -52,16 +50,16 @@ window.onload = function(){
          pokeballBackgroundCanvas.width = WIDTH;
          pokeballBackgroundCanvas.height = HEIGHT;
 
-    var pokeWall = document.getElementById("pokewall"),
-        pikaWall = document.getElementById("pikawall"),
-        questWall = document.getElementById("questwall");
+    var pokeWallImg = document.getElementById("pokewall"),
+        pikaWallImg = document.getElementById("pikawall"),
+        questWallImg = document.getElementById("questwall");
 
      var pokeballBackground = createBackground({
         matrix: map,
         context: pokeballBackgroundContex,
         backgroundSheets: {
-            "wall": pokeWall,
-            "quest": questWall
+            "wall": pokeWallImg,
+            "quest": questWallImg
         },
         size: playerHeight,
         indexOfFrame: map.length - 1
@@ -71,8 +69,8 @@ window.onload = function(){
         matrix: map,
         context: pikachuBackgroundContex,
         backgroundSheets: {
-            "wall": pikaWall,
-            "quest": questWall
+            "wall": pikaWallImg,
+            "quest": questWallImg
         },
         size: playerHeight,
         indexOfFrame: map.length - 1
@@ -224,6 +222,11 @@ window.onload = function(){
     var lastPokeballSprite = pokeballSprite;
     var lastPokeballFrameIndex = 0;
 
+    var pokeQuests = [],
+        pokeWalls = [],
+        pikaWalls = [],
+        pikaQuests = [];
+
     function gameLoop() {
         var lastPikachuCoordinates;
         var lastPokeballCoordinates;
@@ -299,8 +302,8 @@ window.onload = function(){
         window.requestAnimationFrame(gameLoop);
     }
 
-    pikachuBackground.render();
-        pokeballBackground.render();
+    [pikaWalls, pikaQuests] = pikachuBackground.render();
+    [pokeWalls, pokeQuests] = pokeballBackground.render();
     gameLoop();
 
 }
