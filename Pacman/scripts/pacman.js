@@ -231,7 +231,7 @@ function createGame(heroSelector, mazeSelector) {
 			currentLevel = (currentLevel + 1) % levels.length;
 			RestartGame();
 			//console.log(3);
-			//return;
+			return;
 		}
 		const offset = 5;
 		ctxPacman.clearRect(pacman.x - offset, pacman.y - offset, pacman.size + offset*2, pacman.size + offset*2);
