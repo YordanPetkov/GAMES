@@ -63,7 +63,7 @@ levels = [{
 	"startPurpleY" : 13*cellsize + 2,
 	"startRedX" : 10*cellsize + 2,
 	"startRedY" : 12*cellsize + 2,
-	"bluePath": [3,0,],
+	"bluePath": [3,0,3,1,2,1,3,0,2,1,0,3,1,0,1,2,3,0],
 	"purplePath": [3,0,2,3,3,2,1,2,1,0,1,2,1,0,1,3,0,2,1,3,0,2,1,3],
 	"orangePath": [3,0,2,3,3,2,1,0,1,0,1,2,1,0,1,0,2,3,1],
 	"redPath": [3,0,2,3,3,0,3,1,2,0,1,2,1,0,2,1,2,0,1]
