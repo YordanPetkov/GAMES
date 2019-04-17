@@ -1,0 +1,20 @@
+canvas {
+    border: 2px solid black;
+}
+
+#player-canvas {
+    z-index : 10;
+    float: left;
+}
+
+#pokeball-canvas {
+    z-index : 5;
+    
+}
+
+
+
+.sprite-image {
+    display: none;
+}
+
