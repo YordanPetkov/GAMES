@@ -4,7 +4,6 @@
         <meta charset="UTF-8">
         <title>Page title</title>
         <link rel="stylesheet" href="css/pacman.css">
-		<script type="text/javascript" src="scripts/pacman.js"></script>
     </head>
     <body>
     <!-- your content will go there..  -->
@@ -21,7 +20,12 @@
         <img id="purpleGhostImage" src="img/purpleG.jpg" />   
         <img id="redGhostImage" src="img/redG.jpg" />    
     </div>
-
+    <script type="text/javascript" src="scripts/pacman.js"></script>
+    <script type="text/javascript" src="scripts/draw.js"></script>
+    <script type="text/javascript" src="scripts/collidings.js"></script>
+    <script type="text/javascript" src="scripts/updatePosition.js"></script>
+    <script type="text/javascript" src="scripts/restartGame.js"></script>
+    <script type="text/javascript" src="scripts/events.js"></script>
 
 
     
@@ -34,11 +38,6 @@
            lives--;
         }        
       }
-
-      function restartGame(){
-          gameover = "inProgress";
-          //if(gameover == "Lose")document.getElementById("restart").style.display = "none";
-        }
     </script>
     
     </body>
