@@ -8,7 +8,7 @@ const WIDTH = 640,
           offSetCollidingPikachu = 3,
           offSetCollidingPokeball = 2,
           gameInProgress = false;
-var startTime;
+var startTime,deltaTime = 0,timeInPause = 0;
 
 
 const wallChar = "#",
@@ -267,13 +267,34 @@ window.onload = function(){
 
   
     document.addEventListener('keydown', function(event){
-            if(event.keyCode == 32){
-                gameInProgress = true;
+            if(event.keyCode == 27){
+                gameInProgress = false;
+                //if(timeInPause == 0)timeInPause = new Date.getTime();
                 startGamePikachuContext.clearRect(0,0,WIDTH,HEIGHT);
                 startGamePokeballContext.clearRect(0,0,WIDTH,HEIGHT);
                 pikachuBackground.render();
                 pokeballBackground.render();
-                startTime = new Date().getTime();
+                var text = "Press SPACE to continue!";
+                
+                var textLenght = text.length;
+                startGamePikachuContext.font = "30px Arial";
+                startGamePikachuContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15);
+
+                startGamePokeballContext.font = "30px Arial";
+                startGamePokeballContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15);
+                return;
+            }
+
+            if(event.keyCode == 32){
+                gameInProgress = true;
+                /* var timeNow = Date.getTime();
+                deltaTime += (timeNow - timeInPause);
+                timeInPause = 0; */
+                startGamePikachuContext.clearRect(0,0,WIDTH,HEIGHT);
+                startGamePokeballContext.clearRect(0,0,WIDTH,HEIGHT);
+                pikachuBackground.render();
+                pokeballBackground.render();
+                //startTime = new Date().getTime();
             }
             if(gameInProgress == false){
                 
@@ -369,17 +390,20 @@ window.onload = function(){
             WIDTH,
             100
         );
-        var curTime = new Date().getTime();
-        var timeHour = ((curTime - startTime) / 3600000) | 0,
-            timeMin = (((curTime - startTime) / 60000) % 60) | 0,
-            timeSec = (((curTime - startTime) / 1000) % 3600) % 60 | 0,
-            timeMilisec = ((((curTime - startTime) % 3600) % 60) % 1000) | 0;
-        var time = {
-            "h": timeHour % 100,
-            "m": timeMin % 100,
-            "s": timeSec % 100,
-            "ms": timeMilisec % 100,
+        if(gameInProgress){
+            var curTime = new Date().getTime();
+            var timeHour = ((curTime - startTime - deltaTime) / 3600000) | 0,
+                timeMin = (((curTime - startTime - deltaTime) / 60000) % 60) | 0,
+                timeSec = (((curTime - startTime - deltaTime) / 1000) % 3600) % 60 | 0,
+                timeMilisec = ((((curTime - startTime - deltaTime) % 3600) % 60) % 1000) | 0;
+            var time = {
+                "h": timeHour % 100,
+                "m": timeMin % 100,
+                "s": timeSec % 100,
+                "ms": timeMilisec % 100,
+            }
         }
+        
 
 
         
@@ -479,7 +503,7 @@ window.onload = function(){
         //drawBackground();
         updatePlayer(pikachuBody,currentPikachuSprite);
         updatePlayer(pokeballBody,currentPokeballSprite);
-
+        
         if(gameInProgress){
             pikachuContex.font = "30px Arial";
             pikachuContex.fillText(`Time: ${time.h}:${time.m}:${time.s}:${time.ms}`, 400, 50); 
