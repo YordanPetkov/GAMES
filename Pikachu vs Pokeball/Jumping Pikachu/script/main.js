@@ -5,7 +5,7 @@ const WIDTH = 640,
           startX = 10,
           pikachu = "Pikachu",
           pokeball = "Pokeball",
-          offSetColliding = 2;
+          offSetColliding = 3;
 
 
 
@@ -46,7 +46,7 @@ const map = [
         "                ",
         "##    ##    ?? #",
         "                ",
-        "                ",
+        "       #        ",
     ]
 ];
 
@@ -274,6 +274,10 @@ window.onload = function(){
             pokeballBody.speed.x = 0;
             pokeballBody.speed.y = 0;
             curPosibleHeight = HEIGHT - playerHeight;
+            
+            pikachuBackground.indexOfFrame = map.length - 1;
+            pokeballBackground.indexOfFrame = map.length - 1;
+
 
             clearCanvas(pikachuContex);
             clearCanvas(pokeballContex);
@@ -288,6 +292,9 @@ window.onload = function(){
             pikachuBody.speed.x = 0;
             pikachuBody.speed.y = 0;
             curPosibleHeight = HEIGHT - playerHeight;
+            
+            pikachuBackground.indexOfFrame = map.length - 1;
+            pokeballBackground.indexOfFrame = map.length - 1;
 
             clearCanvas(pikachuContex);
             clearCanvas(pokeballContex);
