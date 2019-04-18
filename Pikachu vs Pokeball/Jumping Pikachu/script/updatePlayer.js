@@ -20,19 +20,15 @@ function applyGravityVertical(physicalBody, gravity) {
 
     if(isObjectCollidingWithWall(obj, pikaWalls, "bottom")){
         physicalBody.speed.y = 0;
-        return;
     }
     if(isObjectCollidingWithWall(obj, pokeQuests, "bottom")){
         physicalBody.speed.y = 0;
-        return;
     }
     if(isObjectCollidingWithWall(obj, pikaQuests, "bottom")){
         physicalBody.speed.y = 0;
-        return;
     }
     if(isObjectCollidingWithWall(obj, winWall, "bottom")){
         physicalBody.speed.y = 0;
-        return;
     }
 
     physicalBody.speed.y += gravity;
