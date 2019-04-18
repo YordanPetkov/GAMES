@@ -7,8 +7,10 @@ function createBackground(options){
             WIDTH,
             HEIGHT
         );
-
-
+        var myStage = this.matrix.length - this.indexOfFrame;
+        var numOfStages = this.matrix.length;
+        this.context.font = "30px Arial";
+        this.context.fillText(`Stage: ${myStage}/${numOfStages}`, 10, 50); 
 
         let walls = [],
             quests = [],

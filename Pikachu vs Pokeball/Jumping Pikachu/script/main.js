@@ -88,7 +88,7 @@ window.onload = function(){
     var pokeWallImg = document.getElementById("pokewall"),
         pikaWallImg = document.getElementById("pikawall"),
         questWallImg = document.getElementById("questwall"),
-        finalWallImg = document.getElementById("questwall");
+        finalWallImg = document.getElementById("finalwall");
 
      var pokeballBackground = createBackground({
         matrix: map,
