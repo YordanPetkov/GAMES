@@ -1,10 +1,16 @@
 const WIDTH = 640,
-          HEIGHT = 520
+          HEIGHT = 560
           playerWidth = 40,
-          playerHeight = 40;
+          playerHeight = 40,
+          startX = 10,
+          pikachu = "Pikachu",
+          pokeball = "Pokeball";
+
+
 
 const wallChar = "#",
-      questChar = "?";
+      questChar = "?",
+      finalChar = "$";
 
 var curPosibleHeight = HEIGHT - playerHeight;
 
@@ -26,7 +32,8 @@ const map = [
     ],
     [
         "                ",
-        "   ?#    ?#    #",
+        "                ",
+        "   ?#    ?#    $",
         "                ",
         "                ",
         "#     ##?   ?  #",
@@ -44,7 +51,8 @@ const map = [
 var pokeQuests = [],
 pokeWalls = [],
 pikaWalls = [],
-pikaQuests = [];
+pikaQuests = [],
+finalWall = [];
 
 window.onload = function(){
     
@@ -59,14 +67,16 @@ window.onload = function(){
 
     var pokeWallImg = document.getElementById("pokewall"),
         pikaWallImg = document.getElementById("pikawall"),
-        questWallImg = document.getElementById("questwall");
+        questWallImg = document.getElementById("questwall"),
+        finalWallImg = document.getElementById("questwall");
 
      var pokeballBackground = createBackground({
         matrix: map,
         context: pokeballBackgroundContex,
         backgroundSheets: {
             "wall": pokeWallImg,
-            "quest": questWallImg
+            "quest": questWallImg,
+            "final": finalWallImg
         },
         size: playerHeight,
         indexOfFrame: map.length - 1
@@ -77,7 +87,8 @@ window.onload = function(){
         context: pikachuBackgroundContex,
         backgroundSheets: {
             "wall": pikaWallImg,
-            "quest": questWallImg
+            "quest": questWallImg,
+            "final": finalWallImg
         },
         size: playerHeight,
         indexOfFrame: map.length - 1
@@ -253,8 +264,8 @@ window.onload = function(){
         var lastPikachuCoordinates;
         var lastPokeballCoordinates;
 
-        
-       
+        if(isPlayerWin(pikachu, pikachuBody,currentPikachuSprite, pikachuBackground))alert(pikachu + "WIN!");
+        if(isPlayerWin(pokeball, pokeballBody,currentPokeballSprite, pokeballBackground))alert(pokeball + "WIN!");
         
        if(currentPokeballSprite == leftPokeballSprite){
            lastPokeballFrameIndex = currentPokeballSprite.frameIndex;
@@ -286,38 +297,36 @@ window.onload = function(){
         //drawBackground();
         updatePlayer(pikachuBody,currentPikachuSprite);
         updatePlayer(pokeballBody,currentPokeballSprite);
-        
-
-        /* for (var i = 0; i < pokeballs.length; i += 1){
-
-            var pokeball = pokeballs[i];
-            var lastPokeballCoordinates = pokeball.body.move();
-
-            if(pokeball.body.coordinates.x < (-pokeball.body.width)){
-                pokeballs.splice(i, 1);
-                i -= 1;
-                continue;
-            }
-
-            pokeball.sprite
-               .render(pokeball.body.coordinates, lastPokeballCoordinates)
-                .update();
-           
-           if(pikachuBody.collidesWith(pokeball.body)) {
-               //alert("GAME OVER");
-               playerContex.drawImage(
-                   document.getElementById("dead-player"),
-                   0,
-                   0
-               );
-               document.getElementById("game-over-song").play();
-               return;
-           }
-        } */
-
-
 
         window.requestAnimationFrame(gameLoop);
+    }
+
+    function isPlayerWin(player,physicalBody,sprite,background){
+        var obj = {
+            "x": physicalBody.coordinates.x,
+            "y": physicalBody.coordinates.y + physicalBody.speed.y,
+            "size": playerHeight
+        };
+
+        if(isObjectCollidingWithWall(obj, winWall, "top")){
+            //NEXT LEVEL CONDITION
+            physicalBody.coordinates.x = 10;
+            physicalBody.coordinates.y = HEIGHT - sprite.height;
+            physicalBody.speed.x = 0;
+            physicalBody.speed.y = 0;
+            curPosibleHeight = HEIGHT - playerHeight;
+
+            if(background.update())return true;
+
+            if(player == pikachu){
+                [pikaWalls, pikaQuests, finalWall] = background.render();
+            }
+            else if(player == pokeball){
+                [pokeWalls, pokeQuests, finalWall] = background.render();
+            }
+            
+        }
+        return false;
     }
 
     function updatePokeballSheets(){
@@ -363,8 +372,8 @@ window.onload = function(){
         }
     }
 
-    [pikaWalls, pikaQuests] = pikachuBackground.render();
-    [pokeWalls, pokeQuests] = pokeballBackground.render();
+    [pikaWalls, pikaQuests, winWall] = pikachuBackground.render();
+    [pokeWalls, pokeQuests, winWall] = pokeballBackground.render();
     gameLoop();
 
 }

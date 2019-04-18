@@ -29,7 +29,10 @@ function applyGravityVertical(physicalBody, gravity) {
         physicalBody.speed.y = 0;
         return;
     }
-    
+    if(isObjectCollidingWithWall(obj, winWall, "bottom")){
+        physicalBody.speed.y = 0;
+        return;
+    }
 
     physicalBody.speed.y += gravity;
 }

@@ -3,10 +3,12 @@ function createBackground(options){
     function render() {
         let walls = [],
             quests = [],
+            finalWall = [],
             obj,
             ctx = this.context,
             imgWall = this.backgroundSheets["wall"],
             imgQuest = this.backgroundSheets["quest"],
+            imgFinal = this.backgroundSheets["final"],
             size = this.size;
 
         for(let i = 0; i < this.matrix[0].length; i++){
@@ -30,13 +32,32 @@ function createBackground(options){
                     quests.push(obj);
                     ctx.drawImage(imgQuest, obj.x, obj.y, size, size);
 
+                }else if(cell === finalChar){
+                    obj = {
+                        x: j * this.size,
+                        y: i * this.size,
+                        size: size
+                    };
+                    finalWall.push(obj);
+                    ctx.drawImage(imgFinal, obj.x, obj.y, size, size);
                 }else {
+
 
                     continue;
                 }
             }
         }
-        return [walls, quests];
+        return [walls, quests, finalWall];
+    }
+
+    function update(){
+        if(this.indexOfFrame > 0){
+            this.indexOfFrame--;
+            return false; // GAME CONTINUE
+        }
+        if(this.indexOfFrame == 0){
+            return true; // TOU WIN
+        }
     }
 
     var background = {
@@ -45,7 +66,8 @@ function createBackground(options){
         backgroundSheets: options.backgroundSheets,
         size: options.size, 
         indexOfFrame: options.indexOfFrame || 0,
-        render: render
+        render: render,
+        update: update
     }
     return background;
 }

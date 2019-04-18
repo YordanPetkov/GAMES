@@ -25,6 +25,9 @@ function createPhysicalBody(options){
         if(isObjectCollidingWithWall(obj, pokeQuests, false)){
             self.speed.x = 0;
         }
+        if(isObjectCollidingWithWall(obj, winWall, false)){
+            self.speed.x = 0;
+        }
 
         obj = {
             "x": self.coordinates.x,
@@ -43,10 +46,11 @@ function createPhysicalBody(options){
             self.speed.y = 0;
         }
         if(isObjectCollidingWithWall(obj, pokeQuests, "top")){
-            
             curPosibleHeight = physicalBody.coordinates.y;
             self.speed.y = 0;
         }
+
+        
 
 
 
