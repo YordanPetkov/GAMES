@@ -7,7 +7,7 @@ const WIDTH = 640,
           pokeball = "Pokeball",
           offSetCollidingPikachu = 3,
           offSetCollidingPokeball = 2;
-
+var startTime;
 
 
 const wallChar = "#",
@@ -43,9 +43,9 @@ const map = [
         "  #     #       ",
         "                ",
         "            ?  #",
-        "# #             ",
-        "                ",
-        "     #    #     ",
+        "# #          #  ",
+        "              # ",
+        "     #    #  #  ",
         "                ",
         "                ",
         "      ##    ?? #",
@@ -153,7 +153,7 @@ window.onload = function(){
             "backgroundImage": backgroundImage
         },
         size: playerHeight,
-        indexOfFrame: 0//map.length - 1
+        indexOfFrame: map.length - 1
     });
 
     var pikachuBackground = createBackground({
@@ -339,6 +339,36 @@ window.onload = function(){
 
 
     function gameLoop() {
+
+        pikachuContex.clearRect(
+            0,
+            0,
+            WIDTH,
+            HEIGHT
+        );
+        pokeballContex.clearRect(
+            0,
+            0,
+            WIDTH,
+            100
+        );
+        var curTime = new Date().getTime();
+        var timeHour = ((curTime - startTime) / 3600000) | 0,
+            timeMin = (((curTime - startTime) / 60000) % 60) | 0,
+            timeSec = (((curTime - startTime) / 1000) % 3600) % 60 | 0,
+            timeMilisec = ((((curTime - startTime) % 3600) % 60) % 1000) | 0;
+        var time = {
+            "h": timeHour % 100,
+            "m": timeMin % 100,
+            "s": timeSec % 100,
+            "ms": timeMilisec % 100,
+        }
+
+
+        
+
+        
+
         var lastPikachuCoordinates;
         var lastPokeballCoordinates;
 
@@ -430,6 +460,11 @@ window.onload = function(){
         //drawBackground();
         updatePlayer(pikachuBody,currentPikachuSprite);
         updatePlayer(pokeballBody,currentPokeballSprite);
+        pikachuContex.font = "30px Arial";
+        pikachuContex.fillText(`Time: ${time.h}:${time.m}:${time.s}:${time.ms}`, 400, 50); 
+
+        pokeballContex.font = "30px Arial";
+        pokeballContex.fillText(`Time: ${time.h}:${time.m}:${time.s}:${time.ms}`, 400, 50);
 
         window.requestAnimationFrame(gameLoop);
     }
@@ -531,6 +566,8 @@ window.onload = function(){
             HEIGHT
         );
     }
+
+    startTime = new Date().getTime();
     [pikaWalls, pikaQuests, pikafinalWall] = pikachuBackground.render();
     [pokeWalls, pokeQuests, pokefinalWall] = pokeballBackground.render();
     gameLoop();

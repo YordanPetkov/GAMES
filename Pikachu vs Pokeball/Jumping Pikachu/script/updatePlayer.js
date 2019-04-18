@@ -19,6 +19,8 @@ function applyGravityVertical(physicalBody, gravity) {
     };
     if(physicalBody.player == pikachu){
         if(isObjectCollidingWithWall(obj, pikaWalls, "bottom")){
+            
+            
             physicalBody.speed.y = 0;
         }
         if(isObjectCollidingWithWall(obj, pikaQuests, "bottom")){
@@ -43,7 +45,7 @@ function applyGravityVertical(physicalBody, gravity) {
         }
     }
     
-    
+    console.log("GRAVITY");
 
     physicalBody.speed.y += gravity;
 }
