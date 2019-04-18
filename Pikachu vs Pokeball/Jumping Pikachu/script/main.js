@@ -48,6 +48,22 @@ const map = [
         "##    ##    ?? #",
         "                ",
         "       #        ",
+    ],
+    [
+        "                ",
+        "                ",
+        "   ?#    ?#    $",
+        "                ",
+        "                ",
+        "#     ##?   ?  #",
+        "                ",
+        "                ",
+        "  #?#     #     ",
+        "                ",
+        "                ",
+        "#?    ##    ?? #",
+        "                ",
+        "       #        ",
     ]
 ];
 
@@ -281,9 +297,19 @@ window.onload = function(){
             pikachuBackground.indexOfFrame = map.length - 1;
             pokeballBackground.indexOfFrame = map.length - 1;
 
+            
+
 
             clearCanvas(pikachuContex);
             clearCanvas(pokeballContex);
+            
+            
+            pikaWalls.splice(0, pikaWalls.length);
+            pikaQuests.splice(0, pikaQuests.length);
+            finalWall.splice(0, finalWall.length);
+            pokeWalls.splice(0, pokeWalls.length);
+            pokeQuests.splice(0, pokeQuests.length);
+
             [pikaWalls, pikaQuests, finalWall] = pikachuBackground.render();
             [pokeWalls, pokeQuests, finalWall] = pokeballBackground.render();
         }
@@ -300,6 +326,13 @@ window.onload = function(){
 
             clearCanvas(pikachuContex);
             clearCanvas(pokeballContex);
+            
+            pikaWalls.splice(0, pikaWalls.length);
+            pikaQuests.splice(0, pikaQuests.length);
+            finalWall.splice(0, finalWall.length);
+            pokeWalls.splice(0, pokeWalls.length);
+            pokeQuests.splice(0, pokeQuests.length);
+
             [pikaWalls, pikaQuests, finalWall] = pikachuBackground.render();
             [pokeWalls, pokeQuests, finalWall] = pokeballBackground.render();
         }
@@ -358,11 +391,23 @@ window.onload = function(){
 
             if(player == pikachu){
                 clearCanvas(pikachuContex);
+                pikaWalls.splice(0, pikaWalls.length);
+                pikaQuests.splice(0, pikaQuests.length);
+                finalWall.splice(0, finalWall.length);
                 [pikaWalls, pikaQuests, finalWall] = background.render();
             }
             else if(player == pokeball){
                 clearCanvas(pokeballContex);
+
+                finalWall.splice(0, finalWall.length);
+                pokeWalls.splice(0, pokeWalls.length);
+                pokeQuests.splice(0, pokeQuests.length);
+                console.log(pokeWalls);
+
                 [pokeWalls, pokeQuests, finalWall] = background.render();
+                
+                console.log(background.indexOfFrame);
+                console.log(pokeWalls);
             }
             
         }
