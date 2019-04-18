@@ -1,7 +1,7 @@
 
 "use strict";
 
-var currentLevel = 1,game;
+var currentLevel = 0,game;
 var heroCanvas,
 	mazeCanvas,
 	scoreCanvas,
@@ -63,9 +63,9 @@ levels = [{
 	"startPurpleY" : 13*cellsize + 2,
 	"startRedX" : 10*cellsize + 2,
 	"startRedY" : 12*cellsize + 2,
-	"bluePath": [3,0,3,1,2,1,3,0,2,1,0,3,1,0,1,2,3,0],
-	"purplePath": [3,0,2,3,3,2,1,2,1,0,1,2,1,0,1,3,0,2,1,3,0,2,1,3],
-	"orangePath": [3,0,2,3,3,2,1,0,1,0,1,2,1,0,1,0,2,3,1],
+	"bluePath": [3,2,3,1,2,1,3,0,2,1,0,3,1,0,1,2,3,0],
+	"purplePath": [3,2,2,3,0,1,2,0,1,1,2,1,0,1,2,1,0,1,3,0,2,1,3,0,2,1,3],
+	"orangePath": [3,0,1,3,3,2,1,0,1,0,1,2,1,0,1,0,2,3,1],
 	"redPath": [3,0,2,3,3,0,3,1,2,0,1,2,1,0,2,1,2,0,1]
 },
 {
@@ -157,7 +157,7 @@ ghosts = {
 		"size" : herosize,
 		"speed": speed,
 		"file": document.getElementById("blueGhostImage"),
-		"dir": 3,
+		"dir": levels[currentLevel].bluePath[0],
 		"dirPathIndex": 0,
 		"path": levels[currentLevel].bluePath
 
@@ -170,7 +170,7 @@ ghosts = {
 		"size" : herosize,
 		"speed": speed,
 		"file": document.getElementById("orangeGhostImage"),
-		"dir": 3,
+		"dir": levels[currentLevel].orangePath[0],
 		"dirPathIndex": 0,
 		"path": levels[currentLevel].orangePath
 	},
@@ -182,7 +182,7 @@ ghosts = {
 		"size" : herosize,
 		"speed": speed,
 		"file": document.getElementById("purpleGhostImage"),
-		"dir": 2,
+		"dir": levels[currentLevel].purplePath[0],
 		"dirPathIndex": 0,
 		"path": levels[currentLevel].purplePath
 	},
@@ -194,7 +194,7 @@ ghosts = {
 		"size" : herosize,
 		"speed": speed,
 		"file": document.getElementById("redGhostImage"),
-		"dir": 2,
+		"dir": levels[currentLevel].redPath[0],
 		"dirPathIndex": 0,
 		"path": levels[currentLevel].redPath
 	}

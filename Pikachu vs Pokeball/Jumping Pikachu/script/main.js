@@ -443,6 +443,15 @@ window.onload = function(){
 
             [pikaWalls, pikaQuests, pikafinalWall] = pikachuBackground.render();
             [pokeWalls, pokeQuests, pokefinalWall] = pokeballBackground.render();
+
+            var text = "Press SPACE to continue!";
+                
+            var textLenght = text.length;
+            startGamePikachuContext.font = "30px Arial";
+            startGamePikachuContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15);
+
+            startGamePokeballContext.font = "30px Arial";
+            startGamePokeballContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15);
         }
 
         if(isPlayerWin(pokeball, pokeballBody,currentPokeballSprite, pokeballBackground, pokefinalWall)){
@@ -471,6 +480,15 @@ window.onload = function(){
 
             [pikaWalls, pikaQuests, pikafinalWall] = pikachuBackground.render();
             [pokeWalls, pokeQuests, pokefinalWall] = pokeballBackground.render();
+
+            var text = "Press SPACE to continue!";
+                
+            var textLenght = text.length;
+            startGamePikachuContext.font = "30px Arial";
+            startGamePikachuContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15);
+
+            startGamePokeballContext.font = "30px Arial";
+            startGamePokeballContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15);
         }
         
        if(currentPokeballSprite == leftPokeballSprite){
@@ -526,7 +544,7 @@ window.onload = function(){
 
         if(isObjectCollidingWithWall(obj, winWall, "top")){
             //NEXT LEVEL CONDITION
-            gameInProgress = false;
+            
             physicalBody.coordinates.x = 10;
             physicalBody.coordinates.y = HEIGHT - sprite.height;
             physicalBody.speed.x = 0;
@@ -539,7 +557,10 @@ window.onload = function(){
             }
             
 
-            if(background.update())return true;
+            if(background.update()){
+                gameInProgress = false;
+                return true;
+            }
 
             if(player == pikachu){
                 clearCanvas(pikachuContex);
