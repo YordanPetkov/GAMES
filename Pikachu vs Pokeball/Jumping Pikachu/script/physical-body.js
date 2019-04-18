@@ -56,22 +56,22 @@ function createPhysicalBody(options){
         if(self.player == pikachu){
             if(isObjectCollidingWithWall(obj, pikaWalls, "top")){
             
-                curPosibleHeight = self.coordinates.y;
+                curPikachuPosibleHeight = self.coordinates.y;
                 self.speed.y = 0;
             }
             if(isObjectCollidingWithWall(obj, pikaQuests, "top")){
                 
-                curPosibleHeight = self.coordinates.y;
+                curPikachuPosibleHeight = self.coordinates.y;
                 self.speed.y = 0;
             }
         }
         else {
             if(isObjectCollidingWithWall(obj, pokeWalls, "top")){
-                curPosibleHeight = self.coordinates.y;
+                curPokeballPosibleHeight = self.coordinates.y;
                 self.speed.y = 0;
             }
             if(isObjectCollidingWithWall(obj, pokeQuests, "top")){
-                curPosibleHeight = self.coordinates.y;
+                curPokeballPosibleHeight = self.coordinates.y;
                 self.speed.y = 0;
             }
         }

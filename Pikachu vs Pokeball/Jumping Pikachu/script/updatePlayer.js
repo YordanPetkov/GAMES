@@ -29,7 +29,7 @@ function applyGravityVertical(physicalBody, gravity) {
         }
     }
     else {
-        if(isObjectCollidingWithWall(obj, pikaWalls, "bottom")){
+        if(isObjectCollidingWithWall(obj, pokeWalls, "bottom")){
             physicalBody.speed.y = 0;
         }
     

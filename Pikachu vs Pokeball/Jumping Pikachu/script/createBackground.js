@@ -20,6 +20,7 @@ function createBackground(options){
             imgWall = this.backgroundSheets["wall"],
             imgQuest = this.backgroundSheets["quest"],
             imgFinal = this.backgroundSheets["final"],
+            imgWin = this.backgroundSheets["win"]
             size = this.size;
 
         for(let i = 0; i < this.matrix[0].length; i++){
@@ -43,14 +44,16 @@ function createBackground(options){
                     quests.push(obj);
                     ctx.drawImage(imgQuest, obj.x, obj.y, size, size);
 
-                }else if(cell === finalChar){
+                }else if(cell === finalChar || cell === winChar){
                     obj = {
                         x: j * this.size,
                         y: i * this.size,
                         size: size
                     };
                     finalWall.push(obj);
-                    ctx.drawImage(imgFinal, obj.x, obj.y, size, size);
+                    if(cell === finalChar)ctx.drawImage(imgFinal, obj.x, obj.y, size, size);
+                    if(cell === winChar)ctx.drawImage(imgWin, obj.x, obj.y, size, size);
+                    
                 }else {
 
 
