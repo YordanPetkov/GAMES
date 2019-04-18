@@ -1,6 +1,15 @@
 function createBackground(options){
 
     function render() {
+        this.context.clearRect(
+            0,
+            0,
+            WIDTH,
+            HEIGHT
+        );
+
+
+
         let walls = [],
             quests = [],
             finalWall = [],

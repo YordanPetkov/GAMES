@@ -94,19 +94,19 @@ window.onload = function(){
         indexOfFrame: map.length - 1
     }); 
 
-     var playerCanvas = document.getElementById("pikachu-canvas"),
-          playerContex = playerCanvas.getContext("2d"),
-          playerImg = document.getElementById("pikachu-sprite");
+     var pikachuCanvas = document.getElementById("pikachu-canvas"),
+          pikachuContex = pikachuCanvas.getContext("2d"),
+          pikachuRunningImg = document.getElementById("pikachu-sprite");
 
-      playerCanvas.width = WIDTH;
-      playerCanvas.height = HEIGHT;
+      pikachuCanvas.width = WIDTH;
+      pikachuCanvas.height = HEIGHT;
         var speed = 3;
 
     var pikachuRunningSprite = createSprite({
-        spritesheet: playerImg,
-        context: playerContex,
-        width: playerImg.width / 4,
-        height: playerImg.height,
+        spritesheet: pikachuRunningImg,
+        context: pikachuContex,
+        width: pikachuRunningImg.width / 4,
+        height: pikachuRunningImg.height,
         numberOfFrames: 4,
         loopTicksPerFrame: 5
     });
@@ -114,7 +114,7 @@ window.onload = function(){
     var pikachuJumpingImg = document.getElementById("pikachu-jumping");
     var pikachuJumpingSprite = createSprite({
         spritesheet: pikachuJumpingImg,
-        context: playerContex,
+        context: pikachuContex,
         width: pikachuJumpingImg.width / 2,
         height: pikachuJumpingImg.height,
         numberOfFrames: 2,
@@ -122,10 +122,10 @@ window.onload = function(){
     });
 
     var pikachuStayingSprite = createSprite({
-        spritesheet: playerImg,
-        context: playerContex,
-        width: playerImg.width / 4,
-        height: playerImg.height,
+        spritesheet: pikachuRunningImg,
+        context: pikachuContex,
+        width: pikachuRunningImg.width / 4,
+        height: pikachuRunningImg.height,
         numberOfFrames: 1,
         loopTicksPerFrame: 1
     });
@@ -319,9 +319,11 @@ window.onload = function(){
             if(background.update())return true;
 
             if(player == pikachu){
+                clearCanvas(pikachuContex);
                 [pikaWalls, pikaQuests, finalWall] = background.render();
             }
             else if(player == pokeball){
+                clearCanvas(pokeballContex);
                 [pokeWalls, pokeQuests, finalWall] = background.render();
             }
             
@@ -372,6 +374,15 @@ window.onload = function(){
         }
     }
 
+
+    function clearCanvas(context){
+        context.clearRect(
+            0,
+            0,
+            WIDTH,
+            HEIGHT
+        );
+    }
     [pikaWalls, pikaQuests, winWall] = pikachuBackground.render();
     [pokeWalls, pokeQuests, winWall] = pokeballBackground.render();
     gameLoop();
