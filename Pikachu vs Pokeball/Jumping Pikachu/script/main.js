@@ -17,17 +17,18 @@ var curPosibleHeight = HEIGHT - playerHeight;
 const map = [
     [
         "                ",
-        "## ?#### ?##?? #",
         "                ",
-        "## ?#### ?##?? #",
+        "   ?#    ?#    $",
         "                ",
-        "## ?#### ?##?? #",
         "                ",
-        "## ?#### ?##?? #",
+        "#     ##?   ?  #",
         "                ",
-        "## ?#### ?##?? #",
         "                ",
-        "## ?#### ?##?? #",
+        "  #?#     #     ",
+        "                ",
+        "                ",
+        "##    ##    ?? #",
+        "                ",
         "                ",
     ],
     [
@@ -264,8 +265,34 @@ window.onload = function(){
         var lastPikachuCoordinates;
         var lastPokeballCoordinates;
 
-        if(isPlayerWin(pikachu, pikachuBody,currentPikachuSprite, pikachuBackground))alert(pikachu + "WIN!");
-        if(isPlayerWin(pokeball, pokeballBody,currentPokeballSprite, pokeballBackground))alert(pokeball + "WIN!");
+        if(isPlayerWin(pikachu, pikachuBody,currentPikachuSprite, pikachuBackground)){
+            alert(pikachu + "WIN!");
+
+            pokeballBody.coordinates.x = 10;
+            pokeballBody.coordinates.y = HEIGHT - currentPokeballSprite.height;
+            pokeballBody.speed.x = 0;
+            pokeballBody.speed.y = 0;
+            curPosibleHeight = HEIGHT - playerHeight;
+
+            clearCanvas(pikachuContex);
+            clearCanvas(pokeballContex);
+            [pikaWalls, pikaQuests, finalWall] = pikachuBackground.render();
+            [pokeWalls, pokeQuests, finalWall] = pokeballBackground.render();
+        }
+        if(isPlayerWin(pokeball, pokeballBody,currentPokeballSprite, pokeballBackground)){
+            alert(pokeball + "WIN!");
+
+            pikachuBody.coordinates.x = 10;
+            pikachuBody.coordinates.y = HEIGHT - currentPikachuSprite.height;
+            pikachuBody.speed.x = 0;
+            pikachuBody.speed.y = 0;
+            curPosibleHeight = HEIGHT - playerHeight;
+
+            clearCanvas(pikachuContex);
+            clearCanvas(pokeballContex);
+            [pikaWalls, pikaQuests, finalWall] = pikachuBackground.render();
+            [pokeWalls, pokeQuests, finalWall] = pokeballBackground.render();
+        }
         
        if(currentPokeballSprite == leftPokeballSprite){
            lastPokeballFrameIndex = currentPokeballSprite.frameIndex;

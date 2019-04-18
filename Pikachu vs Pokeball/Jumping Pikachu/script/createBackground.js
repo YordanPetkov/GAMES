@@ -65,6 +65,7 @@ function createBackground(options){
             return false; // GAME CONTINUE
         }
         if(this.indexOfFrame == 0){
+            this.indexOfFrame == this.matrix.length - 1;
             return true; // TOU WIN
         }
     }
