@@ -14,9 +14,9 @@ function isObjectCollidingWithWall(obj, walls, where = false){
 function positionToBounds(obj){
     var sizes = {
         "top": obj.y,
-        "left": obj.x,
+        "left": obj.x + offSetColliding,
         "bottom": obj.y + obj.size,
-        "right": obj.x + obj.size 
+        "right": obj.x + obj.size - offSetColliding
     };
     return sizes;
 }

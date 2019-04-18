@@ -4,7 +4,8 @@ const WIDTH = 640,
           playerHeight = 40,
           startX = 10,
           pikachu = "Pikachu",
-          pokeball = "Pokeball";
+          pokeball = "Pokeball",
+          offSetColliding = 2;
 
 
 
