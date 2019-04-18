@@ -12,6 +12,7 @@ function applyGravityVertical(physicalBody, gravity) {
     }
 
     var obj = {
+        "player": physicalBody.player,
         "x": physicalBody.coordinates.x,
         "y": physicalBody.coordinates.y + physicalBody.speed.y,
         "size": 90/100*playerHeight

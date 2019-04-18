@@ -11,6 +11,8 @@ function createPhysicalBody(options){
         if(self.coordinates.y + self.speed.y > HEIGHT || self.coordinates.y + self.speed.y < 0)return lastCoordinates; */
 
         var obj = {
+            
+            "player": self.player,
             "x": self.coordinates.x + self.speed.x,
             "y": self.coordinates.y,
             "size": playerHeight
@@ -30,6 +32,8 @@ function createPhysicalBody(options){
         }
 
         obj = {
+            
+            "player": self.player,
             "x": self.coordinates.x,
             "y": self.coordinates.y + self.speed.y,
             "size": playerHeight
@@ -37,16 +41,16 @@ function createPhysicalBody(options){
 
         if(isObjectCollidingWithWall(obj, pikaWalls, "top")){
             
-            curPosibleHeight = physicalBody.coordinates.y;
+            curPosibleHeight = self.coordinates.y;
             self.speed.y = 0;
         }
         if(isObjectCollidingWithWall(obj, pikaQuests, "top")){
             
-            curPosibleHeight = physicalBody.coordinates.y;
+            curPosibleHeight = self.coordinates.y;
             self.speed.y = 0;
         }
         if(isObjectCollidingWithWall(obj, pokeQuests, "top")){
-            curPosibleHeight = physicalBody.coordinates.y;
+            curPosibleHeight = self.coordinates.y;
             self.speed.y = 0;
         }
 
@@ -73,6 +77,7 @@ function createPhysicalBody(options){
     }
 
     var physicalBody = {
+        player: options.player,
         coordinates: options.coordinates,
         defaultAcceleration: options.defaultAcceleration,
         speed: options.speed || { x: 0, y: 0},

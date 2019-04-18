@@ -5,7 +5,8 @@ const WIDTH = 640,
           startX = 10,
           pikachu = "Pikachu",
           pokeball = "Pokeball",
-          offSetColliding = 3;
+          offSetCollidingPikachu = 3,
+          offSetCollidingPokeball = 2;
 
 
 
@@ -133,6 +134,7 @@ window.onload = function(){
     });
 
     var pikachuBody = createPhysicalBody({
+        player: pikachu,
         defaultAcceleration: { x: 5, y: 17},
         coordinates: { x: 10, y: HEIGHT - pikachuRunningSprite.height },
         speed: { x: 0, y: 0 },
@@ -179,6 +181,7 @@ window.onload = function(){
         });
     
         var pokeballBody = createPhysicalBody({
+            player: pokeball,
             defaultAcceleration: { x: 5, y: 17},
             coordinates: { x: 10, y: HEIGHT - pokeballStayingSprite.height },
             speed: { x: 0, y: 0 },
@@ -285,7 +288,6 @@ window.onload = function(){
             [pokeWalls, pokeQuests, finalWall] = pokeballBackground.render();
         }
         if(isPlayerWin(pokeball, pokeballBody,currentPokeballSprite, pokeballBackground)){
-            alert(pokeball + "WIN!");
 
             pikachuBody.coordinates.x = 10;
             pikachuBody.coordinates.y = HEIGHT - currentPikachuSprite.height;
@@ -338,6 +340,7 @@ window.onload = function(){
 
     function isPlayerWin(player,physicalBody,sprite,background){
         var obj = {
+            "player": physicalBody.player,
             "x": physicalBody.coordinates.x,
             "y": physicalBody.coordinates.y + physicalBody.speed.y,
             "size": playerHeight
