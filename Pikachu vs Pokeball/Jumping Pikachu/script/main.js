@@ -26,18 +26,18 @@ const map = [
     ],
     [
         "                ",
-        "## ?#### ?##?? #",
+        "   ?#    ?#    #",
         "                ",
         "                ",
-        "## ?#### ?##?? #",
+        "#     ##?   ?  #",
         "                ",
         "                ",
-        "## ?#### ?##?? #",
+        "  #?#     #     ",
         "                ",
         "                ",
-        "## ?#### ?##?? #",
+        "##    ##    ?? #",
         "                ",
-        "       #        ",
+        "                ",
     ]
 ];
 
@@ -129,32 +129,45 @@ window.onload = function(){
 
     var pokeballCanvas = document.getElementById("pokeball-canvas"),
         pokeballContex = pokeballCanvas.getContext("2d"),
-        pokeballImg = document.getElementById("pokeball-sprite");
+        leftPokeballImg = document.getElementById("left-pokeball-sprite");
+        rightPokeballImg = document.getElementById("right-pokeball-sprite");
     
     pokeballCanvas.width = WIDTH;
     pokeballCanvas.height = HEIGHT;
 
-        var pokeballSprite = createSprite({
-            spritesheet: pokeballImg,
+        var leftPokeballSprite = createSprite({
+            spritesheet: leftPokeballImg,
             context: pokeballContex,
-            width: pokeballImg.width / 18,
-            height: pokeballImg.height,
+            width: leftPokeballImg.width / 18,
+            height: leftPokeballImg.height,
             numberOfFrames: 18,
-            loopTicksPerFrame: 5
+            loopTicksPerFrame: 5,
+            reverse: false
+        });
+
+        var rightPokeballSprite = createSprite({
+            spritesheet: rightPokeballImg,
+            context: pokeballContex,
+            width: rightPokeballImg.width / 18,
+            height: rightPokeballImg.height,
+            numberOfFrames: 18,
+            loopTicksPerFrame: 5,
+            reverse: true
         });
 
         var pokeballStayingSprite = createSprite({
-            spritesheet: pokeballImg,
+            spritesheet: leftPokeballImg,
             context: pokeballContex,
-            width: pokeballImg.width / 18,
-            height: pokeballImg.height,
+            width: leftPokeballImg.width / 18,
+            height: leftPokeballImg.height,
             numberOfFrames: 1,
-            loopTicksPerFrame: 1
+            loopTicksPerFrame: 1,
+            reverse: false
         });
     
         var pokeballBody = createPhysicalBody({
             defaultAcceleration: { x: 5, y: 17},
-            coordinates: { x: 10, y: HEIGHT - pokeballSprite.height },
+            coordinates: { x: 10, y: HEIGHT - pokeballStayingSprite.height },
             speed: { x: 0, y: 0 },
             height: playerHeight,
             width: playerWidth
@@ -190,6 +203,7 @@ window.onload = function(){
                 if(pokeballBody.speed.x < 0){
                     return;
                 }
+                curPokeballDir = "Left";
                 pokeballBody.accelerate("x", "left");
             }
 
@@ -205,6 +219,8 @@ window.onload = function(){
                 if(pokeballBody.speed.x > 0){
                     return;
                 }
+                
+                curPokeballDir = "Right";
                 pokeballBody.accelerate("x", "right");
             }
                 
@@ -225,19 +241,35 @@ window.onload = function(){
     });
 
     var currentPikachuSprite = pikachuRunningSprite;
-    var currentPokeballSprite = pokeballSprite;
-    var lastPokeballSprite = pokeballSprite;
+    var currentPokeballSprite = pokeballStayingSprite;
+    var lastPokeballSprite = pokeballStayingSprite;
     var lastPokeballFrameIndex = 0;
+    var lastPokeballDir = "Left";
+    var curPokeballDir = "Left";
 
 
 
     function gameLoop() {
         var lastPikachuCoordinates;
         var lastPokeballCoordinates;
+
         
-       if(currentPokeballSprite == pokeballSprite) lastPokeballFrameIndex = currentPokeballSprite.frameIndex;
+       
         
-        if((pikachuBody.coordinates.y + pikachuBody.height) < HEIGHT){
+       if(currentPokeballSprite == leftPokeballSprite){
+           lastPokeballFrameIndex = currentPokeballSprite.frameIndex;
+           if(curPokeballDir != lastPokeballDir){
+              currentPokeballSprite.frameIndex = currentPokeballSprite.numberOfFrames - 1 - currentPokeballSprite.frameIndex;
+           }
+       } 
+       if(currentPokeballSprite == rightPokeballSprite){
+           lastPokeballFrameIndex = currentPokeballSprite.frameIndex;
+           if(curPokeballDir != lastPokeballDir){
+                currentPokeballSprite.frameIndex = currentPokeballSprite.numberOfFrames - 1 - currentPokeballSprite.frameIndex;
+           }
+       } 
+
+        if((pikachuBody.coordinates.y) < curPosibleHeight){
             currentPikachuSprite = pikachuJumpingSprite;
         }
         else if(pikachuBody.speed.x === 0){
@@ -249,22 +281,48 @@ window.onload = function(){
 
         if(pokeballBody.speed.x === 0){
             pokeballStayingSprite.frameIndex = lastPokeballFrameIndex;
+            if(curPokeballDir === "Right"){
+                pokeballStayingSprite.spritesheet = rightPokeballImg;
+            }
+            else if(curPokeballDir === "Left")pokeballStayingSprite.spritesheet = leftPokeballImg;
             currentPokeballSprite = pokeballStayingSprite;
             lastPokeballSprite = pokeballStayingSprite;
 
         }else {
-            if(lastPokeballSprite == pokeballStayingSprite){
-                if(lastPokeballFrameIndex >= pokeballSprite.numberOfFrames){
-                    lastPokeballFrameIndex = 0;
-                }else {
-                    lastPokeballFrameIndex += 1;
+            console.log(lastPokeballFrameIndex);
+            
+            if(curPokeballDir === "Left"){
+                if(lastPokeballSprite == pokeballStayingSprite){
+                    if(lastPokeballFrameIndex >= leftPokeballSprite.numberOfFrames){
+                        lastPokeballFrameIndex = 0;
+                    }else {
+                        lastPokeballFrameIndex += 1;
+                    }
                 }
+                leftPokeballSprite.frameIndex = lastPokeballFrameIndex;
+                currentPokeballSprite = leftPokeballSprite;
+                lastPokeballSprite = leftPokeballSprite;
+                lastPokeballDir = "Left";
+                
+            }
+            else if(curPokeballDir === "Right"){
+                console.log("RIGHT");
+                if(lastPokeballSprite == pokeballStayingSprite){
+                    if(lastPokeballFrameIndex <= 0){
+                        lastPokeballFrameIndex = rightPokeballSprite.numberOfFrames - 1;
+                    }else {
+                        lastPokeballFrameIndex -= 1;
+                    }
+                }
+                rightPokeballSprite.frameIndex = lastPokeballFrameIndex;
+                currentPokeballSprite = rightPokeballSprite;
+                lastPokeballSprite = rightPokeballSprite;
+                lastPokeballDir = "Right";
             }
             
-            pokeballSprite.frameIndex = lastPokeballFrameIndex;
-            currentPokeballSprite = pokeballSprite;
+            
 
-            lastPokeballSprite = pokeballSprite;
+            
         }
 
 

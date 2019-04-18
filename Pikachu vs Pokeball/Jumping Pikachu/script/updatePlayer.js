@@ -21,6 +21,14 @@ function applyGravityVertical(physicalBody, gravity) {
         physicalBody.speed.y = 0;
         return;
     }
+    if(isObjectCollidingWithWall(obj, pokeQuests, "bottom")){
+        physicalBody.speed.y = 0;
+        return;
+    }
+    if(isObjectCollidingWithWall(obj, pikaQuests, "bottom")){
+        physicalBody.speed.y = 0;
+        return;
+    }
     
 
     physicalBody.speed.y += gravity;
@@ -34,7 +42,10 @@ function updatePlayer(objectBody, currentSprite){
         if(objectBody.coordinates.x < 0)objectBody.coordinates.x = 0;
         if(objectBody.coordinates.x > (WIDTH - objectBody.width))objectBody.coordinates.x = WIDTH - objectBody.width;
 
-        if(objectBody.coordinates.y < 0)objectBody.coordinates.x = 0;
+        if(objectBody.coordinates.y < 0){
+            objectBody.coordinates.y = 0;
+            objectBody.speed.y = 0;
+        }
         if(objectBody.coordinates.y > (WIDTH - objectBody.width))objectBody.coordinates.x = WIDTH - objectBody.width;
 
 

@@ -12,34 +12,49 @@ function createSprite(options){
             playerWidth + clearOffset * 2,
             playerHeight + clearOffset * 2
         );
-
-        self.context.drawImage(
-            self.spritesheet,
-            self.frameIndex * self.width,
-            0,
-            self.width,
-            self.height,
-            drawCoordinates.x,
-            drawCoordinates.y,
-            playerWidth,
-            playerHeight
-        );
+            self.context.drawImage(
+                self.spritesheet,
+                self.frameIndex * self.width,
+                0,
+                self.width,
+                self.height,
+                drawCoordinates.x,
+                drawCoordinates.y,
+                playerWidth,
+                playerHeight
+            );
+        
+        
+        
         return self;
     }
 
     function update() {
         var self = this;
         self.loopTicksCount += 1;
-
-        if(self.loopTicksCount >= self.loopTicksPerFrame){
-            //update frame
-            self.loopTicksCount = 0;
-            self.frameIndex += 1;
-
-            if(self.frameIndex >= self.numberOfFrames){
-                self.frameIndex = 0;
+        if(self.reverse){
+            if(self.loopTicksCount >= self.loopTicksPerFrame){
+                //update frame
+                self.loopTicksCount = 0;
+                self.frameIndex -= 1;
+    
+                if(self.frameIndex <= 0){
+                    self.frameIndex = self.numberOfFrames - 1;
+                }
             }
         }
+        else {
+            if(self.loopTicksCount >= self.loopTicksPerFrame){
+                //update frame
+                self.loopTicksCount = 0;
+                self.frameIndex += 1;
+    
+                if(self.frameIndex >= self.numberOfFrames){
+                    self.frameIndex = 0;
+                }
+            }
+        }
+        
 
         return self;
     }
@@ -53,6 +68,7 @@ function createSprite(options){
         loopTicksPerFrame: options.loopTicksPerFrame,
         frameIndex: options.frameIndex || 0,
         loopTicksCount: 0,
+        reverse: options.reverse || 0,
         render: render,
         update: update
     };

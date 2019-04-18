@@ -19,6 +19,12 @@ function createPhysicalBody(options){
         if(isObjectCollidingWithWall(obj, pikaWalls, false)){
             self.speed.x = 0;
         }
+        if(isObjectCollidingWithWall(obj, pikaQuests, false)){
+            self.speed.x = 0;
+        }
+        if(isObjectCollidingWithWall(obj, pokeQuests, false)){
+            self.speed.x = 0;
+        }
 
         obj = {
             "x": self.coordinates.x,
@@ -27,6 +33,16 @@ function createPhysicalBody(options){
         };
 
         if(isObjectCollidingWithWall(obj, pikaWalls, "top")){
+            
+            curPosibleHeight = physicalBody.coordinates.y;
+            self.speed.y = 0;
+        }
+        if(isObjectCollidingWithWall(obj, pikaQuests, "top")){
+            
+            curPosibleHeight = physicalBody.coordinates.y;
+            self.speed.y = 0;
+        }
+        if(isObjectCollidingWithWall(obj, pokeQuests, "top")){
             
             curPosibleHeight = physicalBody.coordinates.y;
             self.speed.y = 0;
