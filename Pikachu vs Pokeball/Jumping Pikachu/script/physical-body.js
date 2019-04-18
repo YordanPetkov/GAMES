@@ -17,19 +17,34 @@ function createPhysicalBody(options){
             "y": self.coordinates.y,
             "size": playerHeight
         };
-
-        if(isObjectCollidingWithWall(obj, pikaWalls, false)){
-            self.speed.x = 0;
+        if(self.player == pikachu){
+            if(isObjectCollidingWithWall(obj, pikaWalls, false)){
+                self.speed.x = 0;
+                
+            }
+            if(isObjectCollidingWithWall(obj, pikaQuests, false)){
+                self.speed.x = 0;
+            }
+            if(isObjectCollidingWithWall(obj, pikafinalWall, false)){
+                self.speed.x = 0;
+            }
         }
-        if(isObjectCollidingWithWall(obj, pikaQuests, false)){
-            self.speed.x = 0;
+        else {
+            if(isObjectCollidingWithWall(obj, pokeWalls, false)){
+                self.speed.x = 0;
+                
+            }
+            if(isObjectCollidingWithWall(obj, pokeQuests, false)){
+                self.speed.x = 0;
+            }
+            if(isObjectCollidingWithWall(obj, pokefinalWall, false)){
+                self.speed.x = 0;
+            }
         }
-        if(isObjectCollidingWithWall(obj, pokeQuests, false)){
-            self.speed.x = 0;
-        }
-        if(isObjectCollidingWithWall(obj, winWall, false)){
-            self.speed.x = 0;
-        }
+        
+        
+        
+        
 
         obj = {
             
@@ -38,21 +53,29 @@ function createPhysicalBody(options){
             "y": self.coordinates.y + self.speed.y,
             "size": playerHeight
         };
-
-        if(isObjectCollidingWithWall(obj, pikaWalls, "top")){
+        if(self.player == pikachu){
+            if(isObjectCollidingWithWall(obj, pikaWalls, "top")){
             
-            curPosibleHeight = self.coordinates.y;
-            self.speed.y = 0;
+                curPosibleHeight = self.coordinates.y;
+                self.speed.y = 0;
+            }
+            if(isObjectCollidingWithWall(obj, pikaQuests, "top")){
+                
+                curPosibleHeight = self.coordinates.y;
+                self.speed.y = 0;
+            }
         }
-        if(isObjectCollidingWithWall(obj, pikaQuests, "top")){
-            
-            curPosibleHeight = self.coordinates.y;
-            self.speed.y = 0;
+        else {
+            if(isObjectCollidingWithWall(obj, pokeWalls, "top")){
+                curPosibleHeight = self.coordinates.y;
+                self.speed.y = 0;
+            }
+            if(isObjectCollidingWithWall(obj, pokeQuests, "top")){
+                curPosibleHeight = self.coordinates.y;
+                self.speed.y = 0;
+            }
         }
-        if(isObjectCollidingWithWall(obj, pokeQuests, "top")){
-            curPosibleHeight = self.coordinates.y;
-            self.speed.y = 0;
-        }
+        
 
         
 

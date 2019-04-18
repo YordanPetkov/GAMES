@@ -8,7 +8,6 @@ function isObjectCollidingWithWall(obj, walls, where = false){
     }
     else if(obj.player === pokeball){
         curOffSetColliding = offSetCollidingPokeball;
-        //alert(obj.player);
     }
     else curOffSetColliding = offSetCollidingPokeball;
     walls.forEach(function(wall, index){

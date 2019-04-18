@@ -71,7 +71,8 @@ var pokeQuests = [],
 pokeWalls = [],
 pikaWalls = [],
 pikaQuests = [],
-finalWall = [];
+pikafinalWall = [],
+pokefinalWall = [];
 
 window.onload = function(){
     
@@ -285,7 +286,7 @@ window.onload = function(){
         var lastPikachuCoordinates;
         var lastPokeballCoordinates;
 
-        if(isPlayerWin(pikachu, pikachuBody,currentPikachuSprite, pikachuBackground)){
+        if(isPlayerWin(pikachu, pikachuBody,currentPikachuSprite, pikachuBackground, pikafinalWall)){
             alert(pikachu + "WIN!");
 
             pokeballBody.coordinates.x = 10;
@@ -306,15 +307,16 @@ window.onload = function(){
             
             pikaWalls.splice(0, pikaWalls.length);
             pikaQuests.splice(0, pikaQuests.length);
-            finalWall.splice(0, finalWall.length);
+            pokefinalWall.splice(0, pokefinalWall.length);
+            pikafinalWall.splice(0, pikafinalWall.length);
             pokeWalls.splice(0, pokeWalls.length);
             pokeQuests.splice(0, pokeQuests.length);
 
-            [pikaWalls, pikaQuests, finalWall] = pikachuBackground.render();
-            [pokeWalls, pokeQuests, finalWall] = pokeballBackground.render();
+            [pikaWalls, pikaQuests, pikafinalWall] = pikachuBackground.render();
+            [pokeWalls, pokeQuests, pokefinalWall] = pokeballBackground.render();
         }
-        if(isPlayerWin(pokeball, pokeballBody,currentPokeballSprite, pokeballBackground)){
-
+        if(isPlayerWin(pokeball, pokeballBody,currentPokeballSprite, pokeballBackground, pokefinalWall)){
+            alert(pokeball + "WIN!");
             pikachuBody.coordinates.x = 10;
             pikachuBody.coordinates.y = HEIGHT - currentPikachuSprite.height;
             pikachuBody.speed.x = 0;
@@ -329,12 +331,13 @@ window.onload = function(){
             
             pikaWalls.splice(0, pikaWalls.length);
             pikaQuests.splice(0, pikaQuests.length);
-            finalWall.splice(0, finalWall.length);
+            pokefinalWall.splice(0, pokefinalWall.length);
+            pikafinalWall.splice(0, pikafinalWall.length);
             pokeWalls.splice(0, pokeWalls.length);
             pokeQuests.splice(0, pokeQuests.length);
 
-            [pikaWalls, pikaQuests, finalWall] = pikachuBackground.render();
-            [pokeWalls, pokeQuests, finalWall] = pokeballBackground.render();
+            [pikaWalls, pikaQuests, pikafinalWall] = pikachuBackground.render();
+            [pokeWalls, pokeQuests, pokefinalWall] = pokeballBackground.render();
         }
         
        if(currentPokeballSprite == leftPokeballSprite){
@@ -371,7 +374,7 @@ window.onload = function(){
         window.requestAnimationFrame(gameLoop);
     }
 
-    function isPlayerWin(player,physicalBody,sprite,background){
+    function isPlayerWin(player,physicalBody,sprite,background,winWall){
         var obj = {
             "player": physicalBody.player,
             "x": physicalBody.coordinates.x,
@@ -393,21 +396,17 @@ window.onload = function(){
                 clearCanvas(pikachuContex);
                 pikaWalls.splice(0, pikaWalls.length);
                 pikaQuests.splice(0, pikaQuests.length);
-                finalWall.splice(0, finalWall.length);
-                [pikaWalls, pikaQuests, finalWall] = background.render();
+                pikafinalWall.splice(0, pikafinalWall.length);
+                [pikaWalls, pikaQuests, pikafinalWall] = background.render();
             }
             else if(player == pokeball){
                 clearCanvas(pokeballContex);
 
-                finalWall.splice(0, finalWall.length);
+                pokefinalWall.splice(0, pokefinalWall.length);
                 pokeWalls.splice(0, pokeWalls.length);
                 pokeQuests.splice(0, pokeQuests.length);
-                console.log(pokeWalls);
 
-                [pokeWalls, pokeQuests, finalWall] = background.render();
-                
-                console.log(background.indexOfFrame);
-                console.log(pokeWalls);
+                [pokeWalls, pokeQuests, pokefinalWall] = background.render();
             }
             
         }
@@ -466,8 +465,8 @@ window.onload = function(){
             HEIGHT
         );
     }
-    [pikaWalls, pikaQuests, winWall] = pikachuBackground.render();
-    [pokeWalls, pokeQuests, winWall] = pokeballBackground.render();
+    [pikaWalls, pikaQuests, pikafinalWall] = pikachuBackground.render();
+    [pokeWalls, pokeQuests, pokefinalWall] = pokeballBackground.render();
     gameLoop();
 
 }
