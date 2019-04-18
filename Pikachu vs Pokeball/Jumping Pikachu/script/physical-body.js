@@ -117,7 +117,7 @@ function createPhysicalBody(options){
                 dir = 1;
             }
 
-            this.speed[axis] += this.defaultAcceleration[axis] * dir;
+            this.speed[axis] = this.defaultAcceleration[axis] * dir;
         },
         collidesWith: collidesWith
     };

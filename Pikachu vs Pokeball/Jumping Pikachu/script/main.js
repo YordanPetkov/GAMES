@@ -277,6 +277,7 @@ window.onload = function(){
                 if(pikachuBody.coordinates.y < curPikachuPosibleHeight){
                     return;
                 }
+                if(pikachuBody.speed.y > 0)return;
                 pikachuBody.accelerate("y", "up");
             }
             if(event.keyCode == 39){ // Right arrow
@@ -300,6 +301,7 @@ window.onload = function(){
                 if(pokeballBody.coordinates.y < curPokeballPosibleHeight){
                     return;
                 }
+                if(pokeballBody.speed.y > 0)return;
                 pokeballBody.accelerate("y", "up");
             }
 
@@ -374,6 +376,7 @@ window.onload = function(){
 
         if(isPlayerWin(pikachu, pikachuBody,currentPikachuSprite, pikachuBackground, pikafinalWall)){
             alert(pikachu + "WIN!");
+            startTime = new Date().getTime();
 
             pokeballBody.coordinates.x = 10;
             pokeballBody.coordinates.y = HEIGHT - currentPokeballSprite.height;
@@ -405,6 +408,7 @@ window.onload = function(){
 
         if(isPlayerWin(pokeball, pokeballBody,currentPokeballSprite, pokeballBackground, pokefinalWall)){
             alert(pokeball + "WIN!");
+            startTime = new Date().getTime();
 
             pikachuBody.coordinates.x = 10;
             pikachuBody.coordinates.y = HEIGHT - currentPikachuSprite.height;

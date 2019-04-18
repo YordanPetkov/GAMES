@@ -44,8 +44,6 @@ function applyGravityVertical(physicalBody, gravity) {
             physicalBody.speed.y = 0;
         }
     }
-    
-    console.log("GRAVITY");
 
     physicalBody.speed.y += gravity;
 }
