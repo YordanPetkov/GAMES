@@ -6,6 +6,8 @@ const WIDTH = 640,
 const wallChar = "#",
       questChar = "?";
 
+var curPosibleHeight = HEIGHT - playerHeight;
+
 const map = [
     [
         "                ",
@@ -35,9 +37,14 @@ const map = [
         "                ",
         "## ?#### ?##?? #",
         "                ",
-        "                ",
+        "       #        ",
     ]
 ];
+
+var pokeQuests = [],
+pokeWalls = [],
+pikaWalls = [],
+pikaQuests = [];
 
 window.onload = function(){
     
@@ -165,7 +172,7 @@ window.onload = function(){
                 pikachuBody.accelerate("x", "left");
             }
             if(event.keyCode == 38){ //Top arrow
-                if(pikachuBody.coordinates.y < (HEIGHT - pikachuBody.height)){
+                if(pikachuBody.coordinates.y < curPosibleHeight){
                     return;
                 }
                 pikachuBody.accelerate("y", "up");
@@ -187,7 +194,7 @@ window.onload = function(){
             }
 
             if(event.keyCode == 87){ //W
-                if(pokeballBody.coordinates.y < (HEIGHT - pokeballBody.height)){
+                if(pokeballBody.coordinates.y < curPosibleHeight){
                     return;
                 }
                 pokeballBody.accelerate("y", "up");
@@ -222,10 +229,7 @@ window.onload = function(){
     var lastPokeballSprite = pokeballSprite;
     var lastPokeballFrameIndex = 0;
 
-    var pokeQuests = [],
-        pokeWalls = [],
-        pikaWalls = [],
-        pikaQuests = [];
+
 
     function gameLoop() {
         var lastPikachuCoordinates;

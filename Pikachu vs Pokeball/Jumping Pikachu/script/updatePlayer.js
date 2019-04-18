@@ -11,7 +11,16 @@ function applyGravityVertical(physicalBody, gravity) {
         return;
     }
 
-    
+    var obj = {
+        "x": physicalBody.coordinates.x,
+        "y": physicalBody.coordinates.y + physicalBody.speed.y,
+        "size": 90/100*playerHeight
+    };
+
+    if(isObjectCollidingWithWall(obj, pikaWalls, "bottom")){
+        physicalBody.speed.y = 0;
+        return;
+    }
     
 
     physicalBody.speed.y += gravity;

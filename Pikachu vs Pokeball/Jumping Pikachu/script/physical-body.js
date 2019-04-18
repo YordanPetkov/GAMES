@@ -9,6 +9,31 @@ function createPhysicalBody(options){
 
         /* if(self.coordinates.x + self.speed.x > WIDTH || self.coordinates.x + self.speed.x < 0)return lastCoordinates;
         if(self.coordinates.y + self.speed.y > HEIGHT || self.coordinates.y + self.speed.y < 0)return lastCoordinates; */
+
+        var obj = {
+            "x": self.coordinates.x + self.speed.x,
+            "y": self.coordinates.y,
+            "size": playerHeight
+        };
+
+        if(isObjectCollidingWithWall(obj, pikaWalls, false)){
+            self.speed.x = 0;
+        }
+
+        obj = {
+            "x": self.coordinates.x,
+            "y": self.coordinates.y + self.speed.y,
+            "size": playerHeight
+        };
+
+        if(isObjectCollidingWithWall(obj, pikaWalls, "top")){
+            
+            curPosibleHeight = physicalBody.coordinates.y;
+            self.speed.y = 0;
+        }
+
+
+
         self.coordinates.x += self.speed.x;
         self.coordinates.y += self.speed.y;
 
