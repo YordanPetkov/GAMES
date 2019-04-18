@@ -24,42 +24,26 @@ const map = [
         "                ",
         "    #     #    %",
         "           #    ",
-        "       #   # #  ",
-        "#         ##    ",
-        "                ",
-        "                ",
-        "    ##          ",
-        "                ",
-        "                ",
-        "#               ",
-        "                ",
-        "                ",
-    ],
-    [
-        "                ",
-        "                ",
-        "#      $  #     ",
-        "                ",
-        "                ",
-        "      ##?       ",
-        "                ",
-        "                ",
-        "   #      #     ",
-        "                ",
-        "                ",
-        "##          ?? #",
-        "                ",
-        "       #        ",
+        "       #   #    ",
+        "#      ?  ## #  ",
+        "       ?        ",
+        "       ?  #    #",
+        "    ##?         ",
+        "    #         # ",
+        "    #           ",
+        "#   #       #   ",
+        "    #           ",
+        "    #           ",
     ],
     [
         "                ",
         "                ",
         "                ",
         "$  ?#    ?# #   ",
-        "        #       ",
+        "  #     #       ",
         "                ",
-        "#           ?  #",
-        "  #             ",
+        "            ?  #",
+        "# #             ",
         "                ",
         "     #    #     ",
         "                ",
@@ -108,12 +92,28 @@ const map = [
         "#    ###?  #?  #",
         "                ",
         "                ",
-        "  #?#     #     ",
+        "  #?#     #   # ",
         "                ",
         "                ",
         "#?    ##    ?? #",
         "                ",
         "                ",
+    ],
+    [
+        "                ",
+        "                ",
+        "#      $  #     ",
+        "                ",
+        "                ",
+        "      ##?       ",
+        "                ",
+        "                ",
+        "   #      #     ",
+        "                ",
+        "                ",
+        "##          ?? #",
+        "                ",
+        "       #        ",
     ],
 ];
 
@@ -140,6 +140,7 @@ window.onload = function(){
         questWallImg = document.getElementById("questwall"),
         finalWallImg = document.getElementById("finalwall"),
         winWallImg = document.getElementById("winwall");
+    var backgroundImage = document.getElementById("backgroundImage");
 
      var pokeballBackground = createBackground({
         matrix: map,
@@ -148,10 +149,11 @@ window.onload = function(){
             "wall": pokeWallImg,
             "quest": questWallImg,
             "final": finalWallImg,
-            "win": winWallImg
+            "win": winWallImg,
+            "backgroundImage": backgroundImage
         },
         size: playerHeight,
-        indexOfFrame: map.length - 1
+        indexOfFrame: 0//map.length - 1
     });
 
     var pikachuBackground = createBackground({
@@ -161,7 +163,8 @@ window.onload = function(){
             "wall": pikaWallImg,
             "quest": questWallImg,
             "final": finalWallImg,
-            "win": winWallImg
+            "win": winWallImg,
+            "backgroundImage": backgroundImage
         },
         size: playerHeight,
         indexOfFrame: map.length - 1

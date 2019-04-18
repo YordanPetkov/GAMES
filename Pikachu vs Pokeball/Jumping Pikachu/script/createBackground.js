@@ -7,6 +7,12 @@ function createBackground(options){
             WIDTH,
             HEIGHT
         );
+        
+        var background_image = this.backgroundSheets["backgroundImage"]
+        
+        this.context.drawImage(background_image, 0, 0, WIDTH, HEIGHT);
+
+
         var myStage = this.matrix.length - this.indexOfFrame;
         var numOfStages = this.matrix.length;
         this.context.font = "30px Arial";
@@ -22,6 +28,7 @@ function createBackground(options){
             imgFinal = this.backgroundSheets["final"],
             imgWin = this.backgroundSheets["win"]
             size = this.size;
+
 
         for(let i = 0; i < this.matrix[0].length; i++){
             for(let j = 0; j < this.matrix[0][i].length; j++){ 
