@@ -116,6 +116,9 @@ function createPhysicalBody(options){
         height: options.height,
         width: options.width,
         radius: (options.width + options.height) / 4,
+        weaponIndex: options.weaponIndex,
+        weaponSorce: options.weaponSorce,
+
         move: move,
         accelerate: function(axis, direction) {
             var dir;

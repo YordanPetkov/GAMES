@@ -27,7 +27,9 @@ function applyGravityVertical(physicalBody, gravity) {
         }
         if(isObjectCollidingWithWall(obj, pikaQuests, "top")){
             
-            console.log(obj.player + " get magic fire.");
+            if(weaponsNames[physicalBody.weaponIndex] == "nothing"){
+                physicalBody.weaponIndex = Math.floor((Math.random() * weaponsNames.length) + 1);
+            }
             physicalBody.speed.y = 0;
         }
         if(isObjectCollidingWithWall(obj, pikafinalWall, "top")){
@@ -41,7 +43,9 @@ function applyGravityVertical(physicalBody, gravity) {
     
         if(isObjectCollidingWithWall(obj, pokeQuests, "top")){
             
-            console.log(obj.player + " get magic fire.");
+            if(weaponsNames[physicalBody.weaponIndex] == "nothing"){
+                physicalBody.weaponIndex = Math.floor((Math.random() * weaponsNames.length) + 1);
+            }
             physicalBody.speed.y = 0;
         }
         

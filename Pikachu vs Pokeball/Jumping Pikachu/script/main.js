@@ -18,7 +18,7 @@ const wallChar = "#",
 
 var curPikachuPosibleHeight = HEIGHT - playerHeight,
     curPokeballPosibleHeight = HEIGHT - playerHeight;
-
+var countWeapons = 1;
 const map = [
     [
         "                ",
@@ -125,8 +125,19 @@ pikaQuests = [],
 pikafinalWall = [],
 pokefinalWall = [];
 
+var weaponsNames = [
+    "nothing",
+    "flash",
+];
+
 window.onload = function(){
-    
+
+    var weaponsSorces = [
+        document.getElementById("weaponNothing"),
+        document.getElementById("weaponFlash"),
+
+    ];
+
      var pikachuBackgroundCanvas = document.getElementById("pikachu-game-background"),
          pikachuBackgroundContex = pikachuBackgroundCanvas.getContext("2d");
          pikachuBackgroundCanvas.width = WIDTH;
@@ -143,6 +154,7 @@ window.onload = function(){
         finalWallImg = document.getElementById("finalwall"),
         winWallImg = document.getElementById("winwall");
     var backgroundImage = document.getElementById("backgroundImage");
+    
 
      var pokeballBackground = createBackground({
         matrix: map,
@@ -214,7 +226,9 @@ window.onload = function(){
         coordinates: { x: 10, y: HEIGHT - pikachuRunningSprite.height },
         speed: { x: 0, y: 0 },
         height: playerHeight,
-        width: playerHeight
+        width: playerHeight,
+        weaponIndex: 0,
+        weaponSorce: weaponsSorces[0]
     });
 
     var pokeballCanvas = document.getElementById("pokeball-canvas"),
@@ -261,13 +275,16 @@ window.onload = function(){
             coordinates: { x: 10, y: HEIGHT - pokeballStayingSprite.height },
             speed: { x: 0, y: 0 },
             height: playerHeight,
-            width: playerWidth
+            width: playerWidth,
+            weaponIndex: 0,
+            weaponSorce: weaponsSorces[0]
         });
 
 
   
     document.addEventListener('keydown', function(event){
-            if(event.keyCode == 9){
+           // console.log(event.keyCode);// 77 - M  81- Q
+            if(event.keyCode == 9){ // TAB
                 console.log(pokeballBody);
                 console.log(curPokeballDir);
                 console.log(curPokeballPosibleHeight);
@@ -307,6 +324,10 @@ window.onload = function(){
                 return;
             }
 
+            if(event.keyCode == 77){// M
+                pikachuBody.weaponIndex = 0;
+            }
+
  
             if(event.keyCode == 37){//Left Arrow
                 if(pikachuBody.coordinates.x == 0)return;
@@ -327,6 +348,10 @@ window.onload = function(){
                     return;
                 }
                 pikachuBody.accelerate("x", "right");
+            }
+
+            if(event.keyCode == 81){ // Q
+                pokeballBody.weaponIndex = 0;
             }
 
             if(event.keyCode == 65){ // A
@@ -383,7 +408,8 @@ window.onload = function(){
 
 
     function gameLoop() {
-
+        pikachuBody.weaponSorce = weaponsSorces[pikachuBody.weaponIndex];
+        pokeballBody.weaponSorce = weaponsSorces[pokeballBody.weaponIndex];
         pikachuContex.clearRect(
             0,
             0,
@@ -507,6 +533,10 @@ window.onload = function(){
 
             pokeballContex.font = "30px Arial";
             pokeballContex.fillText(`Time: ${time.h}:${time.m}:${time.s}:${time.ms}`, 400, 50);
+
+            pikachuContex.drawImage(pikachuBody.weaponSorce, WIDTH/2 - playerWidth, 10, playerWidth, playerHeight); 
+
+            pokeballContex.drawImage(pokeballBody.weaponSorce, WIDTH/2 - playerWidth, 10, playerWidth, playerHeight);
         }
         
 
