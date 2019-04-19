@@ -2,8 +2,9 @@
 Games made with html , javascript and css.
 
 TODO:
--GAMEOVER
- -Win
- -Lose
--Pacman movement
- -stop when key is not pressed
+-pacman
+ -glich with walls
+ -better movement on ghosts
+-pikachu vs pokeball
+ -precise jumping
+ -UI
