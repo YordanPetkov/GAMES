@@ -4,7 +4,7 @@ function applyGravityVertical(physicalBody, gravity) {
         return;
     }
 
-    
+
 
 
     if(physicalBody.coordinates.y >= (HEIGHT - physicalBody.height)){
@@ -20,29 +20,29 @@ function applyGravityVertical(physicalBody, gravity) {
         "size": 90/100*playerHeight
     };
     if(physicalBody.player == pikachu){
-        if(isObjectCollidingWithWall(obj, pikaWalls, "bottom")){
+        if(isObjectCollidingWithWall(obj, pikaWalls, "top")){
             
             
             physicalBody.speed.y = 0;
         }
-        if(isObjectCollidingWithWall(obj, pikaQuests, "bottom")){
+        if(isObjectCollidingWithWall(obj, pikaQuests, "top")){
             physicalBody.speed.y = 0;
         }
-        if(isObjectCollidingWithWall(obj, pikafinalWall, "bottom")){
+        if(isObjectCollidingWithWall(obj, pikafinalWall, "top")){
             physicalBody.speed.y = 0;
         }
     }
     else {
-        if(isObjectCollidingWithWall(obj, pokeWalls, "bottom")){
+        if(isObjectCollidingWithWall(obj, pokeWalls, "top")){
             physicalBody.speed.y = 0;
         }
     
-        if(isObjectCollidingWithWall(obj, pokeQuests, "bottom")){
+        if(isObjectCollidingWithWall(obj, pokeQuests, "top")){
             physicalBody.speed.y = 0;
         }
         
         
-        if(isObjectCollidingWithWall(obj, pokefinalWall, "bottom")){
+        if(isObjectCollidingWithWall(obj, pokefinalWall, "top")){
             physicalBody.speed.y = 0;
         }
     }
