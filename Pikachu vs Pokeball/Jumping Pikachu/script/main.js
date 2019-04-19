@@ -128,6 +128,8 @@ pokefinalWall = [];
 var weaponsNames = [
     "nothing",
     "flash",
+    "gravity",
+    "freezing"
 ];
 
 window.onload = function(){
@@ -135,7 +137,8 @@ window.onload = function(){
     var weaponsSorces = [
         document.getElementById("weaponNothing"),
         document.getElementById("weaponFlash"),
-
+        document.getElementById("weaponGravity"),
+        document.getElementById("weaponFreezing")
     ];
 
      var pikachuBackgroundCanvas = document.getElementById("pikachu-game-background"),
