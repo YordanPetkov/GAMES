@@ -533,7 +533,6 @@ window.onload = function(){
 
             pokeballContex.font = "30px Arial";
             pokeballContex.fillText(`Time: ${time.h}:${time.m}:${time.s}:${time.ms}`, 400, 50);
-
             pikachuContex.drawImage(pikachuBody.weaponSorce, WIDTH/2 - playerWidth, 10, playerWidth, playerHeight); 
 
             pokeballContex.drawImage(pokeballBody.weaponSorce, WIDTH/2 - playerWidth, 10, playerWidth, playerHeight);
@@ -550,7 +549,6 @@ window.onload = function(){
             "y": physicalBody.coordinates.y + physicalBody.speed.y,
             "size": playerHeight
         };
-
         if(isObjectCollidingWithWall(obj, winWall, "top")){
             //NEXT LEVEL CONDITION
             

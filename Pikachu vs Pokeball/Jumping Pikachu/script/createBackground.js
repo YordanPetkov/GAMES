@@ -46,7 +46,8 @@ function createBackground(options){
                     obj = {
                         x: j * this.size,
                         y: i * this.size,
-                        size: size
+                        size: size,
+                        used: false
                     };
                     quests.push(obj);
                     ctx.drawImage(imgQuest, obj.x, obj.y, size, size);

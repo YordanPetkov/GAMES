@@ -1,8 +1,9 @@
 
     var curOffSetColliding = 2;
 
-function isObjectCollidingWithWall(obj, walls, where = false){
+function isObjectCollidingWithWall(obj, walls, where = false, isQuest = false){
     var isObjCollidingWithWall = false;
+    var collideWall;
     if(obj.player === pikachu){
         curOffSetColliding = offSetCollidingPikachu;
     }
@@ -14,23 +15,29 @@ function isObjectCollidingWithWall(obj, walls, where = false){
             if(where == "top"){
                 if(areCollinding(obj,wall,"top") || areCollinding(wall,obj,"bottom")){
                     isObjCollidingWithWall = true;
+                    if(isQuest)collideWall = wall;
                 }
             }
             else if(where == "bottom"){
                 if(areCollinding(obj,wall,"bottom") || areCollinding(wall,obj,"top")){
                     isObjCollidingWithWall = true;
+                    if(isQuest)collideWall = wall;
                 }
             }
 
             else {
                 if(areCollinding(obj,wall,where) || areCollinding(wall,obj,"false")){
                     isObjCollidingWithWall = true;
+                    if(isQuest)collideWall = wall;
                 }
             }
         
         
     }); 
-    
+    if(isQuest){
+        
+    return [isObjCollidingWithWall, collideWall];
+    }
     return isObjCollidingWithWall;
 }
 

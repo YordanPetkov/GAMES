@@ -25,11 +25,18 @@ function applyGravityVertical(physicalBody, gravity) {
             
             physicalBody.speed.y = 0;
         }
-        if(isObjectCollidingWithWall(obj, pikaQuests, "top")){
+        var isCollide, quest;
+        [isCollide,quest] = isObjectCollidingWithWall(obj, pikaQuests, "top", true);
+        if(isCollide){
             
-            if(weaponsNames[physicalBody.weaponIndex] == "nothing"){
-                physicalBody.weaponIndex = Math.floor((Math.random() * weaponsNames.length) + 1);
+            if(quest.used == false){
+                pokeQuests.forEach(function(wall, index){
+                    if(wall == quest){
+                        wall.used = true;
+                    }
+                });
             }
+            physicalBody.weaponIndex = Math.floor((Math.random() * (weaponsNames.length - 1)) + 1);
             physicalBody.speed.y = 0;
         }
         if(isObjectCollidingWithWall(obj, pikafinalWall, "top")){
@@ -40,13 +47,21 @@ function applyGravityVertical(physicalBody, gravity) {
         if(isObjectCollidingWithWall(obj, pokeWalls, "top")){
             physicalBody.speed.y = 0;
         }
-    
-        if(isObjectCollidingWithWall(obj, pokeQuests, "top")){
-            
-            if(weaponsNames[physicalBody.weaponIndex] == "nothing"){
-                physicalBody.weaponIndex = Math.floor((Math.random() * weaponsNames.length) + 1);
+        
+        var isCollide, quest;
+        [isCollide,quest] = isObjectCollidingWithWall(obj, pokeQuests, "top", true)
+        if(isCollide){
+            if(quest.used == false){
+                pokeQuests.forEach(function(wall, index){
+                    if(wall == quest){
+                        wall.used = true;
+                    }
+                });
             }
-            physicalBody.speed.y = 0;
+                physicalBody.weaponIndex = Math.floor((Math.random() * (weaponsNames.length - 1)) + 1);
+                physicalBody.speed.y = 0;
+            
+            
         }
         
         
