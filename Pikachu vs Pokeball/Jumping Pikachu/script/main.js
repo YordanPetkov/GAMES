@@ -267,6 +267,12 @@ window.onload = function(){
 
   
     document.addEventListener('keydown', function(event){
+            if(event.keyCode == 9){
+                console.log(pokeballBody);
+                console.log(curPokeballDir);
+                console.log(curPokeballPosibleHeight);
+                console.log(pikachuBody.player + " " + pokeballBody.player);
+            }
             if(event.keyCode == 27){
                 gameInProgress = false;
                 //if(timeInPause == 0)timeInPause = new Date.getTime();
@@ -388,8 +394,9 @@ window.onload = function(){
             0,
             0,
             WIDTH,
-            100
+            HEIGHT
         );
+
         if(gameInProgress){
             var curTime = new Date().getTime();
             var timeHour = ((curTime - startTime - deltaTime) / 3600000) | 0,
@@ -415,7 +422,8 @@ window.onload = function(){
 
         if(isPlayerWin(pikachu, pikachuBody,currentPikachuSprite, pikachuBackground, pikafinalWall)){
             alert(pikachu + "WIN!");
-            startTime = new Date().getTime();
+            restartGame();
+            /* startTime = new Date().getTime();
 
             pokeballBody.coordinates.x = 10;
             pokeballBody.coordinates.y = HEIGHT - currentPokeballSprite.height;
@@ -451,44 +459,14 @@ window.onload = function(){
             startGamePikachuContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15);
 
             startGamePokeballContext.font = "30px Arial";
-            startGamePokeballContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15);
+            startGamePokeballContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15); */
         }
 
         if(isPlayerWin(pokeball, pokeballBody,currentPokeballSprite, pokeballBackground, pokefinalWall)){
             alert(pokeball + "WIN!");
-            startTime = new Date().getTime();
-
-            pikachuBody.coordinates.x = 10;
-            pikachuBody.coordinates.y = HEIGHT - currentPikachuSprite.height;
-            pikachuBody.speed.x = 0;
-            pikachuBody.speed.y = 0;
-            curPikachuPosibleHeight = HEIGHT - playerHeight;
-            curPokeballPosibleHeight = HEIGHT - playerHeight;
             
-            pikachuBackground.indexOfFrame = map.length - 1;
-            pokeballBackground.indexOfFrame = map.length - 1;
-
-            clearCanvas(pikachuContex);
-            clearCanvas(pokeballContex);
+            restartGame();
             
-            pikaWalls.splice(0, pikaWalls.length);
-            pikaQuests.splice(0, pikaQuests.length);
-            pokefinalWall.splice(0, pokefinalWall.length);
-            pikafinalWall.splice(0, pikafinalWall.length);
-            pokeWalls.splice(0, pokeWalls.length);
-            pokeQuests.splice(0, pokeQuests.length);
-
-            [pikaWalls, pikaQuests, pikafinalWall] = pikachuBackground.render();
-            [pokeWalls, pokeQuests, pokefinalWall] = pokeballBackground.render();
-
-            var text = "Press SPACE to continue!";
-                
-            var textLenght = text.length;
-            startGamePikachuContext.font = "30px Arial";
-            startGamePikachuContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15);
-
-            startGamePokeballContext.font = "30px Arial";
-            startGamePokeballContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15);
         }
         
        if(currentPokeballSprite == leftPokeballSprite){
@@ -519,6 +497,7 @@ window.onload = function(){
 
         
         //drawBackground();
+        
         updatePlayer(pikachuBody,currentPikachuSprite);
         updatePlayer(pokeballBody,currentPokeballSprite);
         
@@ -625,7 +604,45 @@ window.onload = function(){
             } 
         }
     }
+    function restartGame() {
+        startTime = new Date().getTime();
 
+        pikachuBody.coordinates.x = 10;
+        pikachuBody.coordinates.y = HEIGHT - currentPikachuSprite.height;
+        pikachuBody.speed.x = 0;
+        pikachuBody.speed.y = 0;
+        pokeballBody.coordinates.x = 10;
+        pokeballBody.coordinates.y = HEIGHT - currentPikachuSprite.height;
+        pokeballBody.speed.x = 0;
+        pokeballBody.speed.y = 0;
+        curPikachuPosibleHeight = HEIGHT - playerHeight;
+        curPokeballPosibleHeight = HEIGHT - playerHeight;
+        
+        pikachuBackground.indexOfFrame = map.length - 1;
+        pokeballBackground.indexOfFrame = map.length - 1;
+
+        clearCanvas(pikachuContex);
+        clearCanvas(pokeballContex);
+        
+        pikaWalls.splice(0, pikaWalls.length);
+        pikaQuests.splice(0, pikaQuests.length);
+        pokefinalWall.splice(0, pokefinalWall.length);
+        pikafinalWall.splice(0, pikafinalWall.length);
+        pokeWalls.splice(0, pokeWalls.length);
+        pokeQuests.splice(0, pokeQuests.length);
+
+        [pikaWalls, pikaQuests, pikafinalWall] = pikachuBackground.render();
+        [pokeWalls, pokeQuests, pokefinalWall] = pokeballBackground.render();
+
+        var text = "Press SPACE to continue!";
+            
+        var textLenght = text.length;
+        startGamePikachuContext.font = "30px Arial";
+        startGamePikachuContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15);
+
+        startGamePokeballContext.font = "30px Arial";
+        startGamePokeballContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15);
+    }
 
     function clearCanvas(context){
         context.clearRect(

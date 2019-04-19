@@ -27,7 +27,7 @@ function applyGravityVertical(physicalBody, gravity) {
         }
         if(isObjectCollidingWithWall(obj, pikaQuests, "top")){
             
-            console.log(self.player + "get magic fire.");
+            console.log(obj.player + " get magic fire.");
             physicalBody.speed.y = 0;
         }
         if(isObjectCollidingWithWall(obj, pikafinalWall, "top")){
@@ -41,7 +41,7 @@ function applyGravityVertical(physicalBody, gravity) {
     
         if(isObjectCollidingWithWall(obj, pokeQuests, "top")){
             
-            console.log(self.player + "get magic fire.");
+            console.log(obj.player + " get magic fire.");
             physicalBody.speed.y = 0;
         }
         
@@ -66,7 +66,7 @@ function updatePlayer(objectBody, currentSprite){
             objectBody.coordinates.y = 0;
             objectBody.speed.y = 0;
         }
-        if(objectBody.coordinates.y > (WIDTH - objectBody.width))objectBody.coordinates.x = WIDTH - objectBody.width;
+        //if(objectBody.coordinates.y > (HEIGHT - objectBody.height))objectBody.coordinates.y = HEIGHT - objectBody.height;
 
 
         currentSprite
