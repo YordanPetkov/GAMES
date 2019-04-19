@@ -35,8 +35,9 @@ function applyGravityVertical(physicalBody, gravity) {
                         wall.used = true;
                     }
                 });
+                physicalBody.weaponIndex = Math.floor((Math.random() * (weaponsNames.length - 1)) + 1);
             }
-            physicalBody.weaponIndex = Math.floor((Math.random() * (weaponsNames.length - 1)) + 1);
+            
             physicalBody.speed.y = 0;
         }
         if(isObjectCollidingWithWall(obj, pikafinalWall, "top")){
@@ -57,8 +58,9 @@ function applyGravityVertical(physicalBody, gravity) {
                         wall.used = true;
                     }
                 });
-            }
                 physicalBody.weaponIndex = Math.floor((Math.random() * (weaponsNames.length - 1)) + 1);
+            }
+                
                 physicalBody.speed.y = 0;
             
             
