@@ -1,7 +1,7 @@
 
 "use strict";
 
-var currentLevel = 0,game;
+var currentLevel = 1,game;
 var heroCanvas,
 	mazeCanvas,
 	scoreCanvas,

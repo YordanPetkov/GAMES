@@ -4,6 +4,8 @@ function applyGravityVertical(physicalBody, gravity) {
         return;
     }
 
+    
+
 
     if(physicalBody.coordinates.y >= (HEIGHT - physicalBody.height)){
         physicalBody.coordinates.y = (HEIGHT - physicalBody.height);

@@ -4,6 +4,7 @@ function createPhysicalBody(options){
     function move() {
         var self = this;
 
+
         //var lastCoordinates = JSON.parse(JSON.stringify(self.coordinates));
         var lastCoordinates = { x: self.coordinates.x, y: self.coordinates.y};
 
@@ -18,6 +19,11 @@ function createPhysicalBody(options){
             "size": playerHeight
         };
         if(self.player == pikachu){
+            
+            if(options.coordinates.y > curPikachuPosibleHeight){
+                curPikachuPosibleHeight = options.coordinates.y;
+            }
+
             if(isObjectCollidingWithWall(obj, pikaWalls, false)){
                 self.speed.x = 0;
                 
@@ -30,6 +36,11 @@ function createPhysicalBody(options){
             }
         }
         else {
+
+            if(options.coordinates.y > curPokeballPosibleHeight){
+                curPokeballPosibleHeight = options.coordinates.y;
+            }
+
             if(isObjectCollidingWithWall(obj, pokeWalls, false)){
                 self.speed.x = 0;
                 
@@ -60,7 +71,6 @@ function createPhysicalBody(options){
                 self.speed.y = 0;
             }
             if(isObjectCollidingWithWall(obj, pikaQuests, "top")){
-                
                 curPikachuPosibleHeight = self.coordinates.y;
                 self.speed.y = 0;
             }

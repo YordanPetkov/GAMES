@@ -313,6 +313,7 @@ window.onload = function(){
                 if(pikachuBody.coordinates.y < curPikachuPosibleHeight){
                     return;
                 }
+                console.log(curPikachuPosibleHeight);
                 if(pikachuBody.speed.y > 0)return;
                 pikachuBody.accelerate("y", "up");
             }
