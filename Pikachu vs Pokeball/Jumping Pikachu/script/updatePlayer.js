@@ -30,7 +30,7 @@ function applyGravityVertical(physicalBody, gravity) {
         if(isCollide){
             
             if(quest.used == false){
-                pokeQuests.forEach(function(wall, index){
+                pikaQuests.forEach(function(wall, index){
                     if(wall == quest){
                         wall.used = true;
                     }

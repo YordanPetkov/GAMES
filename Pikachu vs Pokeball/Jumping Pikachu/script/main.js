@@ -151,6 +151,7 @@ window.onload = function(){
     var pokeWallImg = document.getElementById("pokewall"),
         pikaWallImg = document.getElementById("pikawall"),
         questWallImg = document.getElementById("questwall"),
+        imgQuestUsed = document.getElementById("questwallused"),
         finalWallImg = document.getElementById("finalwall"),
         winWallImg = document.getElementById("winwall");
     var backgroundImage = document.getElementById("backgroundImage");
@@ -422,6 +423,20 @@ window.onload = function(){
             WIDTH,
             HEIGHT
         );
+        
+        pikaQuests.forEach(function(wall, index){
+            if(wall.used == true){
+                pikachuBackgroundContex.clearRect(wall.x,wall.y,playerWidth,playerHeight);
+                pikachuBackgroundContex.drawImage(imgQuestUsed, wall.x,wall.y,playerWidth,playerHeight);
+            }
+        });
+        pokeQuests.forEach(function(wall, index){
+            if(wall.used == true){
+                pokeballBackgroundContex.clearRect(wall.x,wall.y,playerWidth,playerHeight);
+                pokeballBackgroundContex.drawImage(imgQuestUsed, wall.x,wall.y,playerWidth,playerHeight);
+            }
+        });
+
 
         if(gameInProgress){
             var curTime = new Date().getTime();
