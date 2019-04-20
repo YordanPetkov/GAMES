@@ -16,6 +16,10 @@ function useWeapon(physicalBody, weaponName){
             if(physicalBody.weaponTimes["freezing"] > 0)break;
             physicalBody.weaponTimes["freezing"] = durationWeapon;
             break;
+        case "shield" :
+            if(physicalBody.weaponTimes["shield"] > 0)break;
+            physicalBody.weaponTimes["shield"] = durationWeapon;
+            break;
         default:
             break;
     }

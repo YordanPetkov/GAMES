@@ -257,7 +257,8 @@ var weaponsNames = [
     "nothing",
     "flash",
     "gravity",
-    "freezing"
+    "freezing",
+    "shield"
 ],
 durationWeapon = 5,
 lowGravity = 0.1,
@@ -273,7 +274,8 @@ var weaponsSorces = [
     document.getElementById("weaponNothing"),
     document.getElementById("weaponFlash"),
     document.getElementById("weaponGravity"),
-    document.getElementById("weaponFreezing")
+    document.getElementById("weaponFreezing"),
+    document.getElementById("weaponShield"),
 ];
 
 var weaponFlashAction = document.getElementById("weaponFlashAction");
@@ -377,7 +379,8 @@ var pikachuBody = createPhysicalBody({
         "nothing": 0,
         "flash": 0,
         "gravity": 0,
-        "freezing": 0
+        "freezing": 0,
+        "shield": 0,
     },
     gravity: defaultGravity
 });
@@ -433,7 +436,8 @@ pokeballCanvas.height = HEIGHT;
             "nothing": 0,
             "flash": 0,
             "gravity": 0,
-            "freezing": 0
+            "freezing": 0,
+            "shield": 0,
         },
         gravity: defaultGravity
     });
