@@ -11,7 +11,7 @@ const WIDTH = 640,
           startX = 10,
           startY = HEIGHT - playerHeight;
 var startTime,deltaTime = 0,timeInPause = 0;
-var curLevel = 0;
+var curLevel = 2;
 
 
 
@@ -223,6 +223,25 @@ const map = [
         ],
     ],
 
+    [
+        [
+            "$               ",
+            "                ",
+            "?    ???????????",
+            "                ",
+            "                ",
+            "?????????????   ",
+            "                ",
+            "                ",
+            "    ????????????",
+            "                ",
+            "                ",
+            "?????????????   ",
+            "                ",
+            "                ",
+        ],
+    ]
+
 ];
 
 var pokeQuests = [],
@@ -243,7 +262,9 @@ var weaponsNames = [
 durationWeapon = 5,
 lowGravity = 0.1,
 defaultGravity = 1,
-highGravity = 10; // in seconds
+highGravity = 10,
+pokeballCanShot = true,
+pikachuCanShot = true; // in seconds
 
 
 

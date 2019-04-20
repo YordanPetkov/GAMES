@@ -47,8 +47,9 @@ window.onload = function(){
                 return;
             }
             if(event.keyCode == 77){// M
-                useWeapon(pokeballBody,weaponsNames[pikachuBody.weaponIndex]);
+                if(pikachuCanShot)useWeapon(pokeballBody,weaponsNames[pikachuBody.weaponIndex]);
                 pikachuBody.weaponIndex = 0;
+                pikachuCanShot = false;
             }
 
             if(pikachuBody.weaponTimes["freezing"] <= 0){
@@ -78,8 +79,9 @@ window.onload = function(){
             }
 
             if(event.keyCode == 81){ // Q
-                useWeapon(pikachuBody,weaponsNames[pokeballBody.weaponIndex]);
+                if(pokeballCanShot)useWeapon(pikachuBody,weaponsNames[pokeballBody.weaponIndex]);
                 pokeballBody.weaponIndex = 0;
+                pokeballCanShot = false;
             }
 
             if(pokeballBody.weaponTimes["freezing"] <= 0){

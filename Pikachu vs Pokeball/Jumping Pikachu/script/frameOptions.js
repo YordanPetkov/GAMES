@@ -16,13 +16,25 @@ function beginningFrameOptions() {
     }
 
     curTime = new Date().getTime();
+    var sumTimes = 0;
     if((curTime - lastTime) > 1000){
         for(var time in pikachuBody.weaponTimes){
-            pikachuBody.weaponTimes[time] -= 1;
+            sumTimes += pikachuBody.weaponTimes[time];
+            if(pikachuBody.weaponTimes[time] > 0){
+                pikachuBody.weaponTimes[time] -= 1;
+                //if(pikachuBody.weaponTimes[time] == 0)pokeballCanShot = true;
+            }
         }
+        if(sumTimes == 0)pokeballCanShot = true;
+        sumTimes = 0;
         for(var time in pokeballBody.weaponTimes){
-            pokeballBody.weaponTimes[time] -= 1;
+            sumTimes += pokeballBody.weaponTimes[time];
+            if(pokeballBody.weaponTimes[time] > 0){
+                pokeballBody.weaponTimes[time] -= 1;
+                //if(pokeballBody.weaponTimes[time] == 0)pikachuCanShot = true;
+            }
         }
+        if(sumTimes == 0)pikachuCanShot = true;
         lastTime = curTime;
     }
 
