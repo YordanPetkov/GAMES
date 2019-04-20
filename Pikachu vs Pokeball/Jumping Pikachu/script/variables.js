@@ -2,7 +2,6 @@ const WIDTH = 640,
           HEIGHT = 560
           playerWidth = 40,
           playerHeight = 40,
-          startX = 10,
           pikachu = "Pikachu",
           pokeball = "Pokeball",
           offSetCollidingPikachu = 3,
@@ -11,7 +10,7 @@ const WIDTH = 640,
           startX = 10,
           startY = HEIGHT - playerHeight;
 var startTime,deltaTime = 0,timeInPause = 0;
-var curLevel = 2;
+var curLevel = 0;
 
 
 
@@ -297,9 +296,14 @@ var pokeWallImg = document.getElementById("pokewall"),
     finalWallImg = document.getElementById("finalwall"),
     winWallImg = document.getElementById("winwall"),
     lavaWallImg = document.getElementById("lavawall");
-var backgroundImage = document.getElementById("backgroundImage");
+var backgroundImgs = [
+    document.getElementById("backgroundImage1"),
+    document.getElementById("backgroundImage2"),
+    document.getElementById("backgroundImage3"),
+    document.getElementById("backgroundImage4"),
+];
 
-
+console.log(backgroundImgs[0]);
  var pokeballBackground = createBackground({
     matrix: map[curLevel],
     context: pokeballBackgroundContex,
@@ -309,7 +313,7 @@ var backgroundImage = document.getElementById("backgroundImage");
         "final": finalWallImg,
         "win": winWallImg,
         "lava": lavaWallImg,
-        "backgroundImage": backgroundImage
+        "backgroundImage": backgroundImgs[(map[curLevel].length - 1) % backgroundImgs.length]
     },
     size: playerHeight,
     indexOfFrame: map[curLevel].length - 1
@@ -324,7 +328,7 @@ var pikachuBackground = createBackground({
         "final": finalWallImg,
         "win": winWallImg,
         "lava": lavaWallImg,
-        "backgroundImage": backgroundImage
+        "backgroundImage": backgroundImgs[(map[curLevel].length - 1) % backgroundImgs.length]
     },
     size: playerHeight,
     indexOfFrame: map[curLevel].length - 1
