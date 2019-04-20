@@ -13,7 +13,11 @@ function restartGame() {
     curPokeballPosibleHeight = HEIGHT - playerHeight;
     
     pikachuBackground.indexOfFrame = map[curLevel].length - 1;
+    
+    pikachuBackground.backgroundSheets["backgroundImage"] = backgroundImgs[pikachuBackground.indexOfFrame % backgroundImgs.length];
     pokeballBackground.indexOfFrame = map[curLevel].length - 1;
+    
+    pokeballBackground.backgroundSheets["backgroundImage"] = backgroundImgs[pokeballBackground.indexOfFrame % backgroundImgs.length];
 
     clearCanvas(pikachuContex);
     clearCanvas(pokeballContex);

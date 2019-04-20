@@ -6,9 +6,9 @@ function isPlayerWin(player,physicalBody,sprite,background,winWall){
         "size": playerHeight
     };
 
-    background.backgroundSheets["backgroundImage"] = backgroundImgs[background.indexOfFrame % backgroundImgs.length];
-    console.log(background.indexOfFrame + " " + backgroundImgs.length);
     if(isObjectCollidingWithWall(obj, winWall, "top")){
+        
+    background.backgroundSheets["backgroundImage"] = backgroundImgs[background.indexOfFrame % backgroundImgs.length];
         //NEXT LEVEL CONDITION
         
         physicalBody.coordinates.x = 10;

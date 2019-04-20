@@ -87,10 +87,12 @@ function createBackground(options){
     function update(){
         if(this.indexOfFrame > 0){
             this.indexOfFrame--;
+            background.backgroundSheets["backgroundImage"] = backgroundImgs[background.indexOfFrame % backgroundImgs.length];
             return false; // GAME CONTINUE
         }
         if(this.indexOfFrame == 0){
             this.indexOfFrame == this.matrix.length - 1;
+            this.backgroundSheets["backgroundImage"] = backgroundImgs[this.indexOfFrame % backgroundImgs.length];
             return true; // TOU WIN
         }
     }
