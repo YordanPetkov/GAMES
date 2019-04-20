@@ -6,7 +6,7 @@ function useWeapon(physicalBody, weaponName){
         case "flash" :
             physicalBody.coordinates.x = startX;
             physicalBody.coordinates.y = HEIGHT - playerHeight;
-            physicalBody.weaponTimes["gravity"] = durationWeapon / 5;
+            physicalBody.weaponTimes["flash"] = durationWeapon / 5;
             break;
         case "gravity" :
             if(physicalBody.weaponTimes["gravity"] > 0)break;

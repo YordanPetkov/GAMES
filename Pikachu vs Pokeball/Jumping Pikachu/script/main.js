@@ -150,6 +150,8 @@ window.onload = function(){
         document.getElementById("weaponFreezing")
     ];
 
+    var weaponFlashAction = document.getElementById("weaponFlashAction");
+
      var pikachuBackgroundCanvas = document.getElementById("pikachu-game-background"),
          pikachuBackgroundContex = pikachuBackgroundCanvas.getContext("2d");
          pikachuBackgroundCanvas.width = WIDTH;
@@ -570,6 +572,14 @@ window.onload = function(){
         
         updatePlayer(pikachuBody,currentPikachuSprite);
         updatePlayer(pokeballBody,currentPokeballSprite);
+
+        if(pikachuBody.weaponTimes["flash"] > 0){
+            pikachuContex.drawImage(weaponFlashAction,pikachuBody.coordinates.x,pikachuBody.coordinates.y,playerWidth,playerHeight);
+        }
+
+        if(pokeballBody.weaponTimes["flash"] > 0){
+            pokeballContex.drawImage(weaponFlashAction,pokeballBody.coordinates.x,pokeballBody.coordinates.y,playerWidth,playerHeight);
+        }
         
         if(gameInProgress){
             pikachuContex.font = "30px Arial";
