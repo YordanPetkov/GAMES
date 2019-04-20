@@ -1,0 +1,14 @@
+{
+    "name": "games",
+    "author": "Yordan Petkov <yordan_petkov180@abv.bg",
+    "version": "1.0.0",
+    "description": "A package to have fun",
+    "repository": "github:yordanpetkov/games",
+    "main": "PikachuVsPokeball/index.html",
+    "private": true
+
+
+
+
+
+}
