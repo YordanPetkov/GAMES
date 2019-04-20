@@ -30,7 +30,8 @@ function isPlayerWin(player,physicalBody,sprite,background,winWall){
             pikaWalls.splice(0, pikaWalls.length);
             pikaQuests.splice(0, pikaQuests.length);
             pikafinalWall.splice(0, pikafinalWall.length);
-            [pikaWalls, pikaQuests, pikafinalWall] = background.render();
+            pikalavaWalls.splice(0, pikalavaWalls.length);
+            [pikaWalls, pikaQuests, pikafinalWall, pikalavaWalls] = background.render();
         }
         else if(player == pokeball){
             clearCanvas(pokeballContex);
@@ -38,8 +39,9 @@ function isPlayerWin(player,physicalBody,sprite,background,winWall){
             pokefinalWall.splice(0, pokefinalWall.length);
             pokeWalls.splice(0, pokeWalls.length);
             pokeQuests.splice(0, pokeQuests.length);
+            pokelavaWalls.splice(0, pokelavaWalls.length);
 
-            [pokeWalls, pokeQuests, pokefinalWall] = background.render();
+            [pokeWalls, pokeQuests, pokefinalWall, pokelavaWalls] = background.render();
         }
         
     }

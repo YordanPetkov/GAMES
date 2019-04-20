@@ -24,9 +24,11 @@ function restartGame() {
     pikafinalWall.splice(0, pikafinalWall.length);
     pokeWalls.splice(0, pokeWalls.length);
     pokeQuests.splice(0, pokeQuests.length);
+    pikalavaWalls.splice(0, pikalavaWalls.length);
+    pokelavaWalls.splice(0, pokelavaWalls.length);
 
-    [pikaWalls, pikaQuests, pikafinalWall] = pikachuBackground.render();
-    [pokeWalls, pokeQuests, pokefinalWall] = pokeballBackground.render();
+    [pikaWalls, pikaQuests, pikafinalWall, pikalavaWalls] = pikachuBackground.render();
+    [pokeWalls, pokeQuests, pokefinalWall, pokelavaWalls] = pokeballBackground.render();
 
     var text = "Press SPACE to continue!";
         

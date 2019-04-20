@@ -34,6 +34,11 @@ function createPhysicalBody(options){
             if(isObjectCollidingWithWall(obj, pikafinalWall, false)){
                 self.speed.x = 0;
             }
+            if(isObjectCollidingWithWall(obj, pikalavaWalls, false)){
+                self.speed.x = 0;
+                self.coordinates.x = startX;
+                self.coordinates.y = startY;
+            }
         }
         else {
 
