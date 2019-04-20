@@ -89,7 +89,7 @@ function updatePlayer(objectBody, currentSprite){
         }
         //if(objectBody.coordinates.y > (HEIGHT - objectBody.height))objectBody.coordinates.y = HEIGHT - objectBody.height;
 
-
+        
         currentSprite
                 .render(objectBody.coordinates, lastObjectCoordinates)
                 .update();

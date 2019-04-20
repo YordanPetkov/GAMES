@@ -380,7 +380,7 @@ window.onload = function(){
                     pikachuBody.accelerate("x", "right");
                 }
             }
-            
+
             if(event.keyCode == 81){ // Q
                 useWeapon(pikachuBody,weaponsNames[pokeballBody.weaponIndex]);
                 pokeballBody.weaponIndex = 0;
@@ -530,43 +530,6 @@ window.onload = function(){
         if(isPlayerWin(pikachu, pikachuBody,currentPikachuSprite, pikachuBackground, pikafinalWall)){
             alert(pikachu + "WIN!");
             restartGame();
-            /* startTime = new Date().getTime();
-
-            pokeballBody.coordinates.x = 10;
-            pokeballBody.coordinates.y = HEIGHT - currentPokeballSprite.height;
-            pokeballBody.speed.x = 0;
-            pokeballBody.speed.y = 0;
-            curPikachuPosibleHeight = HEIGHT - playerHeight;
-            curPokeballPosibleHeight = HEIGHT - playerHeight;
-            
-            pikachuBackground.indexOfFrame = map.length - 1;
-            pokeballBackground.indexOfFrame = map.length - 1;
-
-            
-
-
-            clearCanvas(pikachuContex);
-            clearCanvas(pokeballContex);
-            
-            
-            pikaWalls.splice(0, pikaWalls.length);
-            pikaQuests.splice(0, pikaQuests.length);
-            pokefinalWall.splice(0, pokefinalWall.length);
-            pikafinalWall.splice(0, pikafinalWall.length);
-            pokeWalls.splice(0, pokeWalls.length);
-            pokeQuests.splice(0, pokeQuests.length);
-
-            [pikaWalls, pikaQuests, pikafinalWall] = pikachuBackground.render();
-            [pokeWalls, pokeQuests, pokefinalWall] = pokeballBackground.render();
-
-            var text = "Press SPACE to continue!";
-                
-            var textLenght = text.length;
-            startGamePikachuContext.font = "30px Arial";
-            startGamePikachuContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15);
-
-            startGamePokeballContext.font = "30px Arial";
-            startGamePokeballContext.fillText(text, Math.floor(WIDTH/2) - Math.floor(textLenght/2) * 15, HEIGHT/2 - 15); */
         }
 
         if(isPlayerWin(pokeball, pokeballBody,currentPokeballSprite, pokeballBackground, pokefinalWall)){
