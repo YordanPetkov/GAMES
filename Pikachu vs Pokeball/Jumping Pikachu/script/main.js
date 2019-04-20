@@ -195,8 +195,8 @@ window.onload = function(){
     
 
     startTime = new Date().getTime();
-    [pikaWalls, pikaQuests, pikafinalWall] = pikachuBackground.render();
-    [pokeWalls, pokeQuests, pokefinalWall] = pokeballBackground.render();
+    [pikaWalls, pikaQuests, pikafinalWall, pikalavaWalls] = pikachuBackground.render();
+    [pokeWalls, pokeQuests, pokefinalWall, pokelavaWalls] = pokeballBackground.render();
     var text = "Press SPACE to continue!";
                 
     var textLenght = text.length;

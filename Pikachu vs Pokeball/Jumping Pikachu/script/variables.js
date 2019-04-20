@@ -8,7 +8,8 @@ const WIDTH = 640,
           offSetCollidingPikachu = 3,
           offSetCollidingPokeball = 2,
           gameInProgress = false,
-          startX = 10;
+          startX = 10,
+          startY = HEIGHT - playerHeight;
 var startTime,deltaTime = 0,timeInPause = 0;
 var curLevel = 1;
 
@@ -17,7 +18,8 @@ var curLevel = 1;
 const wallChar = "#",
       questChar = "?",
       finalChar = "$",
-      winChar = "%";
+      winChar = "%",
+      lavaChar = "@";
 
 var curPikachuPosibleHeight = HEIGHT - playerHeight,
     curPokeballPosibleHeight = HEIGHT - playerHeight;
@@ -199,14 +201,14 @@ const map = [
             "                ",
             "                ",
             "                ",
-            "        #       ",
             "                ",
+            "      #         ",
             "                ",
         ],
         [
             "$               ",
             "                ",
-            "                ",
+            "              @ ",
             "#               ",
             "       #        ",
             "  #         #   ",
@@ -228,7 +230,9 @@ pokeWalls = [],
 pikaWalls = [],
 pikaQuests = [],
 pikafinalWall = [],
-pokefinalWall = [];
+pokefinalWall = [],
+pikalavaWalls = [],
+pokelavaWalls = [];
 
 var weaponsNames = [
     "nothing",
@@ -268,7 +272,8 @@ var pokeWallImg = document.getElementById("pokewall"),
     questWallImg = document.getElementById("questwall"),
     imgQuestUsed = document.getElementById("questwallused"),
     finalWallImg = document.getElementById("finalwall"),
-    winWallImg = document.getElementById("winwall");
+    winWallImg = document.getElementById("winwall"),
+    lavaWallImg = document.getElementById("lavawall");
 var backgroundImage = document.getElementById("backgroundImage");
 
 
@@ -280,6 +285,7 @@ var backgroundImage = document.getElementById("backgroundImage");
         "quest": questWallImg,
         "final": finalWallImg,
         "win": winWallImg,
+        "lava": lavaWallImg,
         "backgroundImage": backgroundImage
     },
     size: playerHeight,
@@ -294,6 +300,7 @@ var pikachuBackground = createBackground({
         "quest": questWallImg,
         "final": finalWallImg,
         "win": winWallImg,
+        "lava": lavaWallImg,
         "backgroundImage": backgroundImage
     },
     size: playerHeight,

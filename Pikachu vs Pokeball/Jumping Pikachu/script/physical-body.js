@@ -51,6 +51,11 @@ function createPhysicalBody(options){
             if(isObjectCollidingWithWall(obj, pokefinalWall, false)){
                 self.speed.x = 0;
             }
+            if(isObjectCollidingWithWall(obj, pokelavaWalls, false)){
+                self.speed.x = 0;
+                self.coordinates.x = startX;
+                self.coordinates.y = startY;
+            }
         }
         
         

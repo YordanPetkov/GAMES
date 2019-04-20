@@ -21,12 +21,14 @@ function createBackground(options){
         let walls = [],
             quests = [],
             finalWall = [],
+            lavaWall = [],
             obj,
             ctx = this.context,
             imgWall = this.backgroundSheets["wall"],
             imgQuest = this.backgroundSheets["quest"],
             imgFinal = this.backgroundSheets["final"],
-            imgWin = this.backgroundSheets["win"]
+            imgWin = this.backgroundSheets["win"],
+            imgLava = this.backgroundSheets["lava"],
             size = this.size;
 
 
@@ -62,14 +64,24 @@ function createBackground(options){
                     if(cell === finalChar)ctx.drawImage(imgFinal, obj.x, obj.y, size, size);
                     if(cell === winChar)ctx.drawImage(imgWin, obj.x, obj.y, size, size);
                     
-                }else {
+                }else
+                    if(cell === lavaChar){
+                        obj = {
+                            x: j * this.size,
+                            y: i * this.size,
+                            size: size
+                        };
+                        lavaWall.push(obj);
+                        ctx.drawImage(imgLava, obj.x, obj.y, size, size);
+                    }
+                else {
 
 
                     continue;
                 }
             }
         }
-        return [walls, quests, finalWall];
+        return [walls, quests, finalWall, lavaWall];
     }
 
     function update(){
