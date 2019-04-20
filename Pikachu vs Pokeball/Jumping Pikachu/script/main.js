@@ -7,8 +7,11 @@ const WIDTH = 640,
           pokeball = "Pokeball",
           offSetCollidingPikachu = 3,
           offSetCollidingPokeball = 2,
-          gameInProgress = false;
+          gameInProgress = false,
+          startX = 10;
 var startTime,deltaTime = 0,timeInPause = 0;
+
+
 
 
 const wallChar = "#",
@@ -130,7 +133,13 @@ var weaponsNames = [
     "flash",
     "gravity",
     "freezing"
-];
+],
+durationWeapon = 5,
+lowGravity = 0.1,
+defaultGravity = 1,
+highGravity = 10; // in seconds
+
+
 
 window.onload = function(){
 
@@ -227,12 +236,19 @@ window.onload = function(){
     var pikachuBody = createPhysicalBody({
         player: pikachu,
         defaultAcceleration: { x: 5, y: 17},
-        coordinates: { x: 10, y: HEIGHT - pikachuRunningSprite.height },
+        coordinates: { x: startX, y: HEIGHT - pikachuRunningSprite.height },
         speed: { x: 0, y: 0 },
         height: playerHeight,
         width: playerHeight,
         weaponIndex: 0,
-        weaponSorce: weaponsSorces[0]
+        weaponSorce: weaponsSorces[0],
+        weaponTimes: {
+            "nothing": 0,
+            "flash": 0,
+            "gravity": 0,
+            "freezing": 0
+        },
+        gravity: defaultGravity
     });
 
     var pokeballCanvas = document.getElementById("pokeball-canvas"),
@@ -276,12 +292,19 @@ window.onload = function(){
         var pokeballBody = createPhysicalBody({
             player: pokeball,
             defaultAcceleration: { x: 5, y: 17},
-            coordinates: { x: 10, y: HEIGHT - pokeballStayingSprite.height },
+            coordinates: { x: startX, y: HEIGHT - pokeballStayingSprite.height },
             speed: { x: 0, y: 0 },
             height: playerHeight,
             width: playerWidth,
             weaponIndex: 0,
-            weaponSorce: weaponsSorces[0]
+            weaponSorce: weaponsSorces[0],
+            weaponTimes: {
+                "nothing": 0,
+                "flash": 0,
+                "gravity": 0,
+                "freezing": 0
+            },
+            gravity: defaultGravity
         });
 
 
@@ -294,7 +317,7 @@ window.onload = function(){
                 console.log(curPokeballPosibleHeight);
                 console.log(pikachuBody.player + " " + pokeballBody.player);
             }
-            if(event.keyCode == 27){
+            if(event.keyCode == 27){ // ESC
                 gameInProgress = false;
                 //if(timeInPause == 0)timeInPause = new Date.getTime();
                 startGamePikachuContext.clearRect(0,0,WIDTH,HEIGHT);
@@ -312,7 +335,7 @@ window.onload = function(){
                 return;
             }
 
-            if(event.keyCode == 32){
+            if(event.keyCode == 32){ // SPACE
                 gameInProgress = true;
                 /* var timeNow = Date.getTime();
                 deltaTime += (timeNow - timeInPause);
@@ -327,64 +350,74 @@ window.onload = function(){
                 
                 return;
             }
-
             if(event.keyCode == 77){// M
+                useWeapon(pokeballBody,weaponsNames[pikachuBody.weaponIndex]);
                 pikachuBody.weaponIndex = 0;
             }
 
- 
-            if(event.keyCode == 37){//Left Arrow
-                if(pikachuBody.coordinates.x == 0)return;
-                if(pikachuBody.speed.x < 0){
-                    return;
+            if(pikachuBody.weaponTimes["freezing"] <= 0){
+               
+    
+     
+                if(event.keyCode == 37){//Left Arrow
+                    if(pikachuBody.coordinates.x == 0)return;
+                    if(pikachuBody.speed.x < 0){
+                        return;
+                    }
+                    pikachuBody.accelerate("x", "left");
                 }
-                pikachuBody.accelerate("x", "left");
-            }
-            if(event.keyCode == 38){ //Top arrow
-                if(pikachuBody.coordinates.y < curPikachuPosibleHeight){
-                    return;
+                if(event.keyCode == 38){ //Top arrow
+                    if(pikachuBody.coordinates.y < curPikachuPosibleHeight){
+                        return;
+                    }
+                    if(pikachuBody.speed.y > 0)return;
+                    pikachuBody.accelerate("y", "up");
                 }
-                if(pikachuBody.speed.y > 0)return;
-                pikachuBody.accelerate("y", "up");
-            }
-            if(event.keyCode == 39){ // Right arrow
-                if(pikachuBody.speed.x > 0){
-                    return;
+                if(event.keyCode == 39){ // Right arrow
+                    if(pikachuBody.speed.x > 0){
+                        return;
+                    }
+                    pikachuBody.accelerate("x", "right");
                 }
-                pikachuBody.accelerate("x", "right");
             }
-
+            
             if(event.keyCode == 81){ // Q
+                useWeapon(pikachuBody,weaponsNames[pokeballBody.weaponIndex]);
                 pokeballBody.weaponIndex = 0;
             }
 
-            if(event.keyCode == 65){ // A
+            if(pokeballBody.weaponTimes["freezing"] <= 0){
                 
-                if(pokeballBody.coordinates.x == 0)return;
-                if(pokeballBody.speed.x < 0){
-                    return;
+    
+                if(event.keyCode == 65){ // A
+                    
+                    if(pokeballBody.coordinates.x == 0)return;
+                    if(pokeballBody.speed.x < 0){
+                        return;
+                    }
+                    curPokeballDir = "Left";
+                    pokeballBody.accelerate("x", "left");
                 }
-                curPokeballDir = "Left";
-                pokeballBody.accelerate("x", "left");
-            }
-
-            if(event.keyCode == 87){ //W
-                if(pokeballBody.coordinates.y < curPokeballPosibleHeight){
-                    return;
+    
+                if(event.keyCode == 87){ //W
+                    if(pokeballBody.coordinates.y < curPokeballPosibleHeight){
+                        return;
+                    }
+                    if(pokeballBody.speed.y > 0)return;
+                    pokeballBody.accelerate("y", "up");
                 }
-                if(pokeballBody.speed.y > 0)return;
-                pokeballBody.accelerate("y", "up");
-            }
-
-            if(event.keyCode == 68){ // D
-                
-                if(pokeballBody.speed.x > 0){
-                    return;
+    
+                if(event.keyCode == 68){ // D
+                    
+                    if(pokeballBody.speed.x > 0){
+                        return;
+                    }
+                    
+                    curPokeballDir = "Right";
+                    pokeballBody.accelerate("x", "right");
                 }
-                
-                curPokeballDir = "Right";
-                pokeballBody.accelerate("x", "right");
             }
+            
                 
         
 
@@ -410,8 +443,38 @@ window.onload = function(){
     var curPokeballDir = "Left";
 
 
-
+    var lastTime = new Date().getTime(), curTime = 0;
     function gameLoop() {
+        /* pikachuBody.weaponTimes.forEach(function(time){
+            pikachuBody.weaponTimes[time] -= 1;
+        });
+        pokeballBody.weaponTimes.forEach(function(time){
+            pokeballBody.weaponTimes[time] -= 1;
+        }); */
+        if(pikachuBody.weaponTimes["gravity"] > 0){
+            pikachuBody.gravity = highGravity;
+        }
+        else {
+            pikachuBody.gravity = defaultGravity;
+        }
+
+        if(pokeballBody.weaponTimes["gravity"] > 0){
+            pokeballBody.gravity = highGravity;
+        }else {
+            pokeballBody.gravity = defaultGravity;
+        }
+
+        curTime = new Date().getTime();
+        if((curTime - lastTime) > 1000){
+            for(var time in pikachuBody.weaponTimes){
+                pikachuBody.weaponTimes[time] -= 1;
+            }
+            for(var time in pokeballBody.weaponTimes){
+                pokeballBody.weaponTimes[time] -= 1;
+            }
+            lastTime = curTime;
+        }
+
         pikachuBody.weaponSorce = weaponsSorces[pikachuBody.weaponIndex];
         pokeballBody.weaponSorce = weaponsSorces[pokeballBody.weaponIndex];
         pikachuContex.clearRect(

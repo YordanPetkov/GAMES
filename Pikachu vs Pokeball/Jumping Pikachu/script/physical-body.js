@@ -115,9 +115,17 @@ function createPhysicalBody(options){
         speed: options.speed || { x: 0, y: 0},
         height: options.height,
         width: options.width,
+        gravity: options.gravity,
         radius: (options.width + options.height) / 4,
         weaponIndex: options.weaponIndex,
         weaponSorce: options.weaponSorce,
+        weaponTimes: {
+            "nothing": 0,
+            "flash": 0,
+            "gravity": 0,
+            "freezing": 0
+        },
+        gravity: 1,
 
         move: move,
         accelerate: function(axis, direction) {

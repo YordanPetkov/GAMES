@@ -76,7 +76,7 @@ function applyGravityVertical(physicalBody, gravity) {
 }
 
 function updatePlayer(objectBody, currentSprite){
-        applyGravityVertical(objectBody, 1);
+        applyGravityVertical(objectBody, objectBody.gravity);
 
         var lastObjectCoordinates = objectBody.move();
 
