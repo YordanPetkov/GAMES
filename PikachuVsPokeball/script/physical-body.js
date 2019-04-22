@@ -10,16 +10,18 @@ function createPhysicalBody(options){
 
         /* if(self.coordinates.x + self.speed.x > WIDTH || self.coordinates.x + self.speed.x < 0)return lastCoordinates;
         if(self.coordinates.y + self.speed.y > HEIGHT || self.coordinates.y + self.speed.y < 0)return lastCoordinates; */
-
         var obj = {
             
             "player": self.player,
             "x": self.coordinates.x + self.speed.x,
             "y": self.coordinates.y,
-            "size": playerHeight
+            "size": playerHeight,
+            "radius": self.radius,
+            "data": null
         };
+
         if(self.player == pikachu){
-            
+            obj.data = currentPikachuSprite.context.getImageData(self.coordinates.x, self.coordinates.y, self.width, self.height).data;
             if(options.coordinates.y > curPikachuPosibleHeight){
                 curPikachuPosibleHeight = options.coordinates.y;
             }
@@ -41,7 +43,8 @@ function createPhysicalBody(options){
             }
         }
         else {
-
+            
+            obj.data = currentPokeballSprite.context.getImageData(self.coordinates.x, self.coordinates.y, self.width, self.height).data;
             if(options.coordinates.y > curPokeballPosibleHeight){
                 curPokeballPosibleHeight = options.coordinates.y;
             }
@@ -72,9 +75,13 @@ function createPhysicalBody(options){
             "player": self.player,
             "x": self.coordinates.x,
             "y": self.coordinates.y + self.speed.y,
-            "size": playerHeight
+            "size": playerHeight,
+            "radius": self.radius,
+            "data": null
         };
         if(self.player == pikachu){
+            
+            obj.data = currentPikachuSprite.context.getImageData(self.coordinates.x, self.coordinates.y, self.width, self.height).data;
             if(isObjectCollidingWithWall(obj, pikaWalls, "bottom")){
                 curPikachuPosibleHeight = self.coordinates.y;
                 self.speed.y = 0;
@@ -85,6 +92,8 @@ function createPhysicalBody(options){
             }
         }
         else {
+            
+            obj.data = currentPokeballSprite.context.getImageData(self.coordinates.x, self.coordinates.y, self.width, self.height).data;
             if(isObjectCollidingWithWall(obj, pokeWalls, "bottom")){
                 curPokeballPosibleHeight = self.coordinates.y;
                 self.speed.y = 0;
@@ -117,6 +126,8 @@ function createPhysicalBody(options){
         
         return distance <= (self.radius + otherPhysicalBody.radius);
     }
+
+    
 
     var physicalBody = {
         player: options.player,

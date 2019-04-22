@@ -1,4 +1,4 @@
-function applyGravityVertical(physicalBody, gravity) {
+function applyGravityVertical(physicalBody, gravity, currentSprite) {
     
     if(physicalBody.coordinates.y === (HEIGHT - physicalBody.height)){
         return;
@@ -12,17 +12,17 @@ function applyGravityVertical(physicalBody, gravity) {
         physicalBody.speed.y = 0;
         return;
     }
-
+    var imgData = currentSprite.context.getImageData(physicalBody.coordinates.x, physicalBody.coordinates.y, playerWidth, playerHeight);
     var obj = {
         "player": physicalBody.player,
         "x": physicalBody.coordinates.x,
         "y": physicalBody.coordinates.y + physicalBody.speed.y,
-        "size": 90/100*playerHeight
+        "size": 90/100*playerHeight,
+        "radius": physicalBody.radius,
+        "data": imgData.data
     };
     if(physicalBody.player == pikachu){
         if(isObjectCollidingWithWall(obj, pikaWalls, "top")){
-            
-            
             physicalBody.speed.y = 0;
         }
         var isCollide, quest;
@@ -76,7 +76,7 @@ function applyGravityVertical(physicalBody, gravity) {
 }
 
 function updatePlayer(objectBody, currentSprite){
-        applyGravityVertical(objectBody, objectBody.gravity);
+        applyGravityVertical(objectBody, objectBody.gravity, currentSprite);
 
         var lastObjectCoordinates = objectBody.move();
 

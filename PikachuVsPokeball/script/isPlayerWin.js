@@ -1,9 +1,13 @@
 function isPlayerWin(player,physicalBody,sprite,background,winWall){
+    var imgData = sprite.context.getImageData(physicalBody.coordinates.x, physicalBody.coordinates.y, physicalBody.width, physicalBody.height);
+    
     var obj = {
         "player": physicalBody.player,
         "x": physicalBody.coordinates.x,
         "y": physicalBody.coordinates.y + physicalBody.speed.y,
-        "size": playerHeight
+        "size": 90/100*playerHeight,
+        "radius": physicalBody.radius,
+        "data": imgData.data
     };
 
     if(isObjectCollidingWithWall(obj, winWall, "top")){

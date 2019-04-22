@@ -364,7 +364,7 @@ var pikachuRunningSprite = createSprite({
     width: pikachuRunningImg.width / 4,
     height: pikachuRunningImg.height,
     numberOfFrames: 4,
-    loopTicksPerFrame: 5
+    loopTicksPerFrame: 5,
 });
 
 var pikachuJumpingImg = document.getElementById("pikachu-jumping");

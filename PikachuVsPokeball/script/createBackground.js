@@ -39,40 +39,55 @@ function createBackground(options){
                     obj = {
                         x: j * this.size,
                         y: i * this.size,
-                        size: size
+                        size: size,
+                        data: null
                     };
-                    walls.push(obj);
+                    
                     ctx.drawImage(imgWall, obj.x, obj.y, size, size);
+
+                    obj.data = ctx.getImageData(obj.x, obj.y, obj.size, obj.size).data;
+                    walls.push(obj);
+                    
 
                 }else if(cell === questChar){
                     obj = {
                         x: j * this.size,
                         y: i * this.size,
                         size: size,
-                        used: false
+                        used: false,
+                        data: null
                     };
-                    quests.push(obj);
                     ctx.drawImage(imgQuest, obj.x, obj.y, size, size);
+
+                    obj.data = ctx.getImageData(obj.x, obj.y, obj.size, obj.size).data;
+                    quests.push(obj);
 
                 }else if(cell === finalChar || cell === winChar){
                     obj = {
                         x: j * this.size,
                         y: i * this.size,
-                        size: size
+                        size: size,
+                        data: null
                     };
-                    finalWall.push(obj);
                     if(cell === finalChar)ctx.drawImage(imgFinal, obj.x, obj.y, size, size);
                     if(cell === winChar)ctx.drawImage(imgWin, obj.x, obj.y, size, size);
+
+                    obj.data = ctx.getImageData(obj.x, obj.y, obj.size, obj.size).data;
+                    finalWall.push(obj);
                     
                 }else
                     if(cell === lavaChar){
                         obj = {
                             x: j * this.size,
                             y: i * this.size,
-                            size: size
+                            size: size,
+                            data: null
                         };
-                        lavaWall.push(obj);
                         ctx.drawImage(imgLava, obj.x, obj.y, size, size);
+
+                        obj.data = ctx.getImageData(obj.x, obj.y, obj.size, obj.size).data;
+
+                        lavaWall.push(obj);
                     }
                 else {
 
