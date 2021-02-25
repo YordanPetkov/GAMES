@@ -19,12 +19,12 @@ Cell.prototype.show = function () {
             fill(255, 0, 0);
             ellipse(this.x + this.w * 0.5, this.y + this.w * 0.5, this.w * 0.5);
         }
-        else if (this.player == 2){
+        else if (this.player == 2) {
             fill(255, 255, 0);
             ellipse(this.x + this.w * 0.5, this.y + this.w * 0.5, this.w * 0.5);
         }
     }
-                
+
 }
 
 Cell.prototype.contains = function (x, y) {
